@@ -1,0 +1,165 @@
+<section class="content-header">
+  <h1>
+    Utility Permits
+    <small>FieldBook</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li class="active"><i class="fa fa-bolt"></i> Utility Permits &nbsp;&nbsp; </li>
+  </ol>
+</section>
+
+<!--- Main content --->
+<section class="content" style="min-height:400px;">
+
+  <div class="box">
+    <div class="box-header">
+      <h3 class="box-title"><span class="fa fa-bolt"></span>&nbsp;&nbsp; Utility Permits &nbsp;</h3><span class="badge" style="background-color:#777">{{totalpermits}}</span></h3>
+      <div class="box-tools pull-right">
+        <input style="height:33px;width:200px"type="text" class="" ng-model="searchbox" placeholder="Search"></input>&nbsp;
+        <button style="height:32px;width:110px"type="button" class="btn btn-default btn-sm" ng-click="toggleShowFilters()" ><span class="fa fa-filter"></span> {{!showFilters ? 'Show Filters':'Hide Filters'}}</button>
+        <button style="height:32px;width:110px"type="button" id="addNewPermit" class="btn btn-default btn-sm"  ng-click="addNewPermit()"><span class="glyphicon glyphicon-plus" style="color:green"></span > Add Permit</button>
+      </div><!-- <div class="box-tools pull-right">
+        <button type="button" class="btn btn-default btn-sm" ng-click="showFilters=!showFilters"><span class="fa fa-filter"></span> Filters</button>
+        <! <button type="button" class="btn btn-default btn-sm" ng-click="addNewTract()"><span class="glyphicon glyphicon-plus"></span> Add New Tract</button> -->
+      </div> <!--- div style="float:right;" --->
+     <!--- box-header --->
+
+    <!-- <div class="box-body box-comments" ng-show="showFilters">
+      <div class="box-comment">
+
+        <div class="form-group col-md-3">
+          <label>Show Archived Welds</label><BR>
+           <button class="btn btn-{{weldSearch.deliveredFilter ? 'default':'warning'}} btn-sm" ng-click="toggleDelivered()">{{weldSearch.deliveredFilter ? 'Hide Delivered':'Show Delivered'}}</button>
+           <button class="btn btn-{{weldSearch.auditedFilter ? 'default':'warning'}} btn-sm" ng-click="weldSearch.auditedFilter = !weldSearch.auditedFilter">{{weldSearch.auditedFilter ? 'Hide Audited':'Show Audited'}}</button>
+        </div>
+        <div class="form-group col-md-3">
+          <label>Completed Dates</label>
+          <div class="input-group">
+            <div class="input-group-addon">
+                <i class="fa fa-calendar"></i>
+            </div>
+            <input date-range-picker class="form-control date-picker" type="text" ng-model="weldSearch.datePicker.date" options="{locale: {format: 'MM/DD/YYYY'}}" />
+          </div>
+      </div>
+        <div class="form-group col-md-3">
+          <label>Location</label>
+          <select class="form-control" ng-model="weldSearch.locationFilter" placeholder="Leave blank for all..." style="border-radius:0px;">
+            <option value="">- Any Location -</option>
+            <option ng-repeat="option in local.locationslist" value="{{option}}">{{option}}</option>
+          </select>
+        </div>
+        <div class="form-group col-md-3">
+          <label>Sections</label>
+          <select class="form-control" ng-model="weldSearch.sectionFilter" placeholder="Leave blank for all..." style="border-radius:0px;">
+            <option value="">- Any Section -</option>
+            <option value="sect4date">STATION 4. BLASTING INSPECTION</option>
+            <option value="sect5date">STATION 5. COATING INSPECTION</option>
+          </select>
+        </div>
+      </div>
+    </div> -->
+    <!-- /.box-body -->
+    <div class="box-body box-comments" ng-show="showFilters">
+      <div class="box-comment">
+        <BR>
+          <button class="btn btn-{{inactiveFilter ? 'danger':'success'}} btn-sm"  ng-click="toggleInactive()"><span class= "fa fa-{{inactiveFilter ? 'ban':'check'}}"></span>&nbsp;{{inactiveFilter ? 'Hide Inactive':'Show Inactive'}}</button>
+
+      </div>
+    </div>
+
+
+    <div class="box-body">
+      <table class="table table-hover" style="overflow-x:scroll; ">
+        <thead>
+          <tr class="panel-heading" >
+
+            <th ng-show="inactiveFilter"><a href="#" ng-click="orderBy('inactive', $event)" style="color:black"><b>INACTIVE</b></a>
+            <span ng-show="orderByField == 'inactive'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+            <th><a href="#/utility_permits" ng-click="orderBy('sequence', $event)" style="color:black;"><b>ORDER</b></a>
+              <span ng-show="orderByField == 'sequence'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></small></span></th>
+
+            <th><a href="#/utility_permits" ng-click="orderBy('tract', $event)" style="color:black;"><b>TRACT</b></a>
+            <span ng-show="orderByField == 'tract'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></small></span></th>
+
+            <th><a href="#/utility_permits" ng-click="orderBy('parcelid', $event)" style="color:black;"><b>CROSSING</b></a>
+            <span ng-show="orderByField == 'parcelid'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></small></span></th>
+
+            <th><a href="#/utility_permits" ng-click="orderBy('owner', $event)" style="color:black;"><b>OWNER</b></a>
+              <span ng-show="orderByField == 'owner'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></small></span></th>
+
+            <th><a href="#/utility_permits" ng-click="orderBy('type', $event)" style="color:black;"><b>TYPE</b></a>
+            <span ng-show="orderByField == 'type'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></small></span></th>
+
+            <th><a href="#/utility_permits" ng-click="orderBy('crossingmethod', $event)" style="color:black;"><b>METHOD</b></a>
+            <span ng-show="orderByField == 'crossingmethod'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></small></span></th>
+
+            <th><a href="#/utility_permits" ng-click="orderBy('county', $event)" style="color:black;"><b>COUNTY</b></a>
+              <span ng-show="orderByField == 'county'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></small></span></th>
+
+            <th><a href="#/utility_permits" ng-click="orderBy('department', $event)" style="color:black;"><b>DEPARTMENT</b></a>
+              <span ng-show="orderByField == 'department'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></small></span></th>
+
+            <th><a href="#/utility_permits" ng-click="orderBy('permitagent', $event)" style="color:black;"><b>PERMIT AGENT</b></a>
+              <span ng-show="orderByField == 'permitagent'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></small></span></th>
+
+            <th><a href="#/utility_permits" ng-click="orderBy('permitsubmitted', $event)" style="color:black;"><b>SUBMITTED</b></a>
+              <span ng-show="orderByField == 'permitsubmitted'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></small></span></th>
+
+            <th><a href="#/utility_permits" ng-click="orderBy('permitapproved', $event)" style="color:black;"><b>APPROVED</b></a>
+              <span ng-show="orderByField == 'permitapproved'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></small></span></th>
+
+            <th><a href="#/utility_permits" ng-click="orderBy('permitexpires', $event)" style="color:black;"><b>EXPIRES</b></a>
+              <span ng-show="orderByField == 'permitexpires'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></small></span></th>
+
+
+
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="permit in permits | filter: searchbox | orderBy:orderByField:reverseSort | startFrom:currentPage*pageSize | limitTo:pageSize " >
+            <td ng-show="inactiveFilter"><a href="#/utility_permits/{{permit.$id}}" ><span ng-show="isInactive(permit.inactive)" class="label label-danger" >Inactive</span></a></td>
+            <td><a href="#/utility_permits/{{permit.$id}}" ><b>{{permit.sequence | number: 3}}</b></a></td>
+            <td><a href="#/utility_permits/{{permit.$id}}" ><b>{{permit.tract}}</b></a></td>
+            <td><a href="#/utility_permits/{{permit.$id}}" ><b>{{permit.parcelid}}</b></a></td>
+            <td><a href="#/utility_permits/{{permit.$id}}" ><b>{{permit.owner}}</b></a></td>
+            <td><a href="#/utility_permits/{{permit.$id}}" ><b>{{permit.type}}</b></a></td>
+            <td><a href="#/utility_permits/{{permit.$id}}" ><b>{{permit.crossingmethod}}</b></a></td>
+          <td><a href="#/utility_permits/{{permit.$id}}" ><b>{{permit.county}}</b></a></td>
+          <td><a href="#/utility_permits/{{permit.$id}}" ><b>{{permit.department}}</b></a></td>
+          <td><a href="#/utility_permits/{{permit.$id}}" ><b>{{permit.permitagent}}</b></a></td>
+          <td><a href="#/utility_permits/{{permit.$id}}" ><b>{{permit.permitsubmitted}}</b></a></td>
+          <td><a href="#/utility_permits/{{permit.$id}}" ><b>{{permit.permitapproved}}</b></a></td>
+          <td><a href="#/utility_permits/{{permit.$id}}" ><b>{{permit.permitexpires}}</b></a></td>
+          <td><a href ="#/utility_permits/{{permit.$id}}"><span  class="fa fa-edit" ></span></a>
+
+
+          </tr>
+        </tbody>
+      </table>
+
+
+    </div>
+    <!-- /.box-body -->
+    <div class="box-body">
+
+
+    <div class="box-tools pull-left">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+    <li class="page-item"><button class="btn btn-default btn-sm" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1"><a class="page-link"
+      href=""><span style="color:black" class = "glyphicon glyphicon-backward"></span><span style="color:black"> Previous</span></a></button></li>
+    <li class="page-item">&nbsp;Page {{currentPage+1}} of {{numberOfPages()}}&nbsp;</li>
+    <li class="page-item"><button class="btn btn-default btn-sm" ng-disabled="currentPage >= permits.length/pageSize - 1" ng-click="currentPage=currentPage+1">
+    <a class="page-link" href=""><span style="color:black">Next&nbsp;&nbsp;</span><span style="color:black" class = "glyphicon glyphicon-forward"></span></a>
+  </button></li>
+  </ul>
+  </nav>
+    </div>
+
+  </div>
+  <!-- /.box-body -->
+  </div> <!--- box --->
+</section><!--- /.content --->

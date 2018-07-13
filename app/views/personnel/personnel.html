@@ -1,0 +1,170 @@
+<section class="content-header">
+  <h1>
+    Personnel: <b>{{agent.name}}</b>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a href="#/personnel"><i class="fa fa-gears"></i> Personnel</a></li>
+    <li class="active">{{agent.name}}&nbsp;&nbsp;</li>
+  </ol>
+</section>
+
+
+<!-- Main content -->
+<section class="content">
+    <div class="nav-tabs-custom">
+      <ul class="nav nav-tabs">
+        <li class="active"><a>Details</a></li>
+        <!-- <li><a href="#/tracts/photos/{{tract.$id}}">Photos</a></li>
+        <li><a href="#/tracts/documents/{{tract.$id}}">Documents</a></li> -->
+
+    </ul>
+
+
+      <br>
+      <div class = "container-fluid">
+      <uib-accordion close-others="oneAtATime" class="uib">
+        <!-- ------------------------- -->
+        <!-- ----  AGENT DETAILS   ------- -->
+        <!-- ------------------------- -->
+
+        <uib-accordion-group panel-class="box box-default" is-open="status.isFirstOpen">
+          <uib-accordion-heading class="accordion-heading" ng-click="toggleContactInfoAccordion()">
+              <span class = "accordion-header">CONTACT INFO &nbsp;</span>
+            <div class="btn-group pull-right">
+              <button class="btn btn-default btn-xs" ng-click="toggleContactInfoAccordion()"><i class="fa fa-{{ContactInfoExpanded? 'plus':'minus'}}"></i> <span class = "hidden-xs" style="font-size: small">&nbsp;{{ContactInfoExpanded? 'View':'Hide'}}</span></button>
+            </div>
+          </uib-accordion-heading>
+
+
+
+        <div class="row">
+          <div class="form-group col-lg-3 col-md-3 col-sm-4">
+            <label>NAME
+                </label>
+            <input ng-model="agent.name" type="text" class="form-control"/>
+          </div>
+
+          <div class="form-group col-lg-3 col-md-4 col-sm-6" >
+            <label>AGENT TYPE</label>
+              <select class="form-control"   ng-model="agent.agenttype">
+
+                <option value="TITLE AGENT">TITLE AGENT </option>
+                <option value="DOCUMENT SPECIALIST">DOCUMENT SPECIALIST</option>
+                <option value="ROW AGENT">ROW AGENT</option>
+                <option value="PERMIT AGENT">PERMIT AGENT</option>
+                <option value="SENIOR ROW AGENT">SENIOR ROW AGENT</option>
+                <option value="SURVEY SUPERVISOR">SURVEY SUPERVISOR</option>.
+                <option value="ENVIRONMENTAL SUPERVISOR">ENVIRONMENTAL SUPERVISOR</option>
+                <option value="ENVIRONMENTAL AGENT">ENVIRONMENTAL AGENT</option>
+
+              </select>
+          </div>
+
+          <div class="form-group col-lg-3 col-md-3 col-sm-4">
+            <label>DEPARTMENT</label>
+              <select class="form-control"  ng-model="agent.department">
+
+                <option value="RIGHT-OF-WAY">RIGHT-OF-WAY</option>
+                <option value="SURVEY">SURVEY</option>
+                <option value="ENVIRONMENTAL">ENVIRONMENTAL</option>
+
+              </select>
+          </div>
+          <div class="form-group col-lg-3 col-md-3 col-sm-6">
+            <label>MANAGER</label>
+            <select class="form-control"  ng-model="agent.manager">
+
+              <option value=""> </option>
+              <option ng-repeat="option in managers" value="{{option.name}}">{{option.name|uppercase}}</option>
+
+            </select>
+          </div>
+          <div class="form-group col-lg-2 col-md-3 col-sm-3">
+            <label>PHONE 1</label>
+            <input ng-model="agent.phone1" type="text" placeholder='' class="form-control"  />
+          </div>
+
+
+          <div class="form-group col-lg-2 col-md-3 col-sm-3">
+            <label>PHONE 2</label>
+            <input ng-model="agent.phone2" type="text" placeholder='' class="form-control"  />
+          </div>
+
+          <div class="form-group col-lg-3 col-md-3 col-sm-4">
+            <label>EMAIL</label>
+            <input ng-model="agent.email" type="text" placeholder='' class="form-control"  />
+          </div>
+
+          <div class="form-group col-lg-3 col-md-4 col-sm-6">
+            <label>COMPANY</label>
+            <input ng-model="agent.company" type="text" placeholder='' class="form-control" ></input>
+          </div>
+
+        </div>
+          </uib-accordion-group >
+          <uib-accordion close-others="oneAtATime" >
+            <!-- ------------------------- -->
+            <!-- ----  WORKING TRACTS  ------- -->
+            <!-- ------------------------- -->
+
+            <uib-accordion-group panel-class="box box-default"is-open="status.isFirstDisabled"  >
+              <uib-accordion-heading>
+                  <span class = "accordion-header" ng-click="toggleWorkingTractsAccordion()">WORKING TRACTS &nbsp;</span><span class="badge" style="background-color:#777">{{totaltracts}}</span>
+
+                <div class="btn-group pull-right">
+<button class="btn btn-default btn-xs" ng-click="toggleWorkingTractsAccordion()"><i class="fa fa-{{WorkingTractsExpanded? 'plus':'minus'}}"></i> <span class = "hidden-xs" style="font-size: small">&nbsp;{{WorkingTractsExpanded? 'View':'Hide'}}</span></button>                </div>
+              </uib-accordion-heading>
+
+
+
+            <table class="table table-hover" style="overflow-x:scroll; ">
+              <thead>
+                <tr class="panel-heading" >
+                  <th><a href="#" ng-click="orderBy('sequence', $event)" style="color:black;"><b>SEQ</b></a>
+                  <span ng-show="orderByField == 'sequence'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+                  <th><a href="#" ng-click="orderBy('tract', $event)" style="color:black;"><b>TRACT</b></a>
+                  <span ng-show="orderByField == 'tract'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+                  <th><a href="#" ng-click="orderBy('type', $event)" style="color:black;"><b>TYPE</b></a>
+                  <span ng-show="orderByField == 'type'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+                  <th><a href="#" ng-click="orderBy('owner', $event)" style="color:black;"><b>OWNER</b></a>
+                  <span ng-show="orderByField == 'owner'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+                  <th><a href="#" ng-click="orderBy('county', $event)" style="color:black;"><b>COUNTY</b></a>
+                  <span ng-show="orderByField == 'county'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+
+
+                  </tr>
+
+              </thead>
+              <tbody>
+                <tr ng-repeat="record in alltracts| orderBy:orderByField:reverseSort" >
+                  <td><a href="#/{{record.group}}/{{record.$id}}" ><b>{{record.sequence}}</b></a></td>
+                  <td><a href="#/{{record.group}}/{{record.$id}}" ><b>{{record.tract}}</b></a></td>
+                  <td><a href="#/{{record.group}}/{{record.$id}}" ><b>{{record.type}}</b></a></td>
+                  <td><a href="#/{{record.group}}/{{record.$id}}" ><b>{{record.owner}}</b></a></td>
+                  <td><a href="#/{{record.group}}/{{record.$id}}" ><b>{{record.county}}</b></a></td>
+                  <td><a href="#/{{record.group}}/{{record.$id}}"><span  class="fa fa-edit"></span></a></td>
+
+
+              </td>
+
+
+                </tr>
+              </tbody>
+            </table>
+          </uib-accordion-group>
+
+  </uib-accordion> <!-- end of accordion -->
+
+
+<div class="box-tools pull-right" style="margin:10px 0px">
+  <br><br>
+  <button type="button" id="InactivateAgent" class="btn btn-{{inactiveFilter ? 'success':'danger'}} btn-md"  ng-click="toggleInactive()"><span class="fa fa-{{inactiveFilter ? 'check':'ban'}}" style="color:white"></span >&nbsp; {{inactiveFilter ? 'Activate':'Inactivate'}}</button>
+</div> <!--- div style="float:right;" --->
+</div>
+</section>

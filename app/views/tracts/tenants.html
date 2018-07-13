@@ -1,0 +1,179 @@
+<section class="content-header">
+  <h1>
+    Tenant: &nbsp; <b>{{tenantdata.firstname+" "+tenantdata.lastname}}</b>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a href="#/tracts/{{tract.$id}}"><i class="fa fa-square-o"></i> Tract {{tract.tract}}</a></li>
+    <li><i class="glyphicon glyphicon-user"></i>&nbsp;Tenants</li>
+    <li class="active">{{tenantdata.firstname+" "+tenantdata.lastname}}</li>
+  </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="nav-tabs-custom">
+      <div class="box-tools pull-right" style="margin: 5px 10px" >
+        <a href="#/tracts/{{tract.$id}}" class="btn btn-primary btn-md" role="button"><span class="fa fa-arrow-left" ></span >&nbsp; Tract {{tract.tract}} </a>
+      </div> <!--- div style="float:right;" --->
+      <ul class="nav nav-tabs">
+        <li class="active"><a>Details</a></li>
+
+    </ul>
+
+
+      <br>
+      <div class = "container-fluid">
+      <uib-accordion close-others="oneAtATime" class="uib">
+            <!-- ------------------------- -->
+            <!-- ----  TENANT DETAILS   ------- -->
+            <!-- ------------------------- -->
+
+            <uib-accordion-group panel-class="box box-default" is-open="status.isFirstOpen">
+              <uib-accordion-heading class="accordion-heading">
+                  <span class = "accordion-header" ng-click="toggleTenantDetailsAccordion()">TENANT DETAILS &nbsp;</span>
+                <div class="btn-group pull-right">
+                  <button class="btn btn-default btn-xs" ng-click="toggleTenantDetailsAccordion()"><i class="fa fa-{{TenantDetailsExpanded? 'plus':'minus'}}"></i> <span class = "hidden-xs" style="font-size: small">&nbsp;{{TenantDetailsExpanded? 'View':'Hide'}}</span></button>
+                </div>
+              </uib-accordion-heading>
+
+
+            <div class="row">
+              <div class="form-group col-lg-3 col-md-3 col-sm-4">
+                <label>TENANT ID
+                    <span class="label label-danger" ng-show="local.duplicateweld"><i class="fa fa-exclamation-circle"></i> Duplicate No. </span></label>
+                <input ng-model="tenantdata.tenantid" type="text" class="form-control"/>
+              </div>
+
+
+              <div class="form-group col-lg-3 col-md-3 col-sm-8">
+                <label>NAME</label>
+                <input ng-model="tenantdata.name" type="text" placeholder='' class="form-control"  />
+              </div>
+
+
+              <div class="form-group col-lg-6 col-md-4 col-sm-6">
+                <label>STREET ADDRESS</label>
+                <input ng-model="tenantdata.street" type="text" placeholder='' class="form-control"  />
+              </div>
+
+              <div class="form-group col-lg-3 col-md-4 col-sm-6">
+                <label>CITY</label>
+                <input ng-model="tenantdata.city" type="text" placeholder='' class="form-control"  />
+              </div>
+
+              <div class="form-group col-lg-3 col-md-3 col-sm-4">
+                <label>STATE</label>
+                <input ng-model="tenantdata.state" type="text" placeholder='' class="form-control"  />
+              </div>
+              <div class="form-group col-lg-3 col-md-3 col-sm-4">
+                <label>ZIP</label>
+                <input ng-model="tenantdata.zip" type="text" placeholder='' class="form-control"  />
+              </div>
+
+              <div class="form-group col-lg-3 col-md-3 col-sm-4">
+                <label>PHONE 1</label>
+                <input ng-model="tenantdata.phone1" type="text" placeholder='' class="form-control"  />
+              </div>
+
+              <div class="form-group col-lg-3 col-md-3 col-sm-4">
+                <label>PHONE 2</label>
+                <input ng-model="tenantdata.phone2" type="text" placeholder='' class="form-control"  />
+              </div>
+
+              <div class="form-group col-lg-3 col-md-4 col-sm-8">
+                <label>EMAIL</label>
+                <input ng-model="tenantdata.email" type="text" placeholder='' class="form-control"  />
+              </div>
+
+              <div class="form-group col-lg-3 col-md-4 col-sm-4">
+                <label>TAX ID</label>
+                <input ng-model="tenantdata.taxid" type="text" placeholder='' class="form-control"  />
+              </div>
+
+            </div>
+
+        </uib-accordion-group>
+        <uib-accordion close-others="oneAtATime" >
+          <!-- ------------------------- -->
+          <!-- ----  PAYMENT RECORDS  ------- -->
+          <!-- ------------------------- -->
+
+          <uib-accordion-group panel-class="box box-default"is-open="status.isFirstDisabled"  >
+            <uib-accordion-heading>
+                <span class = "accordion-header" ng-click="togglePaymentsAccordion()">PAYMENT RECORDS &nbsp;</span><span class="badge" style="background-color:#777">{{totalPayments}}</span>
+
+              <div class="btn-group pull-right">
+                <button class="btn btn-default btn-xs" ng-click="togglePaymentsAccordion()"><i class="fa fa-{{PaymentsExpanded? 'plus':'minus'}}"></i> <span class = "hidden-xs" style="font-size: small">&nbsp;{{PaymentsExpanded? 'View':'Hide'}}</span></button>
+              </div>
+            </uib-accordion-heading>
+
+
+
+          <table class="table table-hover" style="overflow-x:scroll; ">
+            <thead>
+              <tr class="panel-heading" >
+                <th ng-show="inactivePaymentFilter"><a href="#" ng-click="orderBy('inactive', $event)" style="color:black"><b>INACTIVE</b></a>
+                <span ng-show="orderByField == 'inactive'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+                <th><a href="" ng-click="orderBy('checkdate', $event)" style="color:black;"><b>DATE</b></a>
+                <span ng-show="orderByField == 'checkdate'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+                <th><a href="" ng-click="orderBy('checkno', $event)" style="color:black;"><b>CHECK<span class="xs-hidden"> #</span></b></a>
+                <span ng-show="orderByField == 'checkno'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+                <th><a href="" ng-click="orderBy('damagescost', $event)" style="color:black;"><b>DAMAGES</b></a>
+                <span ng-show="orderByField == 'damagescost'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+                <th><a href="" ng-click="orderBy('othercost', $event)" style="color:black;"><b>OTHER</b></a>
+                <span ng-show="orderByField == 'othercost'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+                <th><a href="" ng-click="orderBy('amount', $event)" style="color:black;"><b>TOTAL</b></a>
+                <span ng-show="orderByField == 'amount'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+                </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="record in payments| orderBy:orderByField:reverseSort" >
+                <td style="min-width:75px"ng-show="inactivePaymentFilter"><a href="#/tracts/{{tract.$id}}/tenants/{{tenant.$id}}/payments/{{record.$id}}" ><span ng-show="checkInactive(record.inactive)" class="label label-danger" >Inactive</span></a></td>
+                <td style="min-width:100px"><a href="#/tracts/{{tract.$id}}/tenants/{{tenant.$id}}/payments/{{record.$id}}" ><b>{{record.checkdate}}</b></a></td>
+                <td style="min-width:100px"><a href="#/tracts/{{tract.$id}}/tenants/{{tenant.$id}}/payments/{{record.$id}}" ><b>{{record.checkno}}</b></a></td>
+                <td style="min-width:120px"><a href="#/tracts/{{tract.$id}}/tenants/{{tenant.$id}}/payments/{{record.$id}}" ><b>{{record.damagescost|currency}}</b></a></td>
+                <td style="min-width:120px"><a href="#/tracts/{{tract.$id}}/tenants/{{tenant.$id}}/payments/{{record.$id}}" ><b>{{record.othercost|currency}}</b></a></td>
+                <td style="min-width:120px;" ><a href="#/tracts/{{tract.$id}}/tenants/{{tenant.$id}}/payments/{{record.$id}}" ><b style="color:black">{{record.rowcost+record.temporaryworkspacecost+record.additionalworkspacecost+record.accesscost+record.damagescost+record.othercost|currency}}</b></a></td>
+                <td style="min-width:25px"><a href="#/tracts/{{tract.$id}}/tenants/{{tenant.$id}}/payments/{{record.$id}}"><span  class="fa fa-edit"></span></a></td>
+              </tr>
+
+            </tbody>
+          </table>
+
+          <table class="table table-hover" style="overflow-x:scroll">
+
+  <thead>
+<tr class="panel-heading">
+</tr>
+  </thead>
+            <tbody>
+              <tr style="background-color:#ffffcc">
+                <td style="min-width:75px"ng-show="inactivePaymentFilter"></td>
+                <td style="min-width:100px"><b>TOTAL</b></td>
+                <td style="min-width:100px"><b style="color:black">{{numberOfPayments}}</b></td>
+                <td style="min-width:120px"><b style="color:black">{{totalDamagesCost|currency}}</b></td>
+                <td style="min-width:120px"><b style="color:black">{{totalOtherCost|currency}}</b></td>
+                <td style="min-width:120px"><b style="color:black">{{grandTotal|currency}}</b></td>
+                <td style="min-width:25px"></td>
+              </tr>
+            </tbody>
+          </table>
+
+
+          <button type="button" id="addNewPayment" class="btn btn-default btn-sm"  ng-click="addNewPayment()"><span class="glyphicon glyphicon-plus" style="color:green"></span > Add Payment</button>
+            &nbsp;&nbsp;&nbsp;
+            <button type="button" id="inactivatePayment" class="btn btn-{{inactivePaymentFilter ? 'danger':'default'}} btn-sm"  ng-click="toggleInactivePayment()"><span class="fa fa-{{inactivePaymentFilter ? 'ban':'check'}}" style="color:{{inactivePaymentFilter ? 'white':'black'}}"></span >&nbsp; {{inactivePaymentFilter ? 'Hide Inactive':'Show Inactive'}}</button>
+
+
+        </uib-accordion-group>
+
+
+
+                        </uib-accordion>
+    <div class="box-tools pull-right" style="margin:10px 0px 10px 0px">
+    <button type="button" id="InactivateTenant" class="btn btn-{{inactiveFilter ? 'success':'danger'}} btn-md"  ng-click="toggleInactive()"><span class="fa fa-{{inactiveFilter ? 'check':'ban'}}" style="color:white"></span >&nbsp; {{inactiveFilter ? 'Activate':'Inactivate'}}</button>
+    </div> <!--- div style="float:right;" --->
+</div>
+
+</section>

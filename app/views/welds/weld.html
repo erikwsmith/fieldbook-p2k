@@ -1,0 +1,690 @@
+  <section class="content-header">
+    <h1>
+      Tie-in Weld ID: <b>{{weld.weldno}}</b>
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a href="#/welds"><i class="fa fa-bolt"></i> Tie-in Welds</a></li>
+      <li class="active">Tie-in Weld</li>
+    </ol>
+  </section>
+
+
+  <!-- Main content -->
+  <section class="content">
+      <div class="nav-tabs-custom">
+        <ul class="nav nav-tabs">
+          <li class="active"><a>Stations</a></li>
+          <li><a href="#/welds/files/{{weld.$id}}">Photos
+          <i class="fa fa-exclamation-triangle text-red" ng-show="local.weldImages.getMissingImageTypes().length > 0" data-toggle="tooltip" data-placement="top" title="Missing images for certain stations."></i></a>
+          </li>
+          <li class="pull-right">
+            <button class="btn btn-{{weld.isDelivered ? 'success':'default'}} btn-xs" ng-click="weld.isDelivered = !weld.isDelivered;" ng-show="authorizedOr(['admin','qaqc'])"><i class="fa fa-thumbs-up"></i> Delivered</button>
+          </li>
+        </ul>
+
+        <div class="container-fluid">
+
+          <div class="row">
+            <div class="form-group col-md-2 col-sm-2">
+              <label>Weld No.
+                  <span class="label label-danger" ng-show="local.duplicateweld"><i class="fa fa-exclamation-circle"></i> Duplicate No. </span></label>
+              <input ng-model="weld.weldno" type="text" placeholder='' class="form-control"  ng-readonly="weld.isSect4Complete || authorizedOr(['readonly','auditor'])" />
+            </div>
+            <div class="form-group col-md-2 col-sm-2">
+              <label>U/S Joint No.</label>
+              <input ng-model="weld.jointus" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect4Complete || authorizedOr(['readonly','auditor'])"  />
+            </div>
+            <div class="form-group col-md-2 col-sm-2">
+              <label>DS Joint No.</label>
+              <input ng-model="weld.jointds" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect4Complete || authorizedOr(['readonly','auditor'])"  />
+            </div>
+            <div class="form-group col-md-2 col-sm-2">
+              <label>Coating Type</label>
+              <select class="form-control"  ng-model="weld.coattype" ng-disabled="weld.isSect4Complete || authorizedOr(['readonly','auditor'])">
+                <option value=""></option>
+                <option value="SP-2888">SP-2888</option>
+                <option value="SP-2831">SP-2831</option>
+                <option value="Protal 7200">Protal 7200</option>
+                <option value="Protal 7125">Protal 7125</option>
+              </select>
+            </div>
+            <div class="form-group col-md-2 col-sm-2">
+              <label>Location</label>
+              <select class="form-control"  ng-model="weld.location" ng-disabled="weld.isSect4Complete || authorizedOr(['readonly','auditor'])" >
+                <option value=""></option>
+                <option ng-repeat="option in local.locationslist" value="{{option}}">{{option}}</option>
+              </select>
+            </div>
+            <div class="form-group col-md-2 col-sm-2">
+              <label>Station</label>
+              <input ng-model="weld.station" type="text" placeholder='' class="form-control"  ng-readonly="weld.isSect4Complete || authorizedOr(['readonly','auditor'])" />
+            </div>
+          </div>
+
+          <uib-accordion close-others="oneAtATime">
+            <!-- ------------------------- -->
+            <!-- ----  STATION 4   ------- -->
+            <!-- ------------------------- -->
+
+            <uib-accordion-group panel-class="box box-default">
+              <uib-accordion-heading>
+                BLASTING INSPECTION REPORT &nbsp;
+                <small>
+                  <span class="label label-success" ng-show="weld.isSect4Complete">Complete</span>
+                  <span class="label label-info" ng-show="weld.sect4qaqcdate != undefined" data-toggle="tooltip" data-placement="top" title="By: {{weld.sect4qaqcuser}} | On: {{weld.sect4qaqcdate}}">QC Approved</span>
+                  <span class="label label-danger" ng-show="weld.sect4rejdate != undefined" data-toggle="tooltip" data-placement="top" title="By: {{weld.sect4rejuser}} | On: {{weld.sect4rejdate}}">QC Rejected</span>
+                  <span class="label label-warning" ng-show="weld.auditstations.station4"><i class="fa fa-check"></i> Audited</span>
+                  <span class="label label-danger" ng-show="local.sect4error.length > 0"><i class="fa fa-ban"></i></span>
+                </small>
+                <div class="btn-group pull-right">
+                  <button class="btn btn-default btn-xs" ng-click="completeSection(4, $event)" ng-show="!authorizedOr(['readonly','auditor'])"><i class="fa fa-check"></i> Complete</button>
+                  <button class="btn btn-primary btn-xs" ng-click="qcSection(4, true, $event)" ng-show="authorized('qaqc')"><i class="fa fa-thumbs-up"></i> QC Approve</button>
+                  <button class="btn btn-danger btn-xs" ng-click="qcSection(4, false, $event)" ng-show="authorized('qaqc')"><i class="fa fa-thumbs-down"></i> QC Reject</button>
+                  <button class="btn btn-{{weld.auditstations.station4 ? 'warning':'default'}} btn-xs" ng-click="auditSection(4, $event)" ng-show="authorizedOr(['admin','auditor'])"><i class="fa fa-thumbs-up"></i> Audit</button>
+                </div>
+              </uib-accordion-heading>
+              <div class="row">
+                <div class="form-group col-md-12 col-sm-12" ng-show="local.sect4error.length > 0">
+                  <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-ban"></i> Error!</h4>
+                    <span ng-repeat="msg in local.sect4error">{{msg}}<BR></span>
+                  </div>
+                </div>
+                <div class="form-group col-md-12 col-sm-12" ng-show="weld.sect4rejdate != undefined">
+                  <label class="text-danger">QA\QC Notes</label>
+                  <textarea ng-model="weld.sect4qcnotes" placeholder='' class="inputDanger form-control" rows="4" ng-readonly="!authorized('qaqc') || authorizedOr(['readonly','auditor'])"></textarea>
+                </div>
+                <div class="form-group col-md-3 col-sm-8">
+                  <label>Completed By</label>
+                  <div class="input-group">
+                    <input type="text" ng-model="weld.sect4completedby" placeholder='' class="form-control" ng-readonly="weld.isSect4Complete || authorizedOr(['readonly','auditor'])" />
+                    <div class="input-group-btn">
+                      <button type="button" class="btn btn-default dropdown-toggle" ng-click="insertMyName('sect4completedby')"  ng-disabled="weld.isSect4Complete || authorizedOr(['readonly','auditor'])"
+                        data-toggle="tooltip" data-placement="bottom" title="Insert my name."><span class="fa fa-user"></span></button>
+                    </div><!-- /btn-group -->
+                  </div><!-- /input-group -->
+                </div>
+                <div class="form-group col-md-2 col-sm-4">
+                  <label>Date</label>
+                  <input type="text" model="weld.sect4date" ng-datepicker date-options="datepickerOptions" only-date date-valid class="form-control" ng-readonly="weld.isSect4Complete || authorizedOr(['readonly','auditor'])" />
+                </div>
+                <div class="form-group col-md-3 col-sm-6">
+                  <label>Blasting Technician</label>
+                  <input type="text" model="weld.blastingtech" class="form-control" ng-readonly="weld.isSect4Complete || authorizedOr(['readonly','auditor'])" />
+                </div>
+
+                <div class="form-group col-md-12">
+                  <h3>Weather</h3>
+                </div>
+                <div class="form-group col-md-9 col-sm-8">
+                  <label>Environmental Conditions (Once per hour or tie-in)</label>
+                  <select class="form-control"  ng-model="weld.blastenvcheck" ng-disabled="weld.isSect4Complete || authorizedOr(['readonly','auditor'])">
+                    <option value=""></option>
+                    <option value="Hourly">Hourly</option>
+                    <option value="Tie-In">Tie-In</option>
+                    <option value="NA">N/A</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-3 col-sm-4">
+                  <label>Time</label>
+                  <div class="input-group">
+                    <input type="text" class="form-control"
+
+                         datetimepicker
+                         datetimepicker-options="{format:'LT', useCurrent: false}"
+                         ng-readonly="weld.isSect4Complete || authorizedOr(['readonly','auditor'])"
+                         placeholder="..."
+                         name="blastweathertime"
+                         ng-model="weld.blastweathertime">
+
+                      <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" ng-click="insertCurrentTime('blastweathertime')"  ng-disabled="weld.isSect4Complete || authorizedOr(['readonly','auditor'])"
+                          data-toggle="tooltip" data-placement="bottom" title="Insert current time"><span class="glyphicon glyphicon-time"></span></button>
+                      </div><!-- /btn-group -->
+                  </div>
+                </div>
+                <div class="form-group col-md-3 col-sm-4">
+                  <label>Ambient Temperature:</label>
+                  <input ng-model="weld.blastambtemp" type="text" placeholder='' ng-class="{'form-control':true, 'inputDanger':local.blastambtemp_warning}" ng-change="checkValue('blastambtemp','4')" ng-readonly="weld.isSect4Complete || authorizedOr(['readonly','auditor'])"
+                    data-toggle="tooltip" data-placement="top" title="{{local.blastambtemp_warning_msg}}" numeric-only  />
+                </div>
+                <div class="form-group col-md-3 col-sm-4">
+                  <label>Relative Humidity:</label>
+                  <input ng-model="weld.blasthumidity" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect4Complete || authorizedOr(['readonly','auditor'])"
+                    ng-class="{'form-control':true, 'inputDanger':local.blasthumidity_warning}" ng-change="checkValue('blasthumidity','4')" data-toggle="tooltip" data-placement="top" title="{{local.blasthumidity_warning_msg}}" numeric-only  />
+                </div>
+                <div class="form-group col-md-3 col-sm-4">
+                  <label>Dew Point:</label>
+                  <input ng-model="weld.blastdewpoint" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect4Complete || authorizedOr(['readonly','auditor'])" numeric-only />
+                </div>
+
+                <div class="form-group col-md-3 col-sm-4">
+                  <label>Surface Temperature:</label>
+                  <input ng-model="weld.blastsurftemp" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect4Complete || authorizedOr(['readonly','auditor'])"
+                    ng-class="{'form-control':true, 'inputDanger':local.blastsurftemp_warning}" ng-change="checkValue('blastsurftemp','4')" data-toggle="tooltip" data-placement="top" title="{{local.blastsurftemp_warning_msg}}" numeric-only  />
+                </div>
+                <div class="form-group col-md-9 col-sm-6">
+                  <label>Surface Temperature 5 °F Above Dew Point?
+                  <span class="hidden-xs fa fa-exclamation-circle text-danger" ng-show="weld.blastsurftempabovedp=='No'"> Pre-Heat is Required </span>
+                  </label>
+                  <select class="form-control"  ng-model="weld.blastsurftempabovedp" ng-disabled="weld.isSect4Complete || authorizedOr(['readonly','auditor'])">
+                    <option value=""></option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-6 col-sm-6">
+                  <label>Preheat Method:</label>
+                  <input ng-model="weld.blastpreheatmethod" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect4Complete || authorizedOr(['readonly','auditor'])" />
+                </div>
+                <div class="form-group col-md-6 col-sm-6">
+                  <label>Surface Temperature After Pre-Heat <span class="hidden-xs"> (41-150 °F)</span>:</label>
+                  <input ng-model="weld.blastsurftempafterheat" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect4Complete || authorizedOr(['readonly','auditor'])"
+                    ng-class="{'form-control':true, 'inputDanger':local.blastsurftempafterheat_warning}" ng-change="checkValue('blastsurftempafterheat','4')" data-toggle="tooltip" data-placement="top" title="{{local.blastsurftempafterheat_warning_msg}}" numeric-only  />
+                </div>
+                <div class="form-group col-md-6 col-sm-6">
+                  <label>Weather Condition Comments:</label>
+                  <input ng-model="weld.blastweathernotes" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect4Complete || authorizedOr(['readonly','auditor'])" />
+                </div>
+
+                <div class="form-group col-md-12">
+                  <h3>Blasting Procedure</h3>
+                </div>
+                <div class="form-group col-md-4 col-sm-4">
+                  <label>Blasting Start Time</label>
+                  <div class="input-group">
+                    <input type="text" class="form-control"
+
+                         datetimepicker
+                         datetimepicker-options="{format:'LT', useCurrent: false}"
+                         ng-readonly="weld.isSect4Complete || authorizedOr(['readonly','auditor'])"
+
+                         placeholder="..."
+                         name="blaststarttime"
+                         ng-model="weld.blaststarttime">
+                      <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" ng-click="insertCurrentTime('blaststarttime')"  ng-disabled="weld.isSect4Complete || authorizedOr(['readonly','auditor'])"
+                          data-toggle="tooltip" data-placement="bottom" title="Insert current time"><span class="glyphicon glyphicon-time"></span></button>
+                      </div><!-- /btn-group -->
+                  </div>
+                </div>
+                <div class="form-group col-md-4 col-sm-4">
+                  <label>Blasting End Time</label>
+                  <div class="input-group date">
+                    <input type="text" class="form-control"
+
+                         datetimepicker
+                         datetimepicker-options="{format:'LT', useCurrent: false}"
+                         ng-readonly="weld.isSect4Complete || authorizedOr(['readonly','auditor'])"
+                         placeholder="..."
+                         name="blastendtime"
+                         ng-model="weld.blastendtime">
+                      <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" ng-click="insertCurrentTime('blastendtime')"  ng-disabled="weld.isSect4Complete || authorizedOr(['readonly','auditor'])"
+                          data-toggle="tooltip" data-placement="bottom" title="Insert current time"><span class="glyphicon glyphicon-time"></span></button>
+                      </div><!-- /btn-group -->
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-4 col-sm-4">
+                  <label>Abrasive Type:</label>
+                  <input ng-model="weld.blastabrtype" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect4Complete || authorizedOr(['readonly','auditor'])" />
+                </div>
+                <div class="form-group col-md-4 col-sm-4">
+                  <label>Abrasive Size:</label>
+                  <input ng-model="weld.blastabrsize" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect4Complete || authorizedOr(['readonly','auditor'])" />
+                </div>
+                <div class="form-group col-md-4 col-sm-4">
+                  <label>Abrasive Batch #:</label>
+                  <input ng-model="weld.blastabrbatch" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect4Complete || authorizedOr(['readonly','auditor'])" />
+                </div>
+                <div class="form-group col-md-12 col-sm-12">
+                  <label>Surface Preparation Comments:</label>
+                  <input ng-model="weld.blastprepnotes" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect4Complete || authorizedOr(['readonly','auditor'])" />
+                </div>
+
+
+                <div class="form-group col-md-9 col-sm-8">
+                  <label>Testex Reading (2.5-5 mils; One Weld per Hour or Tie-In):</label>
+                  <select class="form-control"  ng-model="weld.blasttestex" ng-disabled="weld.isSect4Complete || authorizedOr(['readonly','auditor'])">
+                    <option value=""></option>
+                    <option value="Hourly">Hourly</option>
+                    <option value="Tie-In">Tie-In</option>
+                    <option value="NA">N/A</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-3 col-sm-4">
+                  <label>Time</label>
+                  <div class="input-group date">
+                    <input type="text" class="form-control"
+
+                         datetimepicker
+                         datetimepicker-options="{format:'LT', useCurrent: false}"
+                         ng-readonly="weld.isSect4Complete || authorizedOr(['readonly','auditor'])"
+                         placeholder="..."
+                         ng-model="weld.blasttestextime">
+                      <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" ng-click="insertCurrentTime('blasttestextime')"  ng-disabled="weld.isSect4Complete || authorizedOr(['readonly','auditor'])"
+                          data-toggle="tooltip" data-placement="bottom" title="Insert current time"><span class="glyphicon glyphicon-time"></span></button>
+                      </div><!-- /btn-group -->
+                  </div>
+                </div>
+
+                <div class="form-group col-md-12 col-sm-12">
+                  <label>Abrasive Blasting Comments:</label>
+                  <input ng-model="weld.blastnotes" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect4Complete || authorizedOr(['readonly','auditor'])" />
+                </div>
+
+
+              </div>
+            </uib-accordion-group>
+
+
+
+            <!-- ------------------------- -->
+            <!-- ----  STATION 5 COATING  ------- -->
+            <!-- ------------------------- -->
+
+            <uib-accordion-group panel-class="box box-default">
+              <uib-accordion-heading>
+                COATING INSPECTION REPORT &nbsp;
+                <small>
+                  <span class="label label-success" ng-show="weld.isSect5Complete">Complete</span>
+                  <span class="label label-info" ng-show="weld.sect5qaqcdate != undefined" data-toggle="tooltip" data-placement="top" title="By: {{weld.sect5qaqcuser}} | On: {{weld.sect5qaqcdate}}">QC Approved</span>
+                  <span class="label label-danger" ng-show="weld.sect5rejdate != undefined" data-toggle="tooltip" data-placement="top" title="By: {{weld.sect5rejuser}} | On: {{weld.sect5rejdate}}">QC Rejected</span>
+                  <span class="label label-warning" ng-show="weld.auditstations.station5"><i class="fa fa-check"></i> Audited</span>
+                  <span class="label label-danger" ng-show="local.sect5error.length > 0"><i class="fa fa-ban"></i></span>
+                </small>
+                <div class="btn-group pull-right">
+                  <button class="btn btn-default btn-xs" ng-click="completeSection(5, $event)" ng-show="!authorizedOr(['readonly','auditor'])"><i class="fa fa-check"></i> Complete</button>
+                  <button class="btn btn-primary btn-xs" ng-click="qcSection(5, true, $event)" ng-show="authorized('qaqc')"><i class="fa fa-thumbs-up"></i> QC Approve</button>
+                  <button class="btn btn-danger btn-xs" ng-click="qcSection(5, false, $event)" ng-show="authorized('qaqc')"><i class="fa fa-thumbs-down"></i> QC Reject</button>
+                  <button class="btn btn-{{weld.auditstations.station5 ? 'warning':'default'}} btn-xs" ng-click="auditSection(5, $event)" ng-show="authorizedOr(['admin','auditor'])"><i class="fa fa-thumbs-up"></i> Audit</button>
+                </div>
+              </uib-accordion-heading>
+              <div class="row">
+                <div class="form-group col-md-12 col-sm-12" ng-show="local.sect5error.length > 0">
+                  <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-ban"></i> Error!</h4>
+                    <span ng-repeat="msg in local.sect5error">{{msg}}<BR></span>
+                  </div>
+                </div>
+                <div class="form-group col-md-12 col-sm-12" ng-show="weld.sect5rejdate != undefined">
+                  <label class="text-danger">QA\QC Notes</label>
+                  <textarea ng-model="weld.sect5qcnotes" placeholder='' class="inputDanger form-control" rows="4" ng-readonly="!authorized('qaqc') || authorizedOr(['readonly','auditor'])"></textarea>
+                </div>
+                <div class="form-group col-md-3 col-sm-8">
+                  <label>Completed By</label>
+                  <div class="input-group">
+                    <input type="text" ng-model="weld.sect5completedby" placeholder='' class="form-control" ng-readonly="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])" />
+                    <div class="input-group-btn">
+                      <button type="button" class="btn btn-default dropdown-toggle" ng-click="insertMyName('sect5completedby')"  ng-disabled="weld.isSect5Complete || authorizedOr(['readonly','auditor'])"
+                        data-toggle="tooltip" data-placement="bottom" title="Insert my name."><span class="fa fa-user"></span></button>
+                    </div><!-- /btn-group -->
+                  </div><!-- /input-group -->
+                </div>
+                <div class="form-group col-md-3 col-sm-4">
+                  <label>Date</label>
+                  <input type="text" model="weld.sect5date" ng-datepicker date-options="datepickerOptions" only-date date-valid class="form-control" ng-readonly="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])" />
+                </div>
+                <div class="form-group col-md-3 col-sm-6">
+                  <label>Coating Applicator #1</label>
+                  <input ng-model="weld.coattech1" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])" />
+                </div>
+                <div class="form-group col-md-3 col-sm-6">
+                  <label>Coating Applicator #2</label>
+                  <input ng-model="weld.coattech2" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-12">
+                  <h3>Coating Application</h3>
+                </div>
+                <div class="form-group col-md-3 col-sm-3">
+                  <label>Application Method</label>
+                  <select class="form-control"  ng-model="weld.coatapplicationmethod" ng-disabled="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])">
+                    <option value=""></option>
+                    <option value="Spray">Spray</option>
+                    <option value="Brush">Brush</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-3 col-sm-3">
+                  <label>Mixing Ratio:</label>
+                  <input ng-model="weld.coatmixingratio" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])" />
+                </div>
+                <div class="form-group col-md-3 col-sm-3">
+                  <label>Component A:</label>
+                  <input ng-model="weld.coatcomponenta" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])" />
+                </div>
+                <div class="form-group col-md-3 col-sm-3">
+                  <label>Batch #:</label>
+                  <input ng-model="weld.coatcomponentabatch" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])" />
+                </div>
+                <div class="form-group col-md-3 col-sm-3">
+                  <label>Temperature (if sprayed):</label>
+                  <input ng-model="weld.coatcomponentatemp" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])"  numeric-only />
+                </div>
+                <div class="form-group col-md-3 col-sm-3">
+                  <label>Pressure (if sprayed):</label>
+                  <input ng-model="weld.coatcomponentapressure" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])" numeric-only />
+                </div>
+                <div class="form-group col-md-3 col-sm-3">
+                  <label>Component B:</label>
+                  <input ng-model="weld.coatcomponentb" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])" />
+                </div>
+                <div class="form-group col-md-3 col-sm-3">
+                  <label>Batch #:</label>
+                  <input ng-model="weld.coatcomponentbbatch" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])" />
+                </div>
+                <div class="form-group col-md-3 col-sm-3">
+                  <label>Temperature (if sprayed):</label>
+                  <input ng-model="weld.coatcomponentbtemp" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])"  numeric-only />
+                </div>
+                <div class="form-group col-md-3 col-sm-3">
+                  <label>Pressure (if sprayed):</label>
+                  <input ng-model="weld.coatcomponentbpressure" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])"  numeric-only />
+                </div>
+                <div class="form-group col-md-12 col-sm-12">
+                  <label>If Brush Applied, is the Mixture Free of Streaks, Bubbles, Inconsistencies?:</label>
+                  <select class="form-control"  ng-model="weld.coatmixturefree" ng-disabled="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])">
+                    <option value=""></option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                </div>
+
+
+                <div class="form-group col-md-12">
+                  <h3>Weather</h3>
+                </div>
+
+                <div class="form-group col-md-9 col-sm-8">
+                  <label>Environmental Conditions (Once per hour or tie-in)</label>
+                  <select class="form-control"  ng-model="weld.coatenvcheck" ng-disabled="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])">
+                    <option value=""></option>
+                    <option value="Hourly">Hourly</option>
+                    <option value="Tie-In">Tie-In</option>
+                    <option value="NA">N/A</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-3 col-sm-4">
+                  <label>Time</label>
+                  <div class="input-group date">
+                    <input type="text" class="form-control"
+
+                         datetimepicker
+                         datetimepicker-options="{format:'LT', useCurrent: false}"
+                          ng-readonly="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])"
+                         placeholder="..."
+                         name="coatweathertime"
+                         ng-model="weld.coatweathertime">
+                      <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" ng-click="insertCurrentTime('coatweathertime')"  ng-disabled="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])"
+                          data-toggle="tooltip" data-placement="bottom" title="Insert current time"><span class="glyphicon glyphicon-time"></span></button>
+                      </div><!-- /btn-group -->
+                  </div>
+                </div>
+                <div class="form-group col-md-3 col-sm-4">
+                  <label>Ambient Temperature:</label>
+                  <input ng-model="weld.coatambtemp" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])"
+                    ng-class="{'form-control':true, 'inputDanger':local.coatambtemp_warning}" ng-change="checkValue('coatambtemp','5'); weld.coatapplicationambtemp = weld.coatambtemp;" data-toggle="tooltip" data-placement="top" title="{{local.coatambtemp_warning_msg}}"  numeric-only />
+                </div>
+                <div class="form-group col-md-3 col-sm-4">
+                  <label>Relative Humidity:</label>
+                  <input ng-model="weld.coathumidity" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])"
+                    ng-class="{'form-control':true, 'inputDanger':local.coathumidity_warning}" ng-change="checkValue('coathumidity','5')" data-toggle="tooltip" data-placement="top" title="{{local.coathumidity_warning_msg}}" numeric-only  />
+                </div>
+                <div class="form-group col-md-3 col-sm-4">
+                  <label>Dew Point:</label>
+                  <input ng-model="weld.coatdewpoint" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])" numeric-only />
+                </div>
+                <div class="form-group col-md-6 col-sm-6">
+                  <label>Weather Condition Comments:</label>
+                  <input ng-model="weld.coatweathernotes" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])" />
+                </div>
+
+
+                <div class="form-group col-md-3 col-sm-4">
+                  <label>Surface Temperature:</label>
+                  <span class="hidden-xs fa fa-exclamation-circle text-danger" ng-show="weld.coatsurftemp > 212">Allow Cooling</span>
+                  <span class="hidden-xs fa fa-exclamation-circle text-danger" ng-show="weld.coatsurftemp < 50">Re-Blasting is Required</span>
+                  <input ng-model="weld.coatsurftemp" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])"
+                    ng-class="{'form-control':true, 'inputDanger':local.coatsurftemp_warning}" ng-change="checkValue('coatsurftemp','5')" data-toggle="tooltip" data-placement="top" title="{{local.coatsurftemp_warning_msg}}" numeric-only  />
+                </div>
+                <div class="form-group col-md-9 col-sm-6">
+                  <label>Surface Temperature 5 °F Above Dew Point?
+                  <span class="hidden-xs fa fa-exclamation-circle text-danger" ng-show="weld.coatsurftempabovedp=='No'"> Reblasting is Required </span>
+                  </label>
+                  <select class="form-control"  ng-model="weld.coatsurftempabovedp" ng-disabled="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])">
+                    <option value=""></option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                </div>
+
+                <div class="form-group col-md-12">
+                  <h3>Epoxy Inspection</h3>
+                </div>
+                <div class="form-group col-md-12 col-sm-12">
+                  <label>Epoxy Inspection (3x Per Shift):</label>
+                  <select class="form-control"  ng-model="local.coatstorageinsp" ng-disabled="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])">
+                    <option value=""></option>
+                    <option ng-repeat="option in local.epoxystorageverifs | orderBy:'sortdate':true | filter:verifToday(['checkdatetime'], '$id', local.coatstorageinsp)" value="{{option.$id}}">
+                      {{option.location}} | By: {{option.completedby}} | Shift: {{option.checkdatetime}}</option>
+                  </select>
+                </div>
+
+                <div class="form-group col-md-6 col-sm-12">
+                  <label>Coating Application Start Time:
+                    <span class="hidden-xs fa fa-exclamation-circle text-danger dropdown-toggle" ng-show="local.coattime_warn" data-toggle="tooltip" data-placement="bottom" title="More than 4 Hours Since Blasting."> Re-Blasting is Required </span>
+                  </label>
+                  <div class="input-group date">
+                    <input type="text" class="form-control"
+
+                         datetimepicker
+                         datetimepicker-options="{format:'LT', useCurrent: false}"
+                          ng-readonly="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])"
+
+                         placeholder="..."
+                         name="coattime"
+                         ng-model="weld.coattime">
+                      <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" ng-click="insertCurrentTime('coattime')"  ng-disabled="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])"
+                          data-toggle="tooltip" data-placement="bottom" title="Insert current time"><span class="glyphicon glyphicon-time"></span></button>
+                      </div><!-- /btn-group -->
+                  </div>
+                </div>
+                <div class="form-group col-md-6 col-sm-12">
+                  <label>Coating Application Complete Time:</label>
+                  <div class="input-group date">
+                    <input type="text" class="form-control"
+
+                         datetimepicker
+                         datetimepicker-options="{format:'LT', useCurrent: false}"
+                          ng-readonly="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])"
+
+                         placeholder="..."
+                         name="coattime"
+                         ng-model="weld.coattimefinish">
+                      <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" ng-click="insertCurrentTime('coattimefinish')"  ng-disabled="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])"
+                          data-toggle="tooltip" data-placement="bottom" title="Insert current time"><span class="glyphicon glyphicon-time"></span></button>
+                      </div><!-- /btn-group -->
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="form-group col-md-12">
+                  <h3>Coating Inspection</h3>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-12 col-sm-12">
+                  <label>Overlap onto FBE Coating Minimum 2 Inches?</label>
+                  <select class="form-control"  ng-model="weld.coatfbeoverlap" ng-disabled="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])">
+                    <option value=""></option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-2 col-sm-2">
+                  <label>Wet Film Thickness Readings:</label>
+                </div>
+                <div class="form-group col-md-2 col-sm-2">
+                  <select class="form-control"  ng-model="weld.coatwetfilm1" ng-disabled="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])">
+                    <option value=""></option>
+                    <option value="20">20</option>
+                    <option value="22">22</option>
+                    <option value="24">24</option>
+                    <option value="26">26</option>
+                    <option value="28">28</option>
+                    <option value="30">30</option>
+                    <option value="35">35</option>
+                    <option value="40">40</option>
+                    <option value="45">45</option>
+                    <option value="50">50</option>
+                    <option value="55">55</option>
+                    <option value="60">60</option>
+                    <option value="65">65</option>
+                    <option value="70">70</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-2 col-sm-2">
+                  <select class="form-control"  ng-model="weld.coatwetfilm2" ng-disabled="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])">
+                    <option value=""></option>
+                    <option value="20">20</option>
+                    <option value="22">22</option>
+                    <option value="24">24</option>
+                    <option value="26">26</option>
+                    <option value="28">28</option>
+                    <option value="30">30</option>
+                    <option value="35">35</option>
+                    <option value="40">40</option>
+                    <option value="45">45</option>
+                    <option value="50">50</option>
+                    <option value="55">55</option>
+                    <option value="60">60</option>
+                    <option value="65">65</option>
+                    <option value="70">70</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-2 col-sm-2">
+                  <select class="form-control"  ng-model="weld.coatwetfilm3" ng-disabled="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])">
+                    <option value=""></option>
+                    <option value="20">20</option>
+                    <option value="22">22</option>
+                    <option value="24">24</option>
+                    <option value="26">26</option>
+                    <option value="28">28</option>
+                    <option value="30">30</option>
+                    <option value="35">35</option>
+                    <option value="40">40</option>
+                    <option value="45">45</option>
+                    <option value="50">50</option>
+                    <option value="55">55</option>
+                    <option value="60">60</option>
+                    <option value="65">65</option>
+                    <option value="70">70</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-2 col-sm-2">
+                  <select class="form-control"  ng-model="weld.coatwetfilm4" ng-disabled="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])">
+                    <option value=""></option>
+                    <option value="20">20</option>
+                    <option value="22">22</option>
+                    <option value="24">24</option>
+                    <option value="26">26</option>
+                    <option value="28">28</option>
+                    <option value="30">30</option>
+                    <option value="35">35</option>
+                    <option value="40">40</option>
+                    <option value="45">45</option>
+                    <option value="50">50</option>
+                    <option value="55">55</option>
+                    <option value="60">60</option>
+                    <option value="65">65</option>
+                    <option value="70">70</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-2 col-sm-2">
+                  <select class="form-control"  ng-model="weld.coatwetfilm5" ng-disabled="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])">
+                    <option value=""></option>
+                    <option value="20">20</option>
+                    <option value="22">22</option>
+                    <option value="24">24</option>
+                    <option value="26">26</option>
+                    <option value="28">28</option>
+                    <option value="30">30</option>
+                    <option value="35">35</option>
+                    <option value="40">40</option>
+                    <option value="45">45</option>
+                    <option value="50">50</option>
+                    <option value="55">55</option>
+                    <option value="60">60</option>
+                    <option value="65">65</option>
+                    <option value="70">70</option>
+                  </select>
+                </div>
+
+                <div class="form-group col-md-2 col-sm-2">
+                  <label>Dry Film Thickness Readings:</label>
+                </div>
+                <div class="form-group col-md-2 col-sm-2">
+                  <input ng-model="weld.coatdryfilm1" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])"
+                    ng-class="{'form-control':true, 'inputDanger':local.coatdryfilm1_warning}" ng-change="checkValue('coatdryfilm1','5')" data-toggle="tooltip" data-placement="top" title="{{local.coatdryfilm1_warning_msg}}"  numeric-only/>
+                </div>
+                <div class="form-group col-md-2 col-sm-2">
+                  <input ng-model="weld.coatdryfilm2" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])"
+                    ng-class="{'form-control':true, 'inputDanger':local.coatdryfilm2_warning}" ng-change="checkValue('coatdryfilm2','5')" data-toggle="tooltip" data-placement="top" title="{{local.coatdryfilm2_warning_msg}}"  numeric-only />
+                </div>
+                <div class="form-group col-md-2 col-sm-2">
+                  <input ng-model="weld.coatdryfilm3" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])"
+                    ng-class="{'form-control':true, 'inputDanger':local.coatdryfilm3_warning}" ng-change="checkValue('coatdryfilm3','5')" data-toggle="tooltip" data-placement="top" title="{{local.coatdryfilm3_warning_msg}}"  numeric-only />
+                </div>
+
+              </div>
+              <div class="row">
+                <div class="form-group col-md-4 col-sm-6">
+                  <label>Number of Holidays:</label>
+                  <input ng-model="weld.coatholidaycount" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])" />
+                </div>
+                <div class="form-group col-md-4 col-sm-6">
+                  <label>Repair Method:</label>
+                  <input ng-model="weld.coatrepairmethod" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])" />
+                </div>
+                <div class="form-group col-md-4 col-sm-6">
+                  <label>All Repaired:
+                  </label>
+                  <select class="form-control"  ng-model="weld.coatholidayrepaired" ng-disabled="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])">
+                    <option value=""></option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                    <option value="N/A">N/A</option>
+                  </select>
+                </div>
+
+                <div class="form-group col-md-12 col-sm-12">
+                  <label>Visual Inspection Notes:</label>
+                  <input ng-model="weld.coatnotes" type="text" placeholder='' class="form-control" ng-readonly="weld.isSect5Complete || !weld.isSect4Complete || authorizedOr(['readonly','auditor'])" />
+                </div>
+              </div>
+            </uib-accordion-group>
+
+          </uib-accordion> <!-- end of accordion -->
+
+
+          <button class="btn btn-success btn-sm" ng-click="openReport('tgminspect-demo/completepackage.cfm')"><i class="fa fa-print"></i> Complete Package</button>
+          <button class="btn btn-primary btn-sm" ng-click="openReport('tgminspect-demo/coatinspectionreport.cfm?station=blast&')"><i class="fa fa-print"></i> Blasting</button>
+          <button class="btn btn-primary btn-sm" ng-click="openReport('tgminspect-demo/coatinspectionreport.cfm?station=coat&')"><i class="fa fa-print"></i> Coating</button>
+          <button class="btn btn-default btn-sm" ng-click="openReport('tgminspect-demo/photosprint.cfm')"><i class="fa fa-camera"></i> Photos</button>
+          <BR>
+          <BR>
+
+        </div>
+      </div>
+  </section>

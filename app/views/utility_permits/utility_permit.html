@@ -1,0 +1,334 @@
+<section class="content-header">
+  <h1>
+  Permit: <b>{{permit.tract}}</b>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a href="#/utility_permits"><i class="fa fa-bolt"></i> Utility Permits</a></li>
+    <li class="active">{{permit.tract}} &nbsp;&nbsp;</li>
+  </ol>
+</section>
+
+
+<!-- Main content -->
+<section class="content">
+    <div class="nav-tabs-custom">
+      <ul class="nav nav-tabs">
+        <li class="active"><a>Permit Details</a></li>
+        <li><a href="#/utility_permits/documents/{{permit.$id}}">Documents</a></li>
+        <li><a href="#/utility_permits/photos/{{permit.$id}}">Photos</a></li>
+
+
+    </ul>
+
+
+      <br>
+
+      <div class="container-fluid">
+      <uib-accordion close-others="oneAtATime" class="uib">
+        <!-- ------------------------- -->
+        <!-- ----  CROSSING DETAILS   ------- -->
+        <!-- ------------------------- -->
+
+        <uib-accordion-group panel-class="box box-default" is-open="status.isFirstOpen">
+          <uib-accordion-heading class="accordion-heading">
+              <span class = "accordion-header" ng-click="toggleCrossingDetailsAccordion()">CROSSING DETAILS &nbsp;</span>
+            <div class="btn-group pull-right">
+              <button class="btn btn-default btn-xs" ng-click="toggleCrossingDetailsAccordion()"><i class="fa fa-{{CrossingDetailsExpanded? 'plus':'minus'}}"></i> <span class = "hidden-xs" style="font-size: small">&nbsp;{{CrossingDetailsExpanded? 'View':'Hide'}}</span></button>
+            </div>
+          </uib-accordion-heading>
+
+
+
+        <div class="row">
+          <div class="form-group col-lg-2 col-md-2 col-sm-3 ">
+          <label>FLOW ORDER</label>
+          <input ng-model="permit.sequence" type="number" placeholder='' class="form-control" step ="0.001"  />
+          </div>
+          <div class="form-group col-md-2 col-sm-3">
+            <label>TRACT NUMBER
+                <span class="label label-danger" ng-show="local.duplicateweld"><i class="fa fa-exclamation-circle"></i> Duplicate No. </span></label>
+            <input ng-model="permit.tract" type="text" class="form-control"/>
+          </div>
+
+          <div class="form-group col-md-4 col-sm-6">
+            <label>CROSSING NAME
+                <span class="label label-danger" ng-show="local.duplicateweld"><i class="fa fa-exclamation-circle"></i> Duplicate No. </span></label>
+            <input ng-model="permit.parcelid" type="text" class="form-control"/>
+          </div>
+          <div class="form-group col-md-4 col-sm-6">
+            <label>OWNER</label>
+            <input ng-model="permit.owner" type="text" placeholder='' class="form-control"  />
+          </div>
+
+          <div class="form-group col-md-3 col-sm-6">
+            <label>CROSSING TYPE
+                <span class="label label-danger" ng-show="local.duplicateweld"><i class="fa fa-exclamation-circle"></i> Duplicate No. </span></label>
+            <input ng-model="permit.type" type="text" class="form-control"/>
+          </div>
+
+          <div class="form-group col-md-2 col-sm-4">
+            <label>METHOD
+                <span class="label label-danger" ng-show="local.duplicateweld"><i class="fa fa-exclamation-circle"></i> Duplicate No. </span></label>
+            <input ng-model="permit.crossingmethod" type="text" class="form-control"/>
+          </div>
+
+          <div class="form-group col-md-2 col-sm-3">
+            <label>COUNTY</label>
+            <input ng-model="permit.county" type="text" placeholder='' class="form-control"  />
+          </div>
+
+
+          <div class="form-group col-lg-2 col-md-2 col-sm-2">
+            <label>SECTION</label>
+            <input ng-model="permit.section" type="text" placeholder='' class="form-control"  />
+          </div>
+
+          <div class="form-group col-lg-2 col-md-2 col-sm-2">
+            <label>TOWNSHIP</label>
+            <input ng-model="permit.township" type="text" placeholder='' class="form-control"  />
+          </div>
+
+          <div class="form-group col-lg-2 col-md-2 col-sm-2">
+            <label>RANGE</label>
+            <input ng-model="permit.range" type="text" placeholder='' class="form-control"  />
+          </div>
+          <div class="form-group col-lg-6 col-md-6 col-sm-6">
+          <label>COORDINATES</label>
+          <input ng-model="permit.geometry" type="text" placeholder='' class="form-control"  />
+          </div>
+          <div class="form-group col-lg-12 col-md-12 col-sm-12">
+            <label>LOCATION</label>
+            <textarea ng-model="permit.legal" type="text" placeholder='' class="form-control" rows = "2" ></textarea>
+          </div>
+          <div class="form-group col-lg-12 col-md-12 col-sm-12">
+            <label>ACCESS REMARKS</label>
+            <textarea ng-model="permit.accessremarks" type="text" placeholder='' class="form-control" rows = "2" ></textarea>
+          </div>
+
+
+
+        </div>
+
+    </uib-accordion-group>
+
+    <uib-accordion close-others="oneAtATime">
+      <!-- ------------------------- -->
+      <!-- ----  CONTACT 1  ------- -->
+      <!-- ------------------------- -->
+
+      <uib-accordion-group panel-class="box box-default" >
+        <uib-accordion-heading>
+            <span class = "accordion-header" ng-click="toggleContact_1_Accordion()">CONTACT 1 &nbsp;</span>
+          <div class="btn-group pull-right">
+            <button class="btn btn-default btn-xs" ng-click="toggleContact_1_Accordion()"><i class="fa fa-{{!Contact_1_DetailsExpanded? 'plus':'minus'}}"></i> <span class = "hidden-xs" style="font-size: small">&nbsp;{{!Contact_1_DetailsExpanded? 'View':'Hide'}}</span></button>
+          </div>
+        </uib-accordion-heading>
+
+
+
+      <div class="row">
+
+        <div class="form-group col-md-4 col-sm-6">
+          <label>NAME</label>
+          <input ng-model="permit.contact1.name" type="text" class="form-control"/>
+        </div>
+
+        <div class="form-group col-md-4 col-sm-6">
+          <label>POSITION</label>
+          <input ng-model="permit.contact1.position" type="text" class="form-control"/>
+        </div>
+
+        <div class="form-group col-md-4 col-sm-6">
+          <label>AGENCY</label>
+          <input ng-model="permit.contact1.agency" type="text" class="form-control"/>
+        </div>
+
+        <div class="form-group col-md-4 col-sm-6">
+          <label>STREET ADDRESS</label>
+          <input type="text" ng-model="permit.contact1.street" class="form-control" />
+        </div>
+        <div class="form-group col-md-2 col-sm-4">
+          <label>CITY</label>
+          <input type="text" ng-model="permit.contact1.city" class="form-control" />
+        </div>
+        <div class="form-group col-md-2 col-sm-2">
+          <label>STATE</label>
+          <input type="text" ng-model="permit.contact1.state" class="form-control" />
+        </div>
+        <div class="form-group col-md-2 col-sm-2">
+          <label>ZIP</label>
+          <input ng-model="permit.contact1.zip" type="text" placeholder='' class="form-control"/>
+        </div>
+        <div class="form-group col-md-2 col-sm-3">
+          <label>PHONE 1</label>
+          <input ng-model="permit.contact1.phone1" type="text" placeholder='' class="form-control"/>
+        </div>
+        <div class="form-group col-md-2 col-sm-3">
+          <label>PHONE 2</label>
+          <input ng-model="permit.contact1.phone2" type="text" placeholder='' class="form-control"/>
+        </div>
+        <div class="form-group col-md-3 col-sm-6">
+          <label>EMAIL</label>
+          <input ng-model="permit.contact1.email" type="text" placeholder='' class="form-control"/>
+        </div>
+      </div>
+
+  </uib-accordion-group>
+
+  <uib-accordion close-others="oneAtATime">
+    <!-- ------------------------- -->
+    <!-- ----  CONTACT 2  ------- -->
+    <!-- ------------------------- -->
+
+    <uib-accordion-group panel-class="box box-default" >
+      <uib-accordion-heading>
+          <span class = "accordion-header" ng-click="toggleContact_2_Accordion()">CONTACT 2 &nbsp;</span>
+        <div class="btn-group pull-right">
+          <button class="btn btn-default btn-xs" ng-click="toggleContact_2_Accordion()"><i class="fa fa-{{!Contact_2_DetailsExpanded? 'plus':'minus'}}"></i> <span class = "hidden-xs" style="font-size: small">&nbsp;{{!Contact_2_DetailsExpanded? 'View':'Hide'}}</span></button>
+        </div>
+      </uib-accordion-heading>
+
+
+
+    <div class="row">
+
+      <div class="form-group col-md-4 col-sm-6">
+        <label>NAME
+            <span class="label label-danger" ng-show="local.duplicateweld"><i class="fa fa-exclamation-circle"></i> Duplicate No. </span></label>
+        <input ng-model="permit.contact2.name" type="text" class="form-control"/>
+      </div>
+      <div class="form-group col-md-4 col-sm-6">
+        <label>POSITION</label>
+        <input ng-model="permit.contact2.position" type="text" class="form-control"/>
+      </div>
+
+      <div class="form-group col-md-4 col-sm-6">
+        <label>AGENCY</label>
+        <input ng-model="permit.contact2.agency" type="text" class="form-control"/>
+      </div>
+      <div class="form-group col-md-4 col-sm-6">
+        <label>STREET ADDRESS</label>
+        <input type="text" ng-model="permit.contact2.street" class="form-control" />
+      </div>
+      <div class="form-group col-md-2 col-sm-4">
+        <label>CITY</label>
+        <input type="text" ng-model="permit.contact2.city" class="form-control" />
+      </div>
+      <div class="form-group col-md-2 col-sm-2">
+        <label>STATE</label>
+        <input type="text" ng-model="permit.contact2.state" class="form-control" />
+      </div>
+      <div class="form-group col-md-2 col-sm-2">
+        <label>ZIP</label>
+        <input ng-model="permit.contact2.zip" type="text" placeholder='' class="form-control"/>
+      </div>
+      <div class="form-group col-md-2 col-sm-3">
+        <label>PHONE 1</label>
+        <input ng-model="permit.contact2.phone1" type="text" placeholder='' class="form-control"/>
+      </div>
+      <div class="form-group col-md-2 col-sm-3">
+        <label>PHONE 2</label>
+        <input ng-model="permit.contact2.phone2" type="text" placeholder='' class="form-control"/>
+      </div>
+      <div class="form-group col-md-3 col-sm-6">
+        <label>EMAIL</label>
+        <input ng-model="permit.contact2.email" type="text" placeholder='' class="form-control"/>
+      </div>
+    </div>
+
+  </uib-accordion-group>
+
+  <uib-accordion close-others="oneAtATime">
+    <!-- ------------------------- -->
+    <!-- ----  PERMIT DETAILS   ------- -->
+    <!-- ------------------------- -->
+
+    <uib-accordion-group panel-class="box box-default" >
+      <uib-accordion-heading>
+          <span class = "accordion-header" ng-click="togglePermitDetailsAccordion()">PERMIT DETAILS &nbsp;</span>
+        <div class="btn-group pull-right">
+          <button class="btn btn-default btn-xs" ng-click="togglePermitDetailsAccordion()"><i class="fa fa-{{!PermitDetailsExpanded? 'plus':'minus'}}"></i> <span class = "hidden-xs" style="font-size: small">&nbsp;{{!PermitDetailsExpanded? 'View':'Hide'}}</span></button>
+        </div>
+      </uib-accordion-heading>
+
+
+
+    <div class="row">
+
+      <div class="form-group col-md-3 col-sm-6">
+        <label>PERMIT AGENT
+            <span class="label label-danger" ng-show="local.duplicateweld"><i class="fa fa-exclamation-circle"></i> Duplicate No. </span></label>
+            <select class="form-control" ng-model = "permit.permitagent" >
+              <option value=""> </option>
+
+              <option ng-repeat="option in fieldagents" value="{{option.name}}">{{option.name}}</option>
+
+            </select>
+      </div>
+      <div class="form-group col-md-3 col-sm-6">
+        <label>PERMIT TYPE</label>
+        <input type="text" ng-model="permit.permittype" class="form-control" />
+      </div>
+      <div class="form-group col-md-2 col-sm-4">
+        <label>SUBMITTED</label>
+        <div class = "input-group date" >
+        <input model="permit.permitsubmitted" type="text"  ng-datepicker date-options="datepickerOptions" only-date date-valid class="form-control"/>
+          <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+          </span>
+        </div>
+      </div>
+      <div class="form-group col-md-2 col-sm-4">
+        <label>APPROVED</label>
+        <div class = "input-group date" >
+        <input model="permit.permitapproved" type="text"  ng-datepicker date-options="datepickerOptions" only-date date-valid class="form-control"/>
+          <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+          </span>
+        </div>
+      </div>
+      <div class="form-group col-md-2 col-sm-4">
+        <label>EXPIRES</label>
+        <div class = "input-group date" >
+        <input model="permit.permitexpires" type="text"  ng-datepicker date-options="datepickerOptions" only-date date-valid class="form-control"/>
+          <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+          </span>
+        </div>
+      </div>
+      <div class="form-group col-md-6 col-sm-12">
+        <label>APPLICATION REQUIREMENTS</label>
+        <textarea type="text" ng-model="permit.applicationrequirements" class="form-control" rows = "2"></textarea>
+      </div>
+      <div class="form-group col-md-6 col-sm-12">
+        <label>INSURANCE REQUIREMENTS</label>
+        <textarea type="text" ng-model="permit.insurancerequirements" class="form-control"> </textarea>
+      </div>
+      <div class="form-group col-md-6 col-sm-12">
+        <label>BOND REQUIREMENTS</label>
+        <textarea type="text" ng-model="permit.bondrequirements" class="form-control" rows = "2"></textarea>
+      </div>
+      <div class="form-group col-md-6 col-sm-12">
+        <label>FLAGGING/TRAFFIC REQUIREMENTS</label>
+        <textarea type="text" ng-model="permit.flaggingrequirements" class="form-control" rows = "2"></textarea>
+      </div>
+
+      <div class="form-group col-lg-12 col-md-12 col-sm-12">
+        <label>COMMENTS</label>
+        <textarea ng-model="permit.comments" type="text" placeholder='' class="form-control" rows = "4" ></textarea>
+      </div>
+    </div>
+
+</uib-accordion-group>
+
+                    </uib-accordion> <!-- end of accordion -->
+
+                    <div class="box-tools pull-right" style="margin:10px 0px 10px 0px">
+                      <br><br>
+                      <button type="button" id="InactivatePermit" class="btn btn-{{inactiveFilter ? 'success':'danger'}} btn-md"  ng-click="toggleInactive()"><span class="fa fa-{{inactiveFilter ? 'check':'ban'}}" style="color:white"></span >&nbsp; {{inactiveFilter ? 'Activate':'Inactivate'}}</button>
+                    </div> <!--- div style="float:right;" --->
+
+</div>
+
+</section>

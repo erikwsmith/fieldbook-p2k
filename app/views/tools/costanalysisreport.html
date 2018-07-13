@@ -1,0 +1,143 @@
+<section class="content-header">
+  <h1>
+Cost Analysis
+    <small>FieldBook</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a href="#/reports"><i class="fa fa-file-excel-o"></i> Reports</a></li>
+    <li class="active"><i class="glyphicon glyphicon-usd"></i> Cost Analysis</li>
+  </ol>
+</section>
+
+<!--- Main content --->
+<section class="content">
+  <div class="nav-tabs-custom" >
+    <div class="box-tools pull-right" style="margin: 5px 10px" >
+      <a href="#/reports" class="btn btn-primary btn-md" role="button"><span class="fa fa-arrow-left" ></span >&nbsp; Back</a>
+    </div> <!--- div style="float:right;" --->
+    <ul class="nav nav-tabs">
+      <li ><a href="#/costanalysisgraph">Graphs</a></li>
+      <li class="active"><a>Reports</a></li>
+
+  </ul>
+  <div class="container-fluid">
+    <div class="modal fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content" style="width: 100px;text-align:center">
+                <span class="fa fa-spinner fa-spin fa-3x"></span>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="box-header">
+      <h3 class="box-title"><span class="fa fa-clone"></span>&nbsp;&nbsp; All Tracts &nbsp;</h3><span class="badge">{{numberOfTracts}}</span></h3>
+      <div class="box-tools pull-right">
+        <input style="height:33px;width:200px"type="text" class="" ng-model="searchbox" placeholder="Search"></input>&nbsp;
+        <button style="height:32px;width:130px" type="button" class="btn btn-default" ng-click="exportData()"><span class="fa fa-file-excel-o" style="color:green"></span> &nbsp;<span class="xs-hidden"> To Excel</span></button>&nbsp;&nbsp;
+        <button style="height:32px;width:130px" type="button" class="btn btn-default" ng-click="printPDF()"><span class="fa fa-file-pdf-o" style="color:red"></span> &nbsp;<span class="xs-hidden"> To PDF</span></button>
+
+      </div> <!--- div style="float:right;" --->
+    </div> <!--- box-header --->
+
+
+    <div class="box-body"style="width:100%;height:100%;overflow-x:auto;">
+
+      <table class="table table-hover" style="overflow-x:scroll; ">
+        <thead>
+          <tr class="panel-heading" >
+            <th><a href="" ng-click="orderBy('sequence', $event)" style="color:black;"><b>ORDER</b></a>
+            <span ng-show="orderByField == 'sequence'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+            <th><a href="" ng-click="orderBy('tract', $event)" style="color:black;"><b>TRACT<span class="xs-hidden"> #</span></b></a>
+            <span ng-show="orderByField == 'tract'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+            <th><a href="" ng-click="orderBy('owner', $event)" style="color:black;"><b>OWNER</b></a>
+            <span ng-show="orderByField == 'owner'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+            <th><a href="" ng-click="orderBy('rowcost', $event)" style="color:black;"><b>ROW</b></a>
+            <span ng-show="orderByField == 'rowcost'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+            <th><a href="" ng-click="orderBy('temporaryworkspacecost', $event)" style="color:black;"><b>WORKSPACE</b></a>
+            <span ng-show="orderByField == 'temporaryworkspacecost'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+            <th><a href="" ng-click="orderBy('additionalworkspacecost', $event)" style="color:black;"><b>ATWS</b></a>
+            <span ng-show="orderByField == 'additionalworkspacecost'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+            <th><a href="" ng-click="orderBy('accesscost', $event)" style="color:black;"><b>ACCESS</b></a>
+            <span ng-show="orderByField == 'accesscost'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+            <th><a href="" ng-click="orderBy('damagescost', $event)" style="color:black;"><b>DAMAGES</b></a>
+            <span ng-show="orderByField == 'damagescost'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+            <th><a href="" ng-click="orderBy('othercost', $event)" style="color:black;"><b>OTHER</b></a>
+            <span ng-show="orderByField == 'othercost'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+            <th><a href="" ng-click="orderBy('grandtotal', $event)" style="color:black;"><b>TOTAL</b></a>
+            <span ng-show="orderByField == 'grandtotal'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+
+
+            </tr>
+
+        </thead>
+        <tbody>
+          <tr ng-repeat="record in payments| filter: searchbox | orderBy:orderByField:reverseSort| startFrom:currentPage*pageSize | limitTo:pageSize" >
+            <td style="min-width:120px"><a href="#/tracts/{{record.$id}}" ><b>{{record.sequence}}</b></a></td>
+            <td style="min-width:120px"><a href="#/tracts/{{record.$id}}" ><b>{{record.tract}}</b></a></td>
+            <td style="min-width:200px; max-width:200px"><a href="#/tracts/{{record.$id}}" ><b>{{record.owner}}</b></a></td>
+            <td style="min-width:120px"><a href="#/tracts/{{record.$id}}" ><b>{{record.rowcost|currency}}</b></a></td>
+            <td style="min-width:120px"><a href="#/tracts/{{record.$id}}" ><b>{{record.temporaryworkspacecost|currency}}</b></a></td>
+            <td style="min-width:120px"><a href="#/tracts/{{record.$id}}" ><b>{{record.additionalworkspacecost|currency}}</b></a></td>
+            <td style="min-width:120px"><a href="#/tracts/{{record.$id}}" ><b>{{record.accesscost|currency}}</b></a></td>
+            <td style="min-width:120px"><a href="#/tracts/{{record.$id}}" ><b>{{record.damagescost|currency}}</b></a></td>
+            <td style="min-width:120px"><a href="#/tracts/{{record.$id}}" ><b>{{record.othercost|currency}}</b></a></td>
+            <td style="min-width:120px;" ><a href="#/tracts/{{record.$id}}" ><b style="color:black">{{record.grandtotal|currency}}</b></a></td>
+            <td style="min-width:25px"><a href="#/tracts/{{record.$id}}"><span  class="fa fa-edit"></span></a></td>
+          </tr>
+
+
+
+
+        </tbody>
+      </table>
+
+      <table class="table table-hover" style="overflow-x:scroll">
+
+<thead>
+<tr class="panel-heading">
+</tr>
+</thead>
+
+
+        <tbody>
+          <tr style="background-color:#ffffcc">
+            <td style="min-width:120px"><b>TOTAL</b></td>
+            <td style="min-width:120px"><b style="color:black">{{numberOfTracts}}</b></td>
+            <td style="min-width:200px; width:200px"><b style="color:black"></b></td>
+            <td style="min-width:120px"><b style="color:black">{{overallRowCostArray|currency}}</b></a></td>
+            <td style="min-width:120px"><b style="color:black">{{overallTemporaryWorkspaceArray|currency}}</b></a></td>
+            <td style="min-width:120px"><b style="color:black">{{overallATWSArray|currency}}</b></a></td>
+            <td style="min-width:120px"><b style="color:black">{{overallAccessArray|currency}}</b></a></td>
+            <td style="min-width:120px"><b style="color:black">{{overallDamagesArray|currency}}</b></a></td>
+            <td style="min-width:120px"><b style="color:black">{{overallOtherCostArray|currency}}</b></a></td>
+            <td style="min-width:120px"><b style="color:black">{{overallGrandTotalArray|currency}}</b></a></td>
+            <td style="min-width:25px"></td>
+
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- /.box-body -->
+    <div class="box-body">
+
+
+<div class="box-tools pull-left">
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+<li class="page-item"><button class="btn btn-default btn-sm" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1"><a class="page-link"
+  href=""><span style="color:black" class = "glyphicon glyphicon-backward"></span><span style="color:black"> Previous</span></a></button></li>
+<li class="page-item">&nbsp;Page {{currentPage+1}} of {{numberOfPages()}}&nbsp;</li>
+<li class="page-item"><button class="btn btn-default btn-sm" ng-disabled="currentPage >= payments.length/pageSize - 1" ng-click="currentPage=currentPage+1">
+<a class="page-link" href=""><span style="color:black">Next&nbsp;&nbsp;</span><span style="color:black" class = "glyphicon glyphicon-forward"></span></a>
+</button></li>
+</ul>
+</nav>
+</div>
+
+</div> <!--- box --->
+  </div> <!--- box --->
+  </div>
+</section><!--- /.content --->

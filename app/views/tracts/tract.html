@@ -1,0 +1,1211 @@
+<section class="content-header">
+  <h1>
+    Tract Number: <b>{{tract.tract}}</b>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a href="#/property_tracts"><i class="fa fa-clone"></i> Property Tracts</a></li>
+    <li class="active"><i class="fa fa-square-o"></i>&nbsp;Tract {{tract.tract}}</li>
+  </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="nav-tabs-custom">
+      <ul class="nav nav-tabs">
+        <li class="active"><a>Tract Details</a></li>
+        <li><a href="#/tracts/documents/{{tract.$id}}">Documents</a></li>
+        <li><a href="#/tracts/photos/{{tract.$id}}">Photos</a></li>
+    </ul>
+      <br>
+      <div class="container-fluid">
+      <uib-accordion close-others="oneAtATime" class="uib">
+        <!-- ------------------------- -->
+        <!-- ----  PROPERTY DETAILS   ------- -->
+        <!-- ------------------------- -->
+
+        <uib-accordion-group panel-class="box box-default" >
+          <uib-accordion-heading class="accordion-heading">
+              <span class = "accordion-header" ng-click="togglePropertyDetailsAccordion()">PROPERTY DETAILS &nbsp;</span>
+            <div class="btn-group pull-right">
+              <button class="btn btn-default btn-xs" ng-click="togglePropertyDetailsAccordion()"><i class="fa fa-{{!PropertyDetailsExpanded? 'plus':'minus'}}"></i> <span class = "hidden-xs" style="font-size: small">&nbsp;{{!PropertyDetailsExpanded? 'View':'Hide'}}</span></button>
+            </div>
+          </uib-accordion-heading>
+
+
+        <div class="row">
+          <div class="form-group col-lg-2 col-md-2 col-sm-3">
+          <label>FLOW ORDER</label>
+          <input ng-model = "tract.sequence"  type="number" placeholder='' class="form-control" step="0.001"  />
+          </div>
+          <div class="form-group col-lg-2 col-md-3 col-sm-3">
+            <label>TRACT NUMBER
+                <span class="label label-danger" ng-show="local.duplicateweld"><i class="fa fa-exclamation-circle"></i> Duplicate No. </span></label>
+            <input ng-model="tract.tract" ng-model-options = "{debounce: {'default': 1000}}" type="text" class="form-control"/>
+          </div>
+
+          <div class="form-group col-lg-4 col-md-4 col-sm-6">
+            <label>PARCEL ID
+                <span class="label label-danger" ng-show="local.duplicateweld"><i class="fa fa-exclamation-circle"></i> Duplicate No. </span></label>
+            <input ng-model="tract.parcelid" ng-model-options = "{debounce: {'default': 1000}}" type="text" class="form-control"/>
+          </div>
+          <div class="form-group col-lg-3 col-md-3 col-sm-4">
+            <label>TYPE</label>
+            <select class="form-control" ng-model = "tract.type" >
+              <option value="COUNTY ROAD">COUNTY ROAD</option>
+              <option value="FEE PROPERTY">FEE PROPERTY</option>
+              <option value="OTHER PROPERTY">OTHER PROPERTY</option>
+              <option value="RAILROAD">RAILROAD</option>
+              <option value="STATE PROPERTY">STATE PROPERTY</option>
+              <option value="STATE HIGHWAY">STATE HIGHWAY</option>
+
+
+            </select>          </div>
+          <div class="form-group col-lg-6 col-md-6 col-sm-8">
+            <label>OWNER</label>
+            <input ng-model="tract.owner" type="text" class="form-control"/>
+          </div>
+          <div class="form-group col-lg-6 col-md-6 col-sm-6">
+            <label>STREET</label>
+            <input ng-model="tract.address" type="text" class="form-control"/>
+          </div>
+          <div class="form-group col-lg-3 col-md-3 col-sm-3">
+            <label>CITY</label>
+            <input ng-model="tract.city" type="text" class="form-control"/>
+          </div>
+          <div class="form-group col-lg-2 col-md-2 col-sm-3">
+            <label>STATE</label>
+            <input ng-model="tract.state" type="text" class="form-control"/>
+          </div>
+          <div class="form-group col-lg-2 col-md-2 col-sm-3">
+            <label>ZIP</label>
+            <input ng-model="tract.zip" type="text" class="form-control"/>
+          </div>
+          <div class="form-group col-lg-3 col-md-5 col-sm-6">
+            <label>ROW AGENT</label>
+            <select class="form-control" ng-model = "tract.rowagent" >
+              <option value=""> </option>
+
+              <option ng-repeat="option in fieldagents" value="{{option.name}}">{{option.name}}</option>
+
+            </select>
+          </div>
+
+          <div class="form-group col-lg-2 col-md-2 col-sm-3">
+            <label>ACRES</label>
+            <input ng-model="tract.acres" type="number" placeholder='' class="form-control" step="0.01"  />
+          </div>
+          <div class="form-group col-lg-1 col-md-2 col-sm-2">
+            <label>SECTION</label>
+            <input ng-model="tract.section" type="text" placeholder='' class="form-control"  />
+          </div>
+
+          <div class="form-group col-lg-1 col-md-2 col-sm-2">
+            <label>TOWNSHIP</label>
+            <input ng-model="tract.township" type="text" placeholder='' class="form-control"  />
+          </div>
+
+          <div class="form-group col-lg-1 col-md-2 col-sm-2">
+            <label>RANGE</label>
+            <input ng-model="tract.range" type="text" placeholder='' class="form-control"  />
+          </div>
+
+
+          <div class="form-group col-lg-2 col-md-2 col-sm-3">
+          <label>FROM MP</label>
+          <input ng-model="tract.frommilepost" type="number" step = "0.0001" class="form-control"  />
+          </div>
+
+          <div class="form-group col-lg-2 col-md-2 col-sm-3">
+            <label>TO MP</label>
+            <input ng-model="tract.tomilepost" type="number" step = "0.0001" class="form-control" style="background-color: #fff;"  />
+          </div>
+          <div class="form-group col-lg-2 col-md-3 col-sm-4">
+            <label>FROM STATION</label>
+            <input ng-model="tract.fromstation" type="text" placeholder='' class="form-control" style="background-color: #fff;"  />
+          </div>
+          <div class="form-group col-lg-2 col-md-3 col-sm-4">
+            <label>TO STATION</label>
+            <input ng-model="tract.tostation" type="text" placeholder='' class="form-control" style="background-color: #fff;"  />
+          </div>
+
+          <div class="form-group col-lg-12 col-md-12 col-sm-12">
+            <label>LEGAL DESCRIPTION</label>
+            <textarea ng-model="tract.legal" ng-model-options = "{debounce: {'default': 1000}}" type="text" placeholder='' class="form-control" rows = "2" ></textarea>
+          </div>
+        </div>
+        <div >
+          <button type="button" id="MapZoom" class="btn btn-info btn-sm" ng-click="MapIt()"><span class="fa fa-map-marker" style="color:white"></span >&nbsp; Map Zoom</button>
+
+        </div>
+    </uib-accordion-group>
+
+    <uib-accordion close-others="oneAtATime">
+      <!-- ------------------------- -->
+      <!-- ----  OWNER DETAILS   ------- -->
+      <!-- ------------------------- -->
+
+      <uib-accordion-group panel-class="box box-default" >
+        <uib-accordion-heading>
+            <span class = "accordion-header" ng-click="toggleLandOwnersAccordion()">LAND OWNERS &nbsp;</span><span class="badge" style="background-color:#777">{{totalOwners}}</span>
+          <div class="btn-group pull-right">
+<button class="btn btn-default btn-xs" ng-click="toggleLandOwnersAccordion()"><i class="fa fa-{{!LandOwnersExpanded? 'plus':'minus'}}"></i> <span class = "hidden-xs" style="font-size: small">&nbsp;{{!LandOwnersExpanded? 'View':'Hide'}}</span></button></div>
+        </uib-accordion-heading>
+
+
+
+        <table class="table table-hover" style="overflow-x:scroll; ">
+          <thead>
+            <tr class="panel-heading" >
+
+              <th ng-show="inactiveOwnerFilter"><a href="#" ng-click="orderByOwner('inactive', $event)" style="color:black"><b>INACTIVE</b></a>
+              <span ng-show="orderByOwnerField == 'inactive'"><small><span ng-show="!reverseOwnerSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseOwnerSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+              <th><a href="#" ng-click="orderByOwner('ownerid', $event)" style="color:black;"><b>ID</b></a>
+              <span ng-show="orderByOwnerField == 'ownerid'"><small><span ng-show="!reverseOwnerSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseOwnerSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+              <th><a href="#" ng-click="orderByOwner('ownerinterest', $event)" style="color:black;"><b>INTEREST %</b></a>
+              <span ng-show="orderByOwnerField == 'ownerinterest'"><small><span ng-show="!reverseOwnerSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseOwnerSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+              <th><a href="#" ng-click="orderByOwner('ownername', $event)" style="color:black;"><b>LAND OWNER</b></a>
+              <span ng-show="orderByOwnerField == 'ownername'"><small><span ng-show="!reverseOwnerSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseOwnerSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+
+              <th><a href="#" ng-click="orderByOwner('phone1', $event)" style="color:black;"><b>PHONE 1</b></a>
+              <span ng-show="orderByOwnerField == 'phone1'"><small><span ng-show="!reverseOwnerSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseOwnerSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+              <th><a href="#" ng-click="orderByOwner('phone2', $event)" style="color:black;"><b>PHONE 2</b></a>
+              <span ng-show="orderByOwnerField == 'phone2'"><small><span ng-show="!reverseOwnerSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseOwnerSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+              <th><a href="#" ng-click="orderByOwner('email', $event)" style="color:black;"><b>EMAIL</b></a>
+              <span ng-show="orderByOwnerField == 'email'"><small><span ng-show="!reverseOwnerSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseOwnerSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+
+              </tr>
+
+          </thead>
+          <tbody>
+            <tr ng-repeat="owner in ownerArray| orderBy:orderByOwnerField:reverseOwnerSort" >
+              <td ng-show="inactiveOwnerFilter"><a href="#/tracts/{{tract.$id}}/landowners/{{owner.$id}}" ><span ng-show="ownerInactive(owner.inactive)" class="label label-danger" >Inactive</span></a></td>
+              <td><a href="#/tracts/{{tract.$id}}/landowners/{{owner.$id}}" ><b>{{owner.ownerid}}</b></a></td>
+              <td><a href="#/tracts/{{tract.$id}}/landowners/{{owner.$id}}" ><b>{{owner.ownerinterest | number: 3}}</b></a></td>
+              <td><a href="#/tracts/{{tract.$id}}/landowners/{{owner.$id}}" ><b>{{owner.name}}</b></a></td>
+              <td><a href="#/tracts/{{tract.$id}}/landowners/{{owner.$id}}" ><b>{{owner.phone1}}</b></a></td>
+              <td><a href="#/tracts/{{tract.$id}}/landowners/{{owner.$id}}" ><b>{{owner.phone2}}</b></a></td>
+              <td><a href="#/tracts/{{tract.$id}}/landowners/{{owner.$id}}" ><b>{{owner.email}}</b></a></td>
+              <td><a href ="#/tracts/{{tract.$id}}/landowners/{{owner.$id}}"><span  class="fa fa-edit" ></span></a>
+
+
+          </td>
+
+
+            </tr>
+          </tbody>
+        </table>
+        <div >
+          <button type="button" id="OwnershipReport" class="btn btn-info btn-sm" ng-click="ownershipReport()"><span class="fa fa-file-pdf-o" style="color:white"></span >&nbsp; Ownership Report</button>
+            &nbsp;&nbsp;&nbsp;
+            <button type="button" id="addNewOwner" class="btn btn-default btn-sm"  ng-click="addNewOwner()"><span class="glyphicon glyphicon-plus" style="color:green"></span > Add Land Owner</button>
+            &nbsp;&nbsp;&nbsp;
+            <button type="button" id="InactivateOwner" class="btn btn-{{inactiveOwnerFilter ? 'danger':'default'}} btn-sm"  ng-click="toggleInactiveOwners()"><span class="fa fa-{{inactiveOwnerFilter ? 'ban':'check'}}" style="color:{{inactiveOwnerFilter ? 'white':'black'}}"></span >&nbsp; {{inactiveOwnerFilter ? 'Hide Inactive':'Show Inactive'}}</button>
+
+        </div>
+
+
+  </uib-accordion-group>
+
+  <uib-accordion close-others="oneAtATime">
+    <!-- ------------------------- -->
+    <!-- ----  TENANT DETAILS   ------- -->
+    <!-- ------------------------- -->
+
+    <uib-accordion-group panel-class="box box-default" >
+      <uib-accordion-heading>
+        <span class = "accordion-header" ng-click="toggleTenantsAccordion()">TENANTS &nbsp;</span><span class="badge" style="background-color:#777">{{totalTenants}}</span>
+        <div class="btn-group pull-right">
+          <button class="btn btn-default btn-xs" ng-click="toggleTenantsAccordion()"><i class="fa fa-{{!TenantsExpanded? 'plus':'minus'}}"></i> <span class = "hidden-xs" style="font-size: small">&nbsp;{{!TenantsExpanded? 'View':'Hide'}}</span></button>
+        </div>
+      </uib-accordion-heading>
+
+
+
+      <table class="table table-hover" style="overflow-x:scroll; ">
+        <thead>
+          <tr class="panel-heading" >
+
+            <th ng-show="inactiveTenantsFilter"><a href="#" ng-click="orderByTenant('inactive', $event)" style="color:black"><b>INACTIVE</b></a>
+            <span ng-show="orderByTenantField == 'inactive'"><small><span ng-show="!reverseTenantSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseTenantSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+            <th><a href="#" ng-click="orderByTenant('tenantid', $event)" style="color:black;"><b>TENANT ID</b></a>
+            <span ng-show="orderByTenantField == 'tenantid'"><small><span ng-show="!reverseTenantSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseTenantSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+            <th><a href="#" ng-click="orderByTenant('name', $event)" style="color:black;"><b>TENANT NAME</b></a>
+            <span ng-show="orderByTenantField == 'name'"><small><span ng-show="!reverseTenantSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseTenantSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+            <th><a href="#" ng-click="orderByTenant('phone1', $event)" style="color:black;"><b>PHONE 1</b></a>
+            <span ng-show="orderByTenantField == 'phone1'"><small><span ng-show="!reverseTenantSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseTenantSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+            <th><a href="#" ng-click="orderByTenant('phone2', $event)" style="color:black;"><b>PHONE 2</b></a>
+            <span ng-show="orderByTenantField == 'phone2'"><small><span ng-show="!reverseTenantSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseTenantSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+            <th><a href="#" ng-click="orderByTenant('email', $event)" style="color:black;"><b>EMAIL</b></a>
+            <span ng-show="orderByTenantField == 'email'"><small><span ng-show="!reverseTenantSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseTenantSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+
+            </tr>
+
+        </thead>
+        <tbody>
+          <tr ng-repeat="tenant in tenants| orderBy:orderByTenantField:reverseTenantSort" >
+            <td ng-show="inactiveTenantsFilter"><a href="#/tracts/{{tract.$id}}/tenants/{{tenant.$id}}" ><span ng-show="tenantInactive(tenant.inactive)" class="label label-danger" >Inactive</span></a></td>
+            <td><a href="#/tracts/{{tract.$id}}/tenants/{{tenant.$id}}" ><b>{{tenant.tenantid}}</b></a></td>
+            <td><a href="#/tracts/{{tract.$id}}/tenants/{{tenant.$id}}" ><b>{{tenant.name}}</b></a></td>
+            <td><a href="#/tracts/{{tract.$id}}/tenants/{{tenant.$id}}" ><b>{{tenant.phone1}}</b></a></td>
+            <td><a href="#/tracts/{{tract.$id}}/tenants/{{tenant.$id}}" ><b>{{tenant.phone2}}</b></a></td>
+            <td><a href="#/tracts/{{tract.$id}}/tenants/{{tenant.$id}}" ><b>{{tenant.email}}</b></a></td>
+            <td><a href ="#/tracts/{{tract.$id}}/tenants/{{tenant.$id}}"><span  class="fa fa-edit" ></span></a>
+        </td>
+          </tr>
+        </tbody>
+      </table>
+      <div>
+        <button type="button" id="addNewTenant" class="btn btn-default btn-sm"  ng-click="addNewTenant()"><span class="glyphicon glyphicon-plus" style="color:green"></span > Add Tenant</button>
+        &nbsp;&nbsp;&nbsp;
+        <button type="button" id="InactivateTenant" class="btn btn-{{inactiveTenantsFilter ? 'danger':'default'}} btn-sm"  ng-click="toggleInactiveTenants()"><span class="fa fa-{{inactiveTenantsFilter ? 'ban':'check'}}" style="color:{{inactiveTenantsFilter ? 'white':'black'}}"></span >&nbsp; {{inactiveTenantsFilter ? 'Hide Inactive':'Show Inactive'}}</button>
+
+      </div>
+
+</uib-accordion-group>
+
+
+  <uib-accordion close-others="oneAtATime" >
+    <!-- ------------------------- -->
+    <!-- ----  TITLE DETAILS   ------- -->
+    <!-- ------------------------- -->
+
+    <uib-accordion-group panel-class="box box-default" >
+      <uib-accordion-heading >
+
+          <span class = "accordion-header" ng-click = "toggleTitleSearchAccordion()">TITLE SEARCH DETAILS &nbsp;</span>
+
+        <div class="btn-group pull-right">
+<button class="btn btn-default btn-xs" ng-click="toggleTitleSearchAccordion()"><i class="fa fa-{{!TitleSearchExpanded? 'plus':'minus'}}"></i> <span class = "hidden-xs" style="font-size: small">&nbsp;{{!TitleSearchExpanded? 'View':'Hide'}}</span></button>
+        </div>
+      </uib-accordion-heading>
+
+<div class="row">
+
+      <div class="form-group col-lg-2 col-md-3 col-sm-4">
+        <label>TITLE AGENT</label>
+        <select class="form-control" ng-model = "tract.titleagent" >
+          <option value=""> </option>
+
+          <option ng-repeat="option in fieldagents" value="{{option.name}}">{{option.name}}</option>
+
+        </select>
+      </div>
+
+
+      <div class="form-group col-lg-2 col-md-3 col-sm-4">
+        <label>TITLE COMPLETE</label>
+        <div class = "input-group date" >
+        <input model="tract.titlecomplete" type="text"  ng-datepicker date-options="datepickerOptions" only-date date-valid class="form-control"/>
+          <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group col-lg-4 col-md-4 col-sm-4" >
+        <label>APPROVED BY</label>
+        <div class = "input-group date" >
+  <span class="input-group-addon">{{tract.titleapprovedby | uppercase}}</span>
+        <input type="text" ng-readonly="{{isManager}}" enableOnReadonly="false" ng-datepicker date-options="datepickerOptions" only-date date-valid class="form-control" model="tract.titleapproved"  />
+
+        <span class="input-group-addon">
+                          <span class="glyphicon glyphicon-calendar"></span>
+                      </span>
+                    </div>
+      </div>
+
+      <div class="form-group col-lg-2 col-md-2 col-sm-2">
+        <label>BOOK #</label>
+        <input ng-model="tract.surfacedeedbook" type="text" placeholder='' class="form-control"/>
+      </div>
+
+      <div class="form-group col-lg-2 col-md-2 col-sm-2">
+        <label>PAGE #</label>
+        <input ng-model="tract.surfacedeedpage" type="text" placeholder='' class="form-control"/>
+      </div>
+
+      <div class="form-group col-lg-2 col-md-3 col-sm-3">
+        <label>INSTRUMENT #</label>
+        <input ng-model="tract.surfacedeednumber" type="text" placeholder='' class="form-control"/>
+      </div>
+
+      <div class="form-group col-lg-2 col-md-3 col-sm-3">
+        <label>REGISTRY #</label>
+        <input ng-model="tract.registrynumber" type="text" placeholder='' class="form-control"/>
+      </div>
+
+
+      <div class="form-group col-md-2 col-sm-2">
+        <label>TAX YEAR</label>
+        <input ng-model="tract.taxyear" type="text"  class="form-control"/>
+      </div>
+      <div class="form-group col-md-2 col-sm-2">
+        <label>TAX STATUS</label>
+        <select class="form-control" ng-model = "tract.taxstatus" >
+          <option value="PAID">PAID</option>
+          <option value="NOT PAID">NOT PAID</option>
+      </select>
+    </div>
+
+      <div class="form-group col-md-2 col-sm-2">
+        <label>OPEN LIENS</label>
+        <select class="form-control" ng-model = "tract.openliens" >
+                <option value="YES">YES</option>
+          <option value="NO">NO</option>
+      </select>
+            </div>
+      <div class="form-group col-lg-2 col-md-2 col-sm-2">
+              <label>TAX LIENS</label>
+              <select class="form-control" ng-model = "tract.taxliens" >
+                <option value="YES">YES</option>
+                <option value="NO">NO</option>
+            </select>
+      </div>
+      <div class="form-group col-lg-2 col-md-4 col-sm-4">
+        <label>DELINQUENT AMOUNT</label>
+        <div class="input-group">
+          <span class="input-group-addon">
+            <span class="glyphicon glyphicon-usd"></span>
+          </span>
+          <input type="number" step = ".01" ng-model ='tract.delinquentamount' class="form-control"style="background-color:transparent;color:black"/>
+        </div>
+        </div>
+      <div class="form-group col-lg-2 col-md-3 col-sm-3">
+        <label>ALR EASEMENT BOOK #</label>
+        <input ng-model="tract.originaleasementbook" type="text" placeholder='' class="form-control"/>
+      </div>
+      <div class="form-group col-lg-2 col-md-3 col-sm-3">
+        <label>ALR EASEMENT PAGE # </label>
+        <input ng-model="tract.originaleasementpage" type="text" placeholder='' class="form-control"/>
+      </div>
+      <div class="form-group col-lg-2 col-md-3 col-sm-3">
+        <label>ALR EASEMENT DOC #</label>
+        <input ng-model="tract.originaleasementdocument" type="text" placeholder='' class="form-control"/>
+      </div>
+      <div class="form-group col-lg-2 col-md-3 col-sm-3">
+        <label>ALR EASEMENT DATE</label>
+        <div class = "input-group date" >
+        <input model="tract.originaleasementdate" type="text"  ng-datepicker date-options="datepickerOptions" only-date date-valid class="form-control"/>
+          <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+          </span>
+        </div>
+      </div>
+      <div class="form-group col-lg-2 col-md-3 col-sm-3">
+        <label>ALR EASEMENT FILED</label>
+        <div class = "input-group date" >
+        <input model="tract.originaleasementfiled" type="text"  ng-datepicker date-options="datepickerOptions" only-date date-valid class="form-control"/>
+          <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+          </span>
+        </div>
+      </div>
+      <div class="form-group col-lg-12 col-md-12 col-sm-12">
+        <label>LIENS DESCRIPTION</label>
+        <textarea ng-model="tract.liens" type="text" placeholder='' class="form-control" rows = "2" ></textarea>
+      </div>
+
+    <div class="form-group col-lg-12 col-md-12 col-sm-12">
+        <label>MORTGAGES</label>
+        <textarea ng-model="tract.mortgages" type="text" placeholder='' class="form-control" rows = "2" ></textarea>
+      </div>
+
+      <div class="form-group col-lg-12 col-md-12 col-sm-12">
+        <label>SUITS</label>
+        <textarea ng-model="tract.suits" type="text" placeholder='' class="form-control" rows = "2" ></textarea>
+      </div>
+
+      <div class="form-group col-lg-12 col-md-12 col-sm-12">
+        <label>COMMENTS</label>
+        <textarea ng-model="tract.titlecomments" type="text" placeholder='' class="form-control" rows = "4" ></textarea>
+      </div>
+      <div class="form-group col-lg-12 col-md-12 col-sm-12" >
+        <button type="button" id="SurveyForm" class="btn btn-info btn-sm" ng-click="printTitleCertificate()"><span class="fa fa-file-pdf-o" style="color:white"></span >&nbsp; Print Title Certificate</button>
+      </div> <!--- div style="float:right;" --->
+    </div>
+
+</uib-accordion-group>
+
+<uib-accordion close-others="oneAtATime">
+  <!-- ------------------------- -->
+  <!-- ----  EASEMENTS  ------- -->
+  <!-- ------------------------- -->
+
+  <uib-accordion-group panel-class="box box-default" >
+    <uib-accordion-heading>
+
+      <span class = "accordion-header" ng-click = "toggleEasementsAccordion()">EXISTING EASEMENTS &nbsp;</span><span class="badge" style="background-color:#777">{{totalEasements}}</span>
+      <div class="btn-group pull-right">
+        <button class="btn btn-default btn-xs" ng-click="toggleEasementsAccordion()"><i class="fa fa-{{!EasementsExpanded? 'plus':'minus'}}"></i> <span class = "hidden-xs" style="font-size: small">&nbsp;{{!EasementsExpanded? 'View':'Hide'}}</span></button>
+      </div>
+
+    </uib-accordion-heading>
+
+    <table class="table table-hover" style="overflow-x:scroll; ">
+      <thead>
+        <tr class="panel-heading" >
+
+          <th ng-show="inactiveEasementsFilter"><a href="#" ng-click="orderByEasement('inactive', $event)" style="color:black"><b>INACTIVE</b></a>
+          <span ng-show="orderByEasementField == 'inactive'"><small><span ng-show="!reverseEasementSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseEasementSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+          <th><a href="#" ng-click="orderByEasement('easementid', $event)" style="color:black;"><b>EASEMENT ID</b></a>
+          <span ng-show="orderByEasementField == 'easementid'"><small><span ng-show="!reverseEasementSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseEasementSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+          <th><a href="#" ng-click="orderByEasement('easementdate', $event)" style="color:black;"><b>DATE</b></a>
+          <span ng-show="orderByEasementField == 'easementdate'"><small><span ng-show="!reverseEasementSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseEasementSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+          <th><a href="#" ng-click="orderByEasement('easementgrantor', $event)" style="color:black;"><b>GRANTOR</b></a>
+          <span ng-show="orderByEasementField == 'easementgrantor'"><small><span ng-show="!reverseEasementSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseEasementSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+          <th><a href="#" ng-click="orderByEasement('easementgrantee', $event)" style="color:black;"><b>GRANTEE</b></a>
+            <span ng-show="orderByEasementField == 'easementgrantee'"><small><span ng-show="!reverseEasementSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseEasementSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+          <th><a href="#" ng-click="orderByEasement('easementinstrument', $event)" style="color:black;"><b>INSTRUMENT</b></a>
+            <span ng-show="orderByEasementField == 'easementinstrument'"><small><span ng-show="!reverseEasementSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseEasementSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+          <th><a href="#" ng-click="orderByEasement('easementwidth', $event)" style="color:black;"><b>WIDTH</b></a>
+          <span ng-show="orderByEasementField == 'easementwidth'"><small><span ng-show="!reverseEasementSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseEasementSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+          <th><a href="#" ng-click="orderByEasement('easementexclusive', $event)" style="color:black;"><b>EXCLUSIVE</b></a>
+          <span ng-show="orderByEasementField == 'easementexclusive'"><small><span ng-show="!reverseEasementSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseEasementSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+          </tr>
+
+      </thead>
+      <tbody>
+        <tr ng-repeat="easement in easements| orderBy:orderByEasementField:reverseEasementSort" >
+          <td ng-show="inactiveEasementsFilter"><a href="#/tracts/{{tract.$id}}/easements/{{easement.$id}}" ><span ng-show="easementInactive(easement.inactive)" class="label label-danger" >Inactive</span></a></td>
+          <td><a href="#/tracts/{{tract.$id}}/easements/{{easement.$id}}" ><b>{{easement.easementid}}</b></a></td>
+          <td><a href="#/tracts/{{tract.$id}}/easements/{{easement.$id}}" ><b>{{easement.easementdate}}</b></a></td>
+          <td><a href="#/tracts/{{tract.$id}}/easements/{{easement.$id}}" ><b>{{easement.easementgrantor}}</b></a></td>
+          <td><a href="#/tracts/{{tract.$id}}/easements/{{easement.$id}}" ><b>{{easement.easementgrantee}}</b></a></td>
+          <td><a href="#/tracts/{{tract.$id}}/easements/{{easement.$id}}" ><b>{{easement.easementinstrument}}</b></a></td>
+          <td><a href="#/tracts/{{tract.$id}}/easements/{{easement.$id}}" ><b>{{easement.easementwidth}}</b></a></td>
+          <td><a href="#/tracts/{{tract.$id}}/easements/{{easement.$id}}" ><b>{{easement.easementexclusive}}</b></a></td>
+
+          <td><a href ="#/tracts/{{tract.$id}}/easements/{{easement.$id}}"><span  class="fa fa-edit" ></span></a> </td>
+
+
+        </tr>
+      </tbody>
+    </table>
+    <div>
+      <button type="button" id="addNewEasement" class="btn btn-default btn-sm"  ng-click="addNewEasement()"><span class="glyphicon glyphicon-plus" style="color:green"></span > Add Easement</button>
+        &nbsp;&nbsp;&nbsp;
+        <button type="button" id="InactivateEasement" class="btn btn-{{inactiveEasementsFilter ? 'danger':'default'}} btn-sm"  ng-click="toggleInactiveEasements()"><span class="fa fa-{{inactiveEasementsFilter ? 'ban':'check'}}" style="color:{{inactiveEasementsFilter ? 'white':'black'}}"></span >&nbsp; {{inactiveEasementsFilter ? 'Hide Inactive':'Show Inactive'}}</button>
+
+    </div>
+
+
+</uib-accordion-group>
+
+<uib-accordion close-others="oneAtATime" >
+  <!-- ------------------------- -->
+  <!-- ----  SURVEY PERMISSION  ------- -->
+  <!-- ------------------------- -->
+
+  <uib-accordion-group panel-class="box box-default" >
+    <uib-accordion-heading>
+
+      <span class = "accordion-header" ng-click = "toggleSurveyPermissionAccordion()">SURVEY PERMISSION &nbsp;</span>
+
+      <div class="btn-group pull-right">
+        <button class="btn btn-default btn-xs" ng-click="toggleSurveyPermissionAccordion()"><i class="fa fa-{{!SurveyPermissionExpanded? 'plus':'minus'}}"></i> <span class = "hidden-xs" style="font-size: small">&nbsp;{{!SurveyPermissionExpanded? 'View':'Hide'}}</span></button>
+      </div>
+
+    </uib-accordion-heading>
+
+
+
+  <div class="row" >
+
+
+    <div class="form-group col-md-3 col-sm-4">
+      <label>DATE CONTACTED</label>
+      <div class = "input-group date" >
+      <input model="tract.ownercontacteddate" type="text"  ng-datepicker date-options="datepickerOptions" only-date date-valid class="form-control"/>
+        <span class="input-group-addon">
+          <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+      </div>
+    </div>
+    <div class="form-group col-md-3 col-sm-4">
+      <label>SURVEY GRANTED</label>
+      <div class = "input-group date" >
+      <input type="text" ng-datepicker date-options="datepickerOptions" only-date date-valid class="form-control" model="tract.surveypermission"/>
+      <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                  </div>
+    </div>
+
+    <div class="form-group col-md-3 col-sm-4">
+      <label>SURVEY DENIED</label>
+      <div class = "input-group date" >
+      <input type="text" ng-datepicker date-options="datepickerOptions" only-date date-valid class="form-control" model="tract.surveydenied"/>
+      <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                  </div>
+    </div>
+    <div class="form-group col-lg-3 col-md-3 col-sm-4">
+      <label>SPECIAL CONDITIONS</label>
+      <select class="form-control" ng-model = "tract.specialconditions" >
+        <option value=""> </option>
+        <option value="YES">YES</option>
+        <option value="NO">NO</option>
+      </select>
+    </div>
+
+    <div class="form-group col-lg-6 col-md-4 col-sm-4">
+      <label>LAND OWNER CONTACTED</label>
+      <select class="form-control" ng-model = "tract.ownercontacted" >
+        <option value=""> </option>
+        <option ng-repeat="option in owners" value="{{option.$id}}">{{option.name}}</option>
+
+      </select>
+
+    </div>
+
+
+    <div class="form-group col-lg-3 col-md-3 col-sm-4">
+      <label>METHOD</label>
+      <select class="form-control" ng-model = "tract.surveypermissiontype" >
+        <option value=""> </option>
+        <option value="VERBAL">VERBAL</option>
+        <option value="WRITTEN">WRITTEN</option>
+      </select>
+    </div>
+    <div class="form-group col-lg-3 col-md-3 col-sm-6">
+      <label>OBTAINED BY</label>
+      <select class="form-control" ng-model = "tract.surveyagent" >
+        <option value=""> </option>
+
+        <option ng-repeat="option in fieldagents" value="{{option.name}}">{{option.name}}</option>
+
+      </select>
+    </div>
+    <div class="form-group col-lg-3 col-md-3 col-sm-4" >
+      <label>APPROVED BY</label>
+      <div class = "input-group date" >
+<span class="input-group-addon">{{tract.surveypermissionapprovedby | uppercase}}</span>
+      <input type="text" ng-readonly="{{isManager}}" enableOnReadonly="false" ng-datepicker date-options="datepickerOptions" only-date date-valid class="form-control" model="tract.surveypermissionapproved"  />
+
+      <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                  </div>
+    </div>
+
+
+    <div class="form-group col-lg-12 col-md-12 col-sm-12">
+      <label>ACCESS NOTES</label>
+      <textarea ng-model="tract.accessnotes" type="text" placeholder='' class="form-control" rows = "4"  maxlength="365"></textarea>
+    </div>
+    <div class="form-group col-lg-12 col-md-12 col-sm-12">
+      <label>COMMENTS</label>
+      <textarea ng-model="tract.surveycomments" type="text" placeholder='' class="form-control" rows = "4" maxlength="438"></textarea>
+    </div>
+    <div class="form-group col-lg-12 col-md-12 col-sm-12" >
+      <button type="button" id="SurveyForm" class="btn btn-info btn-sm" ng-click="printSurveyForm()"><span class="fa fa-file-pdf-o" style="color:white"></span >&nbsp; Print Survey Form</button>
+    </div> <!--- div style="float:right;" --->
+
+  </div>
+
+</uib-accordion-group>
+
+<uib-accordion close-others="oneAtATime" >
+  <!-- ------------------------- -->
+  <!-- ----  CIVIL SURVEY  ------- -->
+  <!-- ------------------------- -->
+
+  <uib-accordion-group panel-class="box box-default"   >
+    <uib-accordion-heading>
+
+      <span class = "accordion-header" ng-click = "toggleCivilSurveyAccordion()">CIVIL SURVEY &nbsp;</span>
+
+      <div class="btn-group pull-right">
+        <button class="btn btn-default btn-xs" ng-click="toggleCivilSurveyAccordion()"><i class="fa fa-{{!CivilSurveyExpanded? 'plus':'minus'}}"></i> <span class = "hidden-xs" style="font-size: small">&nbsp;{{!CivilSurveyExpanded? 'View':'Hide'}}</span></button>
+      </div>
+
+    </uib-accordion-heading>
+
+
+
+  <div class="row" >
+
+
+    <div class="form-group col-lg-3 col-md-3 col-sm-6">
+      <label>ONE-CALL DATE</label>
+      <div class="input-group">
+
+      <input type="text" model="tract.onecalldate" ng-datepicker date-options="datepickerOptions" only-date date-valid class="form-control"  /></input>
+      <div class="input-group-btn">
+        <button type="button" class="btn btn-default dropdown-toggle" ng-click="insertCurrentDate('onecalldate')"
+          data-toggle="tooltip" data-placement="bottom" title="Insert current date"><span class="glyphicon glyphicon-calendar"></span></button>
+      </div><!-- /btn-group -->
+    </div>
+
+    </div>
+
+    <div class="form-group col-lg-3 col-md-3 col-sm-6">
+    <label>ONE-CALL TICKET</label>
+    <input ng-model="tract.onecallticket" type="text" placeholder='' class="form-control" />
+    </div>
+
+        <div class="form-group col-lg-3 col-md-3 col-sm-6">
+          <label>SURVEY COMPLETE</label>
+          <div class="input-group">
+
+          <input type="text" model="tract.civilsurveycomplete" ng-datepicker date-options="datepickerOptions" only-date date-valid class="form-control"  /></input>
+          <div class="input-group-btn">
+            <button type="button" class="btn btn-default dropdown-toggle" ng-click="insertCurrentDate('civilsurveycomplete')"
+              data-toggle="tooltip" data-placement="bottom" title="Insert current date"><span class="glyphicon glyphicon-calendar"></span></button>
+          </div><!-- /btn-group -->
+        </div>
+
+        </div>
+
+        <div class="form-group col-lg-3 col-md-3 col-sm-6" >
+              <label>APPROVED BY</label>
+              <div class = "input-group date" >
+        <span class="input-group-addon">{{tract.civilsurveyapprovedby | uppercase}}</span>
+              <input type="text" ng-readonly="{{isManager}}" enableOnReadonly="false" ng-datepicker date-options="datepickerOptions" only-date date-valid class="form-control" model="tract.civilsurveyapproved"  />
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" ng-click="insertCurrentDate('civilsurveyapproved')"
+                  data-toggle="tooltip" data-placement="bottom" title="Insert current date"><span class="glyphicon glyphicon-calendar"></span></button>
+              </div><!-- /btn-group -->
+                          </div>
+            </div>
+
+    <div class="form-group col-lg-3 col-md-3 col-sm-6">
+      <label>PROBE TYPE</label>
+      <select class="form-control" ng-model = "tract.civilprobetype" >
+        <option value=""> </option>
+        <option value="HAND PROBE">HAND PROBE</option>
+        <option value="RADIO DETECTION">RADIO DETECTION</option>
+        <option value="POT HOLE">POT HOLE</option>
+
+      </select>
+    </div>
+
+    <div class="form-group col-lg-3 col-md-3 col-sm-6" >
+      <label>PROBE DEPTH</label>
+      <div class = "input-group date" >
+      <input type="number" step="0.01" class="form-control" ng-model="tract.civilprobedepth"  />
+      <span class="input-group-addon">Inches</span>
+
+                  </div>
+    </div>
+    <div class="form-group col-lg-3 col-md-3 col-sm-6">
+      <label>4-WAY SWEEPS COMPLETE</label>
+      <select class="form-control" ng-model = "tract.fourwaysweeps" >
+        <option value=""> </option>
+        <option value="YES">YES</option>
+        <option value="NO">NO</option>
+      </select>
+    </div>
+    <div class="form-group col-lg-3 col-md-3 col-sm-6">
+      <label>FOREIGN UTILITIES</label>
+      <select class="form-control" ng-model = "tract.foreignutilites" >
+        <option value=""> </option>
+        <option value="YES">YES</option>
+        <option value="NO">NO</option>
+      </select>
+    </div>
+    <div class="form-group col-lg-12 col-md-12 col-sm-12">
+    <label>SOIL TYPE</label>
+    <input ng-model="tract.civilsurveysoiltype" type="text" placeholder='' class="form-control" />
+    </div>
+<div class="form-group col-lg-12 col-md-12 col-sm-12">
+<label>SURVEY PARTY</label>
+<textarea ng-model="tract.civilsurveyparty" type="text" placeholder='' class="form-control" rows = "2" ></textarea>
+</div>
+
+    <div class="form-group col-lg-12 col-md-12 col-sm-12">
+      <label>WEATHER</label>
+      <textarea ng-model="tract.civilsurveyweather" type="text" placeholder='' class="form-control" rows = "2" ></textarea>
+    </div>
+
+    <div class="form-group col-lg-12 col-md-12 col-sm-12">
+      <label>SITE CONDITIONS</label>
+      <textarea ng-model="tract.civilsiteconditions" type="text" placeholder='' class="form-control" rows = "2" ></textarea>
+    </div>
+
+    <div class="form-group col-lg-12 col-md-12 col-sm-12">
+      <label>HIGH CONSEQUENCE AREAS</label>
+      <textarea ng-model="tract.civilsurveyhca" type="text" placeholder='' class="form-control" rows = "2" ></textarea>
+    </div>
+
+    <div class="form-group col-lg-12 col-md-12 col-sm-12">
+      <label>COMMENTS</label>
+      <textarea ng-model="tract.civilsurveycomments" type="text" placeholder='' class="form-control" rows = "5" ></textarea>
+    </div>
+
+
+  </div>
+
+</uib-accordion-group>
+
+<uib-accordion close-others="oneAtATime" >
+  <!-- ------------------------- -->
+  <!-- ----  ENVIRONMENTAL SURVEY  ------- -->
+  <!-- ------------------------- -->
+
+  <uib-accordion-group panel-class="box box-default" >
+    <uib-accordion-heading>
+
+      <span class = "accordion-header" ng-click = "toggleEnvironmentalSurveyAccordion()">ENVIRONMENTAL SURVEY &nbsp;</span>
+
+      <div class="btn-group pull-right">
+        <button class="btn btn-default btn-xs" ng-click="toggleEnvironmentalSurveyAccordion()"><i class="fa fa-{{!EnvironmentalSurveyExpanded? 'plus':'minus'}}"></i> <span class = "hidden-xs" style="font-size: small">&nbsp;{{!EnvironmentalSurveyExpanded? 'View':'Hide'}}</span></button>
+      </div>
+
+    </uib-accordion-heading>
+
+
+
+  <div class="row" >
+    <div class="form-group col-lg-3 col-md-3 col-sm-6">
+      <label>BIOLOGICAL SURVEY</label>
+      <div class="input-group">
+
+      <input type="text" model="tract.biosurvey" ng-datepicker date-options="datepickerOptions" only-date date-valid class="form-control"  /></input>
+      <div class="input-group-btn">
+        <button type="button" class="btn btn-default dropdown-toggle" ng-click="insertCurrentDate('biosurvey')"
+          data-toggle="tooltip" data-placement="bottom" title="Insert current date"><span class="glyphicon glyphicon-calendar"></span></button>
+      </div><!-- /btn-group -->
+    </div>
+
+    </div>
+
+    <div class="form-group col-lg-3 col-md-3 col-sm-6">
+      <label>CULTURAL SURVEY</label>
+      <div class="input-group">
+
+      <input type="text" model="tract.culturalsurvey" ng-datepicker date-options="datepickerOptions" only-date date-valid class="form-control"  /></input>
+      <div class="input-group-btn">
+        <button type="button" class="btn btn-default dropdown-toggle" ng-click="insertCurrentDate('culturalsurvey')"
+          data-toggle="tooltip" data-placement="bottom" title="Insert current date"><span class="glyphicon glyphicon-calendar"></span></button>
+      </div><!-- /btn-group -->
+    </div>
+
+    </div>
+    <div class="form-group col-lg-3 col-md-3 col-sm-6" >
+          <label>APPROVED BY</label>
+          <div class = "input-group date" >
+    <span class="input-group-addon">{{tract.environmentalsurveyapprovedby | uppercase}}</span>
+          <input type="text" ng-readonly="{{isManager}}" enableOnReadonly="false" ng-datepicker date-options="datepickerOptions" only-date date-valid class="form-control" model="tract.environmentalsurveyapproved"  />
+          <div class="input-group-btn">
+            <button type="button" class="btn btn-default dropdown-toggle" ng-click="insertCurrentDate('environmentalsurveyapproved')"
+              data-toggle="tooltip" data-placement="bottom" title="Insert current date"><span class="glyphicon glyphicon-calendar"></span></button>
+          </div><!-- /btn-group -->
+                      </div>
+        </div>
+        <div class="form-group col-lg-3 col-md-3 col-sm-6">
+          <label>TREE CLEARING</label>
+          <select class="form-control" ng-model = "tract.treeclearing" >
+            <option value=""> </option>
+            <option value="YES">YES</option>
+            <option value="NO">NO</option>
+          </select>
+        </div>
+        <div class="form-group col-lg-3 col-md-3 col-sm-6">
+          <label>WETLAND / WATERBODY</label>
+          <select class="form-control" ng-model = "tract.wetland" >
+            <option value=""> </option>
+            <option value="YES">YES</option>
+            <option value="NO">NO</option>
+          </select>
+        </div>
+        <div class="form-group col-lg-3 col-md-3 col-sm-6">
+          <label>ADJACENT WETLAND</label>
+          <select class="form-control" ng-model = "tract.adjacentwetland" >
+            <option value=""> </option>
+            <option value="YES">YES</option>
+            <option value="NO">NO</option>
+          </select>
+        </div>
+        <div class="form-group col-lg-3 col-md-3 col-sm-6">
+          <label>ARCHAEOLOGICAL SITE</label>
+          <select class="form-control" ng-model = "tract.archaeologicalsite" >
+            <option value=""> </option>
+            <option value="YES">YES</option>
+            <option value="NO">NO</option>
+          </select>
+        </div>
+        <div class="form-group col-lg-3 col-md-3 col-sm-6">
+            <label>AREA RESTRICTIONS</label>
+          <select class="form-control" ng-model = "tract.arearestrictions" >
+            <option value=""> </option>
+            <option value="YES">YES</option>
+            <option value="NO">NO</option>
+          </select>
+        </div>
+        <div class="form-group col-lg-3 col-md-3 col-sm-6">
+          <label>FEDERAL LAND</label>
+          <select class="form-control" ng-model = "tract.federalland" >
+            <option value=""> </option>
+            <option value="YES">YES</option>
+            <option value="NO">NO</option>
+          </select>
+        </div>
+        <div class="form-group col-lg-3 col-md-3 col-sm-6">
+          <label>STATE LAND</label>
+          <select class="form-control" ng-model = "tract.stateland" >
+            <option value=""> </option>
+            <option value="YES">YES</option>
+            <option value="NO">NO</option>
+          </select>
+        </div>
+        <div class="form-group col-lg-3 col-md-3 col-sm-6">
+          <label>NATIVE AMERICAN LAND</label>
+          <select class="form-control" ng-model = "tract.nativeamericanland" >
+            <option value=""> </option>
+            <option value="YES">YES</option>
+            <option value="NO">NO</option>
+          </select>
+        </div>
+
+        <div class="form-group col-lg-3 col-md-3 col-sm-6">
+          <label>LEVEES</label>
+          <select class="form-control" ng-model = "tract.levees" >
+            <option value=""> </option>
+            <option value="YES">YES</option>
+            <option value="NO">NO</option>
+          </select>
+        </div>
+        <div class="form-group col-lg-3 col-md-3 col-sm-6">
+          <label>COASTAL ZONE</label>
+          <select class="form-control" ng-model = "tract.coastalzone" >
+            <option value=""> </option>
+            <option value="YES">YES</option>
+            <option value="NO">NO</option>
+          </select>
+        </div>
+        <div class="form-group col-lg-9 col-md-9 col-sm-12">
+          <label>WEATHER</label>
+          <input ng-model="tract.environmentalweather" type="text" placeholder='' class="form-control" />
+        </div>
+
+        <div class="form-group col-lg-12 col-md-12 col-sm-12">
+          <label>SITE CONDITIONS</label>
+          <textarea ng-model="tract.environmentalsiteconditions" type="text" placeholder='' class="form-control" rows = "2" ></textarea>
+        </div>
+        <div class="form-group col-lg-12 col-md-12 col-sm-12">
+          <label>COMMENTS</label>
+          <textarea ng-model="tract.environmentalcomments" type="text" placeholder='' class="form-control" rows = "5" ></textarea>
+        </div>
+  </div>
+
+</uib-accordion-group>
+
+
+<uib-accordion close-others="oneAtATime">
+  <!-- ------------------------- -->
+  <!-- ----  ACQUISITION DETAILS   ------- -->
+  <!-- ------------------------- -->
+
+            <uib-accordion-group panel-class="box box-default" >
+              <uib-accordion-heading>
+
+                <span class = "accordion-header" ng-click="toggleAcquisitionAccordion()">ACQUISITION &nbsp;</span>
+                <div class="btn-group pull-right">
+                  <button class="btn btn-default btn-xs" ng-click="toggleAcquisitionAccordion()"><i class="fa fa-{{!AcquisitionDetailsExpanded? 'plus':'minus'}}"></i> <span class = "hidden-xs" style="font-size: small">&nbsp;{{!AcquisitionDetailsExpanded? 'View':'Hide'}}</span></button>
+                </div>
+
+              </uib-accordion-heading>
+              <div class="row">
+
+                <div class="form-group col-lg-3 col-md-4 col-sm-4">
+                  <label>ACQUISITION AGENT</label>
+                  <select class="form-control" ng-model = "tract.acquisitionagent" >
+                    <option value=""> </option>
+
+                    <option ng-repeat="option in fieldagents" value="{{option.name}}">{{option.name}}</option>
+
+                  </select>
+                </div>
+                <div class="form-group col-lg-2 col-md-4 col-sm-4">
+                  <label>NEGOTIATIONS</label>
+                  <select class="form-control" ng-model = "tract.negotiations" >
+                    <option value=""> </option>
+                    <option value="IN PROGRESS">IN PROGRESS</option>
+                    <option value="COMPLETE">COMPLETE</option>
+                  </select>
+                </div>
+                <div class="form-group col-lg-2 col-md-4 col-sm-4">
+                  <label>CONDEMNATION</label>
+                  <select class="form-control" ng-model = "tract.condemnation" >
+                    <option value=""> </option>
+                    <option value="RECOMMENDED">RECOMMENDED</option>
+
+                  </select>
+                </div>
+
+              <div class="form-group col-lg-2 col-md-4 col-sm-4">
+                <label>ACQUIRED DATE</label>
+                <div class = "input-group date" >
+                <input type="text" ng-datepicker date-options="datepickerOptions" only-date date-valid class="form-control" model="tract.acquireddate"/>
+                <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+                </div>
+              </div>
+
+
+            <div class="form-group col-lg-3 col-md-4 col-sm-6" >
+            <label>APPROVED BY</label>
+            <div class = "input-group date" >
+            <span class="input-group-addon">{{tract.acquisitionapprovedby | uppercase}}</span>
+            <input type="text" ng-readonly="{{isManager}}" enableOnReadonly="false" ng-datepicker date-options="datepickerOptions" only-date date-valid class="form-control" model="tract.acquisitionapproved"  />
+            <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+            </div>
+            </div>
+
+    <div class="form-group col-lg-12 col-md-12 col-sm-12">
+    <label>COMMENTS</label>
+    <textarea ng-model="tract.acquisitioncomments" ng-model-options = "{debounce: {'default': 500}}"type="text" placeholder='' class="form-control" rows = "8" ></textarea>
+    </div>
+
+</div>
+          </uib-accordion-group>
+          <uib-accordion close-others="oneAtATime">
+            <!-- ------------------------- -->
+            <!-- ----  CONTACT REPORTS  ------- -->
+            <!-- ------------------------- -->
+
+            <uib-accordion-group panel-class="box box-default" >
+              <uib-accordion-heading>
+
+                <span class = "accordion-header" ng-click = "toggleContactReportsAccordion()">CONTACT REPORTS &nbsp;</span><span class="badge" style="background-color:#777">{{totalContactReports}}</span>
+                <div class="btn-group pull-right">
+                  <button class="btn btn-default btn-xs" ng-click="toggleContactReportsAccordion()"><i class="fa fa-{{!ContactReportsExpanded? 'plus':'minus'}}"></i> <span class = "hidden-xs" style="font-size: small">&nbsp;{{!ContactReportsExpanded? 'View':'Hide'}}</span></button>
+                </div>
+
+              </uib-accordion-heading>
+
+              <table class="table table-hover" style="overflow-x:scroll; ">
+                <thead>
+                  <tr class="panel-heading" >
+
+                    <th ng-show="inactiveContactReportFilter"><a href="#" ng-click="orderByContactReport('inactive', $event)" style="color:black"><b>INACTIVE</b></a>
+                    <span ng-show="orderByContactReportField == 'inactive'"><small><span ng-show="!reverseContactReportSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseContactReportSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+                    <th><a href="#" ng-click="orderByContactReport('contactdate', $event)" style="color:black;"><b>DATE</b></a>
+                    <span ng-show="orderByContactReportField == 'contactdate'"><small><span ng-show="!reverseContactReportSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseContactReportSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+                    <th><a href="#" ng-click="orderByContactReport('contactperson', $event)" style="color:black;"><b>CONTACTED</b></a>
+                    <span ng-show="orderByContactReportField == 'contactperson'"><small><span ng-show="!reverseContactReportSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseContactReportSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+                    <th><a href="#" ng-click="orderByContactReport('subject', $event)" style="color:black;"><b>SUBJECT</b></a>
+                    <span ng-show="orderByContactReportField == 'subject'"><small><span ng-show="!reverseContactReportSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseContactReportSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+                    <th><a href="#" ng-click="orderByContactReport('phase', $event)" style="color:black;"><b>PHASE</b></a>
+                    <span ng-show="orderByContactReportField == 'phase'"><small><span ng-show="!reverseContactReportSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseContactReportSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+                    <th><a href="#" ng-click="orderByContactReport('method', $event)" style="color:black;"><b>METHOD</b></a>
+                    <span ng-show="orderByContactReportField == 'method'"><small><span ng-show="!reverseContactReportSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseContactReportSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+                    <th><a href="#" ng-click="orderByContactReport('rowagent', $event)" style="color:black;"><b>AGENT</b></a>
+                    <span ng-show="orderByContactReportField == 'rowagent'"><small><span ng-show="!reverseContactReportSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseContactReportSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+                    </tr>
+
+                </thead>
+                <tbody>
+                  <tr ng-repeat="report in contactreports| orderBy:orderByContactReportField:reverseContactReportSort" >
+                    <td ng-show="inactiveContactReportFilter"><a href="#/tracts/{{tract.$id}}/contactreports/{{report.$id}}" ><span ng-show="contactReportInactive(report.inactive)" class="label label-danger" >Inactive</span></a></td>
+                    <td><a href="#/tracts/{{tract.$id}}/contactreports/{{report.$id}}" ><b>{{report.contactdate}}</b></a></td>
+                    <td><a href="#/tracts/{{tract.$id}}/contactreports/{{report.$id}}" ><b>{{report.name}}</b></a></td>
+                    <td><a href="#/tracts/{{tract.$id}}/contactreports/{{report.$id}}" ><b>{{report.subject}}</b></a></td>
+                    <td><a href="#/tracts/{{tract.$id}}/contactreports/{{report.$id}}" ><b>{{report.phase}}</b></a></td>
+                    <td><a href="#/tracts/{{tract.$id}}/contactreports/{{report.$id}}" ><b>{{report.method}}</b></a></td>
+                    <td><a href="#/tracts/{{tract.$id}}/contactreports/{{report.$id}}" ><b>{{report.rowagent}}</b></a></td>
+                    <td><a href ="#/tracts/{{tract.$id}}/contactreports/{{report.$id}}"><span  class="fa fa-edit" ></span></a> </td>
+
+
+
+
+
+                  </tr>
+                </tbody>
+              </table>
+              <div>
+                <button type="button" id="addNewContactReport" class="btn btn-default btn-sm"  ng-click="addNewContactReport()"><span class="glyphicon glyphicon-plus" style="color:green"></span > Add Contact Report</button>
+                  &nbsp;&nbsp;&nbsp;
+                  <button type="button" id="InactivateContactReport" class="btn btn-{{inactiveContactReportFilter ? 'danger':'default'}} btn-sm"  ng-click="toggleInactiveContactReports()"><span class="fa fa-{{inactiveContactReportFilter ? 'ban':'check'}}" style="color:{{inactiveContactReportFilter ? 'white':'black'}}"></span >&nbsp; {{inactiveContactReportFilter ? 'Hide Inactive':'Show Inactive'}}</button>
+
+              </div>
+
+          </uib-accordion-group>
+          <uib-accordion close-others="oneAtATime">
+            <!-- ------------------------- -->
+            <!-- ----  CONSTRUCTION DETAILS   ------- -->
+            <!-- ------------------------- -->
+
+                      <uib-accordion-group panel-class="box box-default" >
+                        <uib-accordion-heading>
+
+                          <span class = "accordion-header" ng-click="toggleConstructionAccordion()">CONSTRUCTION &nbsp;</span>
+                          <div class="btn-group pull-right">
+                            <button class="btn btn-default btn-xs" ng-click="toggleConstructionAccordion()"><i class="fa fa-{{!ConstructionExpanded? 'plus':'minus'}}"></i> <span class = "hidden-xs" style="font-size: small">&nbsp;{{!ConstructionExpanded? 'View':'Hide'}}</span></button>
+                          </div>
+
+                        </uib-accordion-heading>
+                        <div class="row">
+                          <div class="form-group col-lg-2 col-md-4 col-sm-6">
+                                <label>CONSTRUCTION AGENT</label>
+                                <select class="form-control" ng-model = "tract.constructionagent" >
+                                    <option value=""> </option>
+
+                                    <option ng-repeat="option in fieldagents" value="{{option.name}}">{{option.name}}</option>
+                                </select>
+                              </div>
+                      <div class="form-group col-lg-2 col-md-4 col-sm-6">
+                            <label>CROPS</label>
+                            <input type="text" ng-model="tract.constructioncrops" class="form-control">
+                          </div>
+                          <div class="form-group col-lg-2 col-md-4 col-sm-6">
+                                <label>DAMAGES PAID</label>
+                                <select class="form-control" ng-model = "tract.damagespaid" >
+                                  <option value=""> </option>
+                                  <option value="YES">YES</option>
+                                  <option value="NO">NO</option>
+                                </select>
+                              </div>
+                              <div class="form-group col-lg-2 col-md-4 col-sm-6">
+                                    <label>RELEASE SIGNED</label>
+                                    <select class="form-control" ng-model = "tract.releasesigned" >
+                                      <option value=""> </option>
+                                      <option value="YES">YES</option>
+                                      <option value="NO">NO</option>
+                                    </select>
+                                  </div>
+              <div class="form-group col-lg-12 col-md-12 col-sm-12">
+              <label>CONTRACTOR REQUIREMENTS</label>
+              <textarea ng-model="tract.contractorrequirements" ng-model-options = "{debounce: {'default': 500}}"type="text" placeholder='' class="form-control" rows = "8" ></textarea>
+              </div>
+              <div class="form-group col-lg-12 col-md-12 col-sm-12">
+              <label>COMPANY REQUIREMENTS</label>
+              <textarea ng-model="tract.companyrequirements" ng-model-options = "{debounce: {'default': 500}}"type="text" placeholder='' class="form-control" rows = "8" ></textarea>
+              </div>
+
+          </div>
+                    </uib-accordion-group>
+<uib-accordion close-others="oneAtATime">
+  <!-- ------------------------- -->
+  <!-- ----  ROW COST DETAILS   ------- -->
+  <!-- ------------------------- -->
+
+            <uib-accordion-group panel-class="box box-default" >
+              <uib-accordion-heading>
+
+                <span class = "accordion-header" ng-click="toggleCostDetailsAccordion()">COST DETAILS &nbsp;</span>
+                <div class="btn-group pull-right">
+                  <button class="btn btn-default btn-xs" ng-click="toggleCostDetailsAccordion()"><i class="fa fa-{{!CostDetailsExpanded? 'plus':'minus'}}"></i> <span class = "hidden-xs" style="font-size: small">&nbsp;{{!CostDetailsExpanded? 'View':'Hide'}}</span></button>
+              </div>
+
+              </uib-accordion-heading>
+              <div class="row">
+                <div class="form-group col-lg-2 col-md-4 col-sm-4">
+                  <label>RIGHT-OF-WAY</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">
+                      <span class="glyphicon glyphicon-usd"></span>
+                    </span>
+                    <input type="text" value="{{rowcostTotal|number:2}}" class="form-control" readonly="true" style="background-color:transparent;color:black"/>
+                  </div>
+                  </div>
+                  <div class="form-group col-lg-2 col-md-4 col-sm-4">
+                    <label>TEMPORARY WORKSPACE</label>
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-usd"></span>
+                      </span>
+                      <input type="text" value="{{tempworkspaceTotal|number:2}}" class="form-control" readonly="true" style="background-color:transparent;color:black"/>
+                    </div>
+                  </div>
+
+                    <div class="form-group col-lg-2 col-md-4 col-sm-4">
+                      <label>ADDITIONAL WORKSPACE</label>
+                      <div class="input-group">
+                        <span class="input-group-addon">
+                          <span class="glyphicon glyphicon-usd"></span>
+                        </span>
+                        <input type="text" value="{{atwsTotal|number:2}}" class="form-control" readonly="true" style="background-color:transparent;color:black"/>
+                      </div>
+                      </div>
+                      <div class="form-group col-lg-2 col-md-4 col-sm-4">
+                        <label>ACCESS ROUTE</label>
+                        <div class="input-group">
+                          <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-usd"></span>
+                          </span>
+                          <input type="text" value="{{accessTotal|number:2}}" class="form-control" readonly="true" style="background-color:transparent;color:black"/>
+                        </div>
+                        </div>
+                        <div class="form-group col-lg-2 col-md-4 col-sm-4">
+                          <label>DAMAGES</label>
+                          <div class="input-group">
+                            <span class="input-group-addon">
+                              <span class="glyphicon glyphicon-usd"></span>
+                            </span>
+                            <input type="text" value="{{damagesTotal|number:2}}" class="form-control" readonly="true" style="background-color:transparent;color:black"/>
+                          </div>
+                          </div>
+                          <div class="form-group col-lg-2 col-md-4 col-sm-4">
+                            <label>VALVES</label>
+                            <div class="input-group">
+                              <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-usd"></span>
+                              </span>
+                              <input type="text" value="{{valvesTotal|number:2}}" class="form-control" readonly="true" style="background-color:transparent;color:black"/>
+                            </div>
+                            </div>
+                          <div class="form-group col-lg-2 col-md-4 col-sm-4">
+                            <label>OTHER COSTS</label>
+                            <div class="input-group">
+                              <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-usd"></span>
+                              </span>
+                            <input type="text" value="{{otherTotal|number:2}}" class="form-control" readonly="true" style="background-color:transparent;color:black"/>
+                            </div>
+                            </div>
+
+
+                <div class="form-group col-lg-2 col-md-3 col-sm-4">
+                  <label>TOTAL COST</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">
+                      <span class="glyphicon glyphicon-usd"></span>
+                    </span>
+                    <input type="text" value="{{grandTotal|number:2}}" class="form-control" readonly="true" style="background-color:transparent;color:green;font-weight:bold"/>
+
+                  </div>
+                </div>
+
+          </uib-accordion-group>
+
+
+        </uib-accordion> <!-- end of accordion -->
+
+        <div class="box-tools pull-right" style="margin:10px 0px 10px 0px">
+          <button type="button" id="InactivateTract" class="btn btn-{{inactiveFilter ? 'success':'danger'}} btn-md"  ng-click="toggleInactive()"><span class="fa fa-{{inactiveFilter ? 'check':'ban'}}" style="color:white"></span >&nbsp; {{inactiveFilter ? 'Activate':'Inactivate'}}</button>
+        </div> <!--- div style="float:right;" --->
+
+</div>
+
+
+</div>
+</section>

@@ -1,0 +1,303 @@
+<section class="content-header">
+  <h1>
+    Check No. &nbsp; <b>{{paymentdata.checkno}}</b>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a href="#/tracts/{{tract.$id}}"><i class="fa fa-square-o"></i> Tract {{tract.tract}}</a></li>
+    <li><a href="#/tracts/{{tract.$id}}/landowners/{{ownerdata.$id}}"><i class="glyphicon glyphicon-user"></i>&nbsp; {{tenantname}}</a></li>
+    <li class="active">Check {{paymentdata.checkno}} &nbsp;</li>
+  </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="nav-tabs-custom">
+      <div class="box-tools pull-right" style="margin: 5px 10px" >
+        <a href="#/tracts/{{tract.$id}}/tenants/{{tenantdata.$id}}" class="btn btn-primary btn-md" role="button"><span class="fa fa-arrow-left" ></span >&nbsp; {{tenantname}} </a>
+      </div> <!--- div style="float:right;" --->
+      <ul class="nav nav-tabs">
+        <li class="active"><a>Details</a></li>
+
+    </ul>
+
+
+      <br>
+      <div class="container-fluid">
+
+      <uib-accordion close-others="oneAtATime" class="uib">
+            <!-- ------------------------- -->
+            <!-- ----  PAYMENT DETAILS   ------- -->
+            <!-- ------------------------- -->
+
+            <uib-accordion-group panel-class="box box-default" >
+              <uib-accordion-heading class="accordion-heading">
+                  <span class = "accordion-header" ng-click="togglePaymentsAccordion()">PAYMENT DETAILS &nbsp;</span>
+                <div class="btn-group pull-right">
+                  <button class="btn btn-default btn-xs" ng-click="togglePaymentsAccordion()"><i class="fa fa-{{!PaymentsExpanded? 'plus':'minus'}}"></i> <span class = "hidden-xs" style="font-size: small">&nbsp;{{!PaymentsExpanded? 'View':'Hide'}}</span></button>
+                </div>
+              </uib-accordion-heading>
+
+
+            <div class="row">
+
+              <div class="form-group col-lg-2 col-md-3 col-sm-4">
+                <label>DATE
+                    <span class="label label-danger" ng-show="local.duplicateweld"><i class="fa fa-exclamation-circle"></i> Duplicate No. </span></label>
+                    <input type="text" model="paymentdata.checkdate" ng-datepicker date-options="datepickerOptions" only-date date-valid class="form-control"  />
+              </div>
+
+              <div class="form-group col-lg-2 col-md-3 col-sm-4">
+                <label>CHECK NO.</label>
+                <input ng-model="paymentdata.checkno" type="text" class="form-control"/>
+              </div>
+              <div class="form-group col-lg-3 col-md-6 col-sm-9">
+                <label>PAY TO</label>
+                <input ng-model="paymentdata.tenantpayeename" placeholder="{{tenantname}}" type="text" class="form-control" style="background-color:transparent;"/>
+              </div>
+              <div class="form-group col-lg-5 col-md-12 col-sm-9">
+                <label>STREET ADDRESS
+                    <span class="label label-danger" ng-show="local.duplicateweld"><i class="fa fa-exclamation-circle"></i> Duplicate No. </span></label>
+                <input  ng-model="paymentdata.tenantpayeeaddress" placeholder="{{street}}" type="text" class="form-control" style="background-color:transparent"/>
+              </div>
+
+              <div class="form-group col-lg-2 col-md-3 col-sm-4">
+                <label>CITY
+                    <span class="label label-danger" ng-show="local.duplicateweld"><i class="fa fa-exclamation-circle"></i> Duplicate No. </span></label>
+                <input  ng-model="paymentdata.tenantpayeecity" placeholder="{{city}}" type="text" class="form-control" style="background-color:transparent"/>
+              </div>
+
+              <div class="form-group col-lg-2 col-md-3 col-sm-4">
+                <label>STATE
+                    <span class="label label-danger" ng-show="local.duplicateweld"><i class="fa fa-exclamation-circle"></i> Duplicate No. </span></label>
+                <input  ng-model="paymentdata.tenantpayeestate" placeholder="{{state}}" type="text" class="form-control" style="background-color:transparent"/>
+              </div>
+
+              <div class="form-group col-lg-2 col-md-3 col-sm-4">
+                <label>ZIP
+                    <span class="label label-danger" ng-show="local.duplicateweld"><i class="fa fa-exclamation-circle"></i> Duplicate No. </span></label>
+                <input  ng-model="paymentdata.tenantpayeezip" placeholder="{{zip}}"   type="text" class="form-control" style="background-color:transparent"/>
+              </div>
+
+              <div class="form-group col-lg-2 col-md-3 col-sm-4">
+                <label>TAX ID
+                    <span class="label label-danger" ng-show="local.duplicateweld"><i class="fa fa-exclamation-circle"></i> Duplicate No. </span></label>
+                <input  ng-model="paymentdata.tenantpayeetaxid" placeholder="{{taxid}}"type="text" class="form-control" style="background-color:transparent"/>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="form-group col-lg-4 col-md-6 col-sm-6">
+                <label>AUTHORIZED BY</label>
+                <select class="form-control" ng-model = "paymentdata.authorizedby" >
+                  <option value=""> </option>
+                  <option ng-repeat="option in landowners" value="{{option}}">{{option}}</option>
+
+                </select>
+
+              </div>
+
+              <div class="form-group col-lg-2 col-md-3 col-sm-4">
+                <label>AUTHORIZED DATE
+                    <span class="label label-danger" ng-show="local.duplicateweld"><i class="fa fa-exclamation-circle"></i> Duplicate No. </span></label>
+                    <input type="text" model="paymentdata.authorizeddate" ng-datepicker date-options="datepickerOptions" only-date date-valid class="form-control"  />
+              </div>
+            </div>
+
+          </uib-accordion-group>
+
+
+                <uib-accordion close-others="oneAtATime" class="uib">
+                  <!-- ------------------------- -->
+                  <!-- ----  DAMAGES DETAILS   ------- -->
+                  <!-- ------------------------- -->
+
+                  <uib-accordion-group panel-class="box box-default" >
+                    <uib-accordion-heading class="accordion-heading">
+                        <span class = "accordion-header" ng-click="toggleDamagesAccordion()">DAMAGES</span>
+                      <div class="btn-group pull-right">
+                        <button class="btn btn-default btn-xs" ng-click="toggleDamagesAccordion()"><i class="fa fa-{{!DamagesExpanded? 'plus':'minus'}}"></i> <span class = "hidden-xs" style="font-size: small">&nbsp;{{!DamagesExpanded? 'View':'Hide'}}</span></button>
+                      </div>
+                    </uib-accordion-heading>
+
+
+                <div class="row">
+
+                    <div class="form-group col-lg-3 col-md-3 col-sm-4">
+                      <label>AREA WIDTH (FEET)</label>
+                      <input ng-model="paymentdata.damageswidth" type="number" step="0.01"class="form-control"ng-change ="updateDamagesCost()"/>
+                    </div>
+                    <div class="form-group col-lg-3 col-md-3 col-sm-4">
+                      <label>AREA LENGTH (FEET)</label>
+                      <input ng-model="paymentdata.damageslength" type="number" step="0.01"class="form-control"ng-change ="updateDamagesCost()"/>
+                    </div>
+                    <div class="form-group col-lg-3 col-md-3 col-sm-4">
+                      <label>TOTAL ACRES</label>
+                      <input type="number" step="0.01"class="form-control" readonly = "true" ng-value="getAcres(paymentdata.damageswidth,paymentdata.damageslength).toFixed(2)" />
+                    </div>
+                </div>
+                <div class="row">
+
+                  <div class="form-group col-lg-3 col-md-3 col-sm-4">
+                    <label>CLASSIFICATION</label>
+                    <select class="form-control" ng-model = "paymentdata.damagestype" >
+                      <option value="DRY CROP">DRY CROP</option>
+                      <option value="IRRIGATED CROP">IRRIGATED CROP</option>
+                      <option value="OTHER">OTHER</option>
+                      <option value="PASTURE">PASTURE</option>
+                      <option value="PRIVATE ROAD">PRIVATE ROAD</option>
+                      <option value="PUBLIC ROAD">PUBLIC ROAD</option>
+                      <option value="RESIDENTIAL">RESIDENTIAL</option>
+                      <option value="TIMBER">TIMBER</option>
+
+                  </select>
+                </div>
+                <div class="form-group col-lg-3 col-md-3 col-sm-4">
+                  <label>CROP TYPE</label>
+                  <input ng-model="paymentdata.croptype" type="text" class="form-control"/>
+                </div>
+                <div class="form-group col-lg-3 col-md-3 col-sm-4">
+                  <label>UNIT OF MEASURE</label>
+                  <input ng-model="paymentdata.unitofmeasure" type="text" class="form-control"/>
+                </div>
+                </div>
+            <div class="row">
+                <div class="form-group col-lg-3 col-md-3 col-sm-4">
+                  <label>UNITS PER ACRE</label>
+                  <input ng-model="paymentdata.unitsperacre" type="number" step="0.01"class="form-control"ng-change ="updateDamagesCost()"/>
+                </div>
+                <div class="form-group col-lg-3 col-md-3 col-sm-4">
+                  <label>PRICE PER UNIT</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">
+                      <span class="glyphicon glyphicon-usd"></span>
+                    </span>
+                  <input ng-model="paymentdata.unitprice" type="number" step="0.01"class="form-control"ng-change ="updateDamagesCost()"/>
+                </div>
+              </div>
+              <div class="form-group col-lg-3 col-md-3 col-sm-4">
+                <label>VALUE PER ACRE</label>
+                <div class="input-group">
+                  <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-usd"></span>
+                  </span>
+                <input ng-value="getDamageCost(paymentdata.unitprice,paymentdata.unitsperacre).toFixed(2) "type="text" class="form-control" readonly="true"/>
+              </div>
+            </div>
+              </div>
+                <div class="row">
+                  <div class="form-group col-lg-3 col-md-3 col-sm-4">
+                    <label>1ST YEAR (100%)</label>
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-usd"></span>
+                      </span>
+                    <input ng-value="yearOneCost(getDamageCost(paymentdata.unitprice,paymentdata.unitsperacre),getAcres(paymentdata.damageswidth,paymentdata.damageslength)).toFixed(2) " type="text"readonly = "true"class="form-control"/>
+                  </div>
+                  </div>
+                  <div class="form-group col-lg-3 col-md-3 col-sm-4">
+                    <label>2ND YEAR (75%)</label>
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-usd"></span>
+                      </span>
+                    <input ng-value="yearTwoCost(getDamageCost(paymentdata.unitprice,paymentdata.unitsperacre),getAcres(paymentdata.damageswidth,paymentdata.damageslength)).toFixed(2) " type="text"readonly = "true"class="form-control"/>
+                  </div>
+                  </div>
+                    <div class="form-group col-lg-3 col-md-3 col-sm-4">
+                      <label>3RD YEAR (50%)</label>
+                      <div class="input-group">
+                        <span class="input-group-addon">
+                          <span class="glyphicon glyphicon-usd"></span>
+                        </span>
+                      <input ng-value="yearThreeCost(getDamageCost(paymentdata.unitprice,paymentdata.unitsperacre),getAcres(paymentdata.damageswidth,paymentdata.damageslength)).toFixed(2) " type="text"readonly = "true"class="form-control"/>
+                    </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-3 col-md-3 col-sm-4">
+                      <label>SUBTOTAL</label>
+                      <div class="input-group">
+                        <span class="input-group-addon" >
+                          <span class="glyphicon glyphicon-usd"></span>
+                        </span>
+                      <input type="text" class="form-control" readonly = "true" ng-value="extendedDamageCost(yearOneCost(getDamageCost(paymentdata.unitprice,paymentdata.unitsperacre),getAcres(paymentdata.damageswidth,paymentdata.damageslength)),yearTwoCost(getDamageCost(paymentdata.unitprice,paymentdata.unitsperacre),getAcres(paymentdata.damageswidth,paymentdata.damageslength)),yearThreeCost(getDamageCost(paymentdata.unitprice,paymentdata.unitsperacre),getAcres(paymentdata.damageswidth,paymentdata.damageslength))).toFixed(2) " style="font-weight:bold; color:green" />
+                    </div>
+                    </div>
+
+                </div>
+
+              </uib-accordion-group>
+
+                <uib-accordion close-others="oneAtATime" class="uib">
+                      <!-- ------------------------- -->
+                      <!-- ----  OTHER COSTS  ------- -->
+                      <!-- ------------------------- -->
+
+                      <uib-accordion-group panel-class="box box-default" >
+                        <uib-accordion-heading class="accordion-heading">
+                            <span class = "accordion-header" ng-click="toggleOtherAccordion()">OTHER</span>
+                          <div class="btn-group pull-right">
+                            <button class="btn btn-default btn-xs" ng-click="toggleOtherAccordion()"><i class="fa fa-{{!OtherExpanded? 'plus':'minus'}}"></i> <span class = "hidden-xs" style="font-size: small">&nbsp;{{!OtherExpanded? 'View':'Hide'}}</span></button>
+                          </div>
+                        </uib-accordion-heading>
+                        <div class="row">
+
+                            <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                              <label>DESCRIPTION</label>
+                              <textarea ng-model="paymentdata.otherdescription" type="text" rows="2"class="form-control"></textarea>
+                            </div>
+
+                        </div>
+                    <div class="row">
+                        <div class="form-group col-lg-3 col-md-3 col-sm-4">
+                          <label>SUBTOTAL</label>
+                          <div class="input-group">
+                            <span class="input-group-addon" >
+                              <span class="glyphicon glyphicon-usd"></span>
+                            </span>
+                          <input type="number" step="0.01"class="form-control" ng-model="paymentdata.othercosttotal" style="font-weight:bold; color:green"ng-change ="updateOtherCost()" />
+                        </div>
+                        </div>
+
+                    </div>
+
+                  </uib-accordion-group>
+                  <uib-accordion close-others="oneAtATime" class="uib">
+                        <!-- ------------------------- -->
+                        <!-- ----  GRAND TOTAL   ------- -->
+                        <!-- ------------------------- -->
+
+                        <uib-accordion-group panel-class="box box-default" >
+                          <uib-accordion-heading class="accordion-heading">
+                              <span class = "accordion-header" ng-click="toggleGrandTotalAccordion()">GRAND TOTAL</span>
+                            <div class="btn-group pull-right">
+                              <button class="btn btn-default btn-xs" ng-click="toggleGrandTotalAccordion()"><i class="fa fa-{{!GrandTotalExpanded? 'plus':'minus'}}"></i> <span class = "hidden-xs" style="font-size: small">&nbsp;{{!GrandTotalExpanded? 'View':'Hide'}}</span></button>
+                            </div>
+                          </uib-accordion-heading>
+
+
+                      <div class="row">
+                          <div class="form-group col-lg-3 col-md-3 col-sm-4">
+                            <label>GRAND TOTAL AMOUNT</label>
+                            <div class="input-group">
+                              <span class="input-group-addon" >
+                                <span class="glyphicon glyphicon-usd"></span>
+                              </span>
+                            <input type="text" class="form-control" readonly = "true" ng-value="getGrandTotal()|number:2" style="font-weight:bold; color:green" />
+                          </div>
+                          </div>
+
+                      </div>
+
+                    </uib-accordion-group>
+      </uib-accordion>
+
+      <div class="box-tools pull-right" style="margin:10px 0px 10px 0px">
+        <button type="button" id="openCalcSheet" class="btn btn-info btn-md"  ng-click="exportData()"><span class="fa fa-file-excel-o" style="color:white"></span >&nbsp;&nbsp;Print Worksheet</button>
+        <button type="button" id="Inactivate" class="btn btn-{{inactiveStatus ? 'success':'danger'}} btn-md"  ng-click="toggleInactive()"><span class="fa fa-{{inactiveStatus ? 'check':'ban'}}" style="color:white"></span >&nbsp; {{inactiveStatus ? 'Activate':'Inactivate'}}</button>
+      </div> <!--- div style="float:right;" --->
+  </div>
+
+
+</section>

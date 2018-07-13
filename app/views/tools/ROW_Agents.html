@@ -1,0 +1,83 @@
+<section class="content-header">
+  <h1>
+ROW Agent Progress
+    <small>FieldBook</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a href="#/reports"><i class="fa fa-file-excel-o"></i> Reports</a></li>
+    <li class="active"><i class="fa fa-shield"></i> ROW Agents</li>
+  </ol>
+</section>
+
+<!--- Main content --->
+<section class="content" style="min-height:400px;">
+
+  <div class="box">
+    <div class="box-header">
+      <h3 class="box-title"><span class="fa fa-shield"></span>&nbsp;&nbsp; ROW Agents &nbsp;</h3><span class="badge">{{tracts.length}}</span></h3>
+      <div class="box-tools pull-right">
+
+        <input style="height:33px;width:200px"type="text" class="" ng-model="searchbox" placeholder="Search"></input>&nbsp;
+        <button style="height:32px;width:130px" type="button" class="btn btn-default" ng-click="exportData()"><span class="fa fa-file-excel-o" style="color:green"></span> <span class="xs-hidden">&nbsp;To Excel</span></button>&nbsp;&nbsp;
+        <!-- <button style="height:32px;width:130px" type="button" class="btn btn-default" ng-click="printPDF()"><span class="fa fa-file-pdf-o" style="color:red"></span> &nbsp;<span class="xs-hidden">Export to PDF</span></button> -->
+
+      </div> <!--- div style="float:right;" --->
+    </div> <!--- box-header --->
+
+
+    <div class="box-body"style="width:100%;height:100%;overflow-x:auto;">
+
+      <table class="table table-hover" style="overflow-x:scroll" >
+        <thead>
+          <tr class="panel-heading">
+            <th style="min-width:85px"><a href="#" ng-click="orderBy('name', $event)" style="color:black;"><b>NAME</b></a>
+              <span ng-show="orderByField == 'name'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></small></span></th>
+            <th style="min-width:75px"><a href="#" ng-click="orderBy('contactreports', $event)" style="color:black;"><b>CONTACT REPORTS</b></a>
+              <span ng-show="orderByField == 'contactreports'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></small></span></th>
+            <th><a href="#" ng-click="orderBy('titlecomplete', $event)" style="color:black;"><b>TITLE SEARCH</b></a>
+              <span ng-show="orderByField == 'titlecomplete'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></small></span></th>
+            <th><a href="#" ng-click="orderBy('surveyPermissions', $event)" style="color:black;"><b>SURVEY PERMISSIONS</b></a>
+              <span ng-show="orderByField == 'surveyPermissions'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></small></span></th>
+
+            <th style="min-width:60px"><a href="#" ng-click="orderBy('acquisitions', $event)" style="color:black;"><b>ACQUISITION</b></a>
+                <span ng-show="orderByField == 'acquisitions'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></small></span></th>
+
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="agent in agents| filter:searchbox |orderBy:orderByField:reverseSort | startFrom:currentPage*pageSize | limitTo:pageSize">
+            <td><a href = "#/personnel/{{agent.$id}}"><b>{{agent.name}}</b></a></td>
+            <td><b>{{agent.contactreports}}</b></td>
+            <td><b>{{agent.titlecomplete}}</b></td>
+            <td><b>{{agent.surveyPermissions}}</b></td>
+            <td><b>{{agent.acquisitions}}</b></td>
+
+
+</tr>
+
+        </tbody>
+      </table>
+    </div>
+    <!-- /.box-body -->
+
+    <div class="box-body">
+
+
+    <div class="box-tools pull-left">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+    <li class="page-item"><button class="btn btn-default btn-sm" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1"><a class="page-link"
+      href=""><span style="color:black" class = "glyphicon glyphicon-backward"></span><span style="color:black"> Previous</span></a></button></li>
+    <li class="page-item">&nbsp;Page {{currentPage+1}} of {{numberOfPages()}}&nbsp;</li>
+    <li class="page-item"><button class="btn btn-default btn-sm" ng-disabled="currentPage >= agents.length/pageSize - 1" ng-click="currentPage=currentPage+1">
+    <a class="page-link" href=""><span style="color:black">Next&nbsp;&nbsp;</span><span style="color:black" class = "glyphicon glyphicon-forward"></span></a>
+  </button></li>
+  </ul>
+  </nav>
+    </div>
+
+  </div> <!--- box --->
+  </div> <!--- box --->
+</section><!--- /.content --->

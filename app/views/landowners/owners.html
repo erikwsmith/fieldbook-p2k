@@ -1,0 +1,114 @@
+<section class="content-header">
+  <h1>
+    Land Owners
+      <small>FieldBook</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active"><i class="fa fa-user"></i> &nbsp;Land Owners&nbsp;&nbsp;</li>
+  </ol>
+</section>
+
+<!--- Main content --->
+<section class="content" style="min-height:400px;">
+
+  <div class="box">
+    <div class="box-header">
+      <h3 class="box-title"><span class="fa fa-user"></span>&nbsp;&nbsp; Land Owners &nbsp;</h3><span class="badge" style="background-color:#777">{{totalowners}}</span></h3>
+      <div class="box-tools pull-right">
+        <input style="height:33px;width:200px"type="text" class="" ng-model="searchbox" placeholder="Search"></input>&nbsp;
+        <button type="button" class="btn btn-default btn-sm" ng-click="toggleShowFilters()" ><span class="fa fa-filter"></span> {{!showFilters ? 'Show Filters':'Hide Filters'}}</button>
+
+        <button type="button" id="addNewOwner" class="btn btn-default btn-sm"  ng-click="addNewOwner()"><span class="glyphicon glyphicon-plus" style="color:green"></span > Add New Owner</button>
+      </div> <!--- div style="float:right;" --->
+    </div> <!--- box-header --->
+
+    <div class="box-body box-comments" ng-show="showFilters">
+      <div class="box-comment">
+        <BR>
+          <button class="btn btn-{{inactiveFilter ? 'danger':'success'}} btn-sm"  ng-click="toggleInactive()"><span class= "fa fa-{{inactiveFilter ? 'ban':'check'}}"></span>&nbsp;{{inactiveFilter ? 'Hide Inactive':'Show Inactive'}}</button>
+
+      </div>
+    </div>
+
+    <div class="box-body">
+      <table class="table table-hover" style="overflow-x:scroll; ">
+        <thead>
+          <tr class="panel-heading" >
+
+            <th ng-show="inactiveFilter"><a href="#" ng-click="orderBy('isInactive', $event)" style="color:black"><b>INACTIVE</b></a>
+            <span ng-show="orderByField == 'isInactive'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+            <th><a href="#" ng-click="orderBy('name', $event)" style="color:black"><b>NAME</b></a>
+            <span ng-show="orderByField == 'name'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+            <th><a href="#" style="color:black" ng-click="orderBy('address', $event)" ><b>ADDRESS</b></a>
+            <span ng-show="orderByField == 'address'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" class="fa fa-sort-desc" style="color:black"></span></small></span></th>
+
+            <th><a href="#" ng-click="orderBy('city', $event)" style="color:black;"><b>CITY</b></a>
+            <span ng-show="orderByField == 'city'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" class="fa fa-sort-desc" style="color:black"></span></small></span></th>
+
+            <th><a href="#" ng-click="orderBy('state', $event)" style="color:black;"><b>STATE</b></a>
+            <span ng-show="orderByField == 'state'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+            <th><a href="#" ng-click="orderBy('zip', $event)" style="color:black;"><b>ZIP</b></a>
+            <span ng-show="orderByField == 'zip'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" class="fa fa-sort-desc" style="color:black"></span></small></span></th>
+
+
+            <th><a href="#" ng-click="orderBy('phone1', $event)" style="color:black;"><b>PHONE 1</b></a>
+            <span ng-show="orderByField == 'phone1'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" class="fa fa-sort-desc" style="color:black"></span></small></span></th>
+
+            <th><a href="#" ng-click="orderBy('phone2', $event)" style="color:black;"><b>PHONE 2</b></a>
+            <span ng-show="orderByField == 'phone2'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" class="fa fa-sort-desc" style="color:black"></span></small></span></th>
+
+            <th><a href="#" ng-click="orderBy('taxid', $event)" style="color:black;"><b>TAX ID</b></a>
+            <span ng-show="orderByField == 'taxid'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" class="fa fa-sort-desc" style="color:black"></span></small></span></th>
+
+
+            <th style="color:white;"><b></b></th>
+
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="owner in landowners| filter: searchbox | orderBy:orderByField:reverseSort| startFrom:currentPage*pageSize | limitTo:pageSize" >
+            <td ng-show="inactiveFilter"><a href="#/landowners/{{owner.$id}}" ><span ng-show="isInactive(owner.isInactive)" class="label label-danger" >Inactive</span></a></td>
+            <td><a href="#/landowners/{{owner.$id}}" ><b>{{owner.name}}</b></a></td>
+            <td><a href="#/landowners/{{owner.$id}}" ><b>{{owner.address}}</b></a></td>
+            <td><a href="#/landowners/{{owner.$id}}" ><b>{{owner.city}}</b></a></td>
+            <td><a href="#/landowners/{{owner.$id}}" ><b>{{owner.state}}</b></a></td>
+            <td><a href="#/landowners/{{owner.$id}}" ><b>{{owner.zip}}</b></a></td>
+            <td><a href="#/landowners/{{owner.$id}}" ><b>{{owner.phone1}}</b></a></td>
+            <td><a href="#/landowners/{{owner.$id}}" ><b>{{owner.phone2}}</b></a></td>
+            <td><a href="#/landowners/{{owner.$id}}" ><b>{{owner.taxid}}</b></a></td>
+
+            <td><a href ="#/landowners/{{owner.$id}}"><span  class="fa fa-edit" ></span></a>
+        </td>
+
+
+          </tr>
+        </tbody>
+      </table>
+
+
+    </div>
+    <!-- /.box-body -->
+    <div class="box-body">
+
+
+    <div class="box-tools pull-left">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+    <li class="page-item"><button class="btn btn-default btn-sm" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1"><a class="page-link"
+      href=""><span style="color:black" class = "glyphicon glyphicon-backward"></span><span style="color:black"> Previous</span></a></button></li>
+    <li class="page-item">&nbsp;Page {{currentPage+1}} of {{numberOfPages()}}&nbsp;</li>
+    <li class="page-item"><button class="btn btn-default btn-sm" ng-disabled="currentPage >= landowners.length/pageSize - 1" ng-click="currentPage=currentPage+1">
+    <a class="page-link" href=""><span style="color:black">Next&nbsp;&nbsp;</span><span style="color:black" class = "glyphicon glyphicon-forward"></span></a>
+  </button></li>
+  </ul>
+  </nav>
+    </div>
+
+  </div> <!--- box --->
+  </div> <!--- box --->
+</section><!--- /.content --->

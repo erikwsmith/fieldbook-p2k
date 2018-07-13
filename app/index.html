@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=10" />
+    <title>MTS FieldBook</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="https://openlayers.org/en/v4.6.4/css/ol.css" type="text/css">
+    <!-- <link rel="stylesheet" href="styles/openlayers.css"> -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!-- //[if lt IE 9] -->
+         <!-- <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script> -->
+    <!-- <![endif]-->
+
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/adminlte/dist/css/adminlte.css" />
+    <link rel="stylesheet" href="bower_components/adminlte/dist/css/skins/_all-skins.min.css" />
+    <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.css" />
+    <link rel="stylesheet" href="bower_components/ui-select/dist/select.css" />
+    <link rel="stylesheet" href="bower_components/angular-busy/dist/angular-busy.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css" />
+    <link rel="stylesheet" href="bower_components/angular-bootstrap-datepicker/dist/angular-bootstrap-datepicker.min.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap-daterangepicker/daterangepicker.css" />
+    <link rel="stylesheet" href="bower_components/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.css" />
+    <link rel="stylesheet" href="bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
+    <!-- endbower -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,400italic" />
+
+
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+
+    <link rel="stylesheet" href="bower_components/adminlte/dist/css/AdminLTE.css" />
+    <!-- <link rel="stylesheet" href="bower_components/adminlte/bootstrap/css/bootstrap.css" /> -->
+    <!-- endbuild -->
+
+  </head>
+  <body ng-app="mts.fieldbook" class="hold-transition skin-blue sidebar-mini sidebar-collapse fixed {{(location.path() === '/login')?'login-page':''}}" >
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <div class="{{(location.path() !== '/login')?'wrapper':''}}">
+
+      <mtsheader ng-show-auth></mtsheader>
+
+<!-- Left side column. contains the logo and sidebar -->
+      <aside class="main-sidebar" ng-show-auth>
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+          <!-- search form -->
+          <!-- <div class="sidebar-form">
+            <div class="input-group">
+              <input type="text" ng-model="sleeveQuery" class="form-control" placeholder="Search...">
+              <span class="input-group-btn">
+                <a class="btn btn-flat" href="#/sleeves"><i class="fa fa-search"></i>
+                </a>
+              </span>
+            </div>
+          </div> -->
+          <!-- /.search form -->
+          <!-- sidebar menu: : style can be found in sidebar.less -->
+          <ul class="sidebar-menu">
+            <li>
+              <a href="#/" name="confirm">
+                <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+              </a>
+            </li>
+            <li>
+              <a href="#/property_tracts">
+                <i class="fa fa-clone"></i> <span>Property Tracts</span>
+              </a>
+            </li>
+            <li> <a href="#" target="_self"> <i class="fa fa-map-signs"></i> <span>Permits</span>
+              <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+             <li ><a href="#/civil_permits"><i class="fa fa-road"></i> Civil</a></li>
+             <li ><a href="#/utility_permits"><i class="fa fa-bolt"></i> Utilities</a></li>
+             <li ><a href="#/environmental_permits"><i class="fa fa-tree"></i> Environmental</a></li>
+
+           </ul>
+         </li>
+         <li>
+           <a href="#/landowners">
+             <i class="fa fa-user" ></i> <span>Land Owners</span>
+           </a>
+         </li>
+         <li>
+           <a href="#/reports">
+             <i class="fa fa-file-excel-o"></i> <span>Reports</span>
+           </a>
+         </li>
+
+            <li>
+              <a href="#/personnel">
+                <i class="fa fa-gears" ></i> <span>Personnel</span>
+              </a>
+            </li>
+<!-- <li>
+<div ng-include = "'views/mtsmanagement.html'">
+</div>
+</li> -->
+  <!-- <li>
+    <a href="#/management">
+      <i class="fa fa-diamond" ></i> <span id = "userRole">{{isManager}}</span>
+    </a>
+  </li> -->
+
+
+             </ul>
+            <!-- <li>
+              <a href="#/reports">
+                <i class="fa fa-file-excel-o"></i> <span>Reports</span>
+              </a>
+            </li> -->
+        </section>
+        <!-- /.sidebar -->
+      </aside>
+      <div class="{{(location.path() !== '/login')?'content-wrapper':''}}">
+        <div ng-view=""></div>
+      </div>
+
+      <footer class="main-footer" ng-show-auth>
+        <strong>Copyright &copy; 2017 T.G. Mercer Consulting Services.</strong> All rights reserved.
+      </footer>
+      <!-- Add the sidebar's background. This div must be placed
+           immediately after the control sidebar -->
+      <div class="control-sidebar-bg"></div>
+    </div><!-- ./wrapper -->
+
+
+    <script>
+      //$.widget.bridge('uibutton', $.ui.button);
+    </script>
+
+<!-- googleMaps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyZ2GBXuTIRsO6zIKEoFctu601EkD330I"></script>
+
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/firebase/firebase.js"></script>
+    <script src="bower_components/angularfire/dist/angularfire.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/adminlte/dist/js/app.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/ui-select/dist/select.js"></script>
+    <script src="bower_components/angular-uuid-service/angular-uuid-service.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-busy/dist/angular-busy.js"></script>
+    <script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script src="bower_components/angular-bootstrap-datepicker/dist/angular-bootstrap-datepicker.min.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="bower_components/angular-daterangepicker/js/angular-daterangepicker.js"></script>
+    <script src="bower_components/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.js"></script>
+    <script src="bower_components/exif-js/exif.js"></script>
+    <script src="bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="bower_components/angular-bootstrap-datetimepicker-directive/angular-bootstrap-datetimepicker-directive.js"></script>
+    <script src="bower_components/angular-filter/dist/angular-filter.js"></script>
+    <script src="bower_components/angular-moment/angular-moment.js"></script>
+    <script src="bower_components/angular-base64-upload/src/angular-base64-upload.js"></script>
+    <script src="bower_components/js-xlsx/dist/jszip.js"></script>
+    <script src="bower_components/js-xlsx/dist/xlsx.min.js"></script>
+    <script src="bower_components/angular-js-xlsx/angular-js-xlsx.js"></script>
+    <script src="bower_components/js-xls/dist/xls.js"></script>
+    <script src="bower_components/es6-promise/promise.js"></script>
+    <script src="bower_components/alasql/dist/alasql.min.js"></script>
+    <script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
+    <script src="bower_components/signature_pad/signature_pad.js"></script>
+    <script src="bower_components/ng-signature-pad/dist/ng-signature-pad.js"></script>
+    <script src="bower_components/slimScroll/jquery.slimscroll.js"></script>
+    <script src="bower_components/slimScroll/jquery.slimscroll.min.js"></script>
+    <script src="bower_components/angular-slimscroll/angular-slimscroll.js"></script>
+    <script src="bower_components/chart.js/dist/Chart.js"></script>
+    <!-- endbower -->
+
+    <!-- endbuild -->
+
+        <!-- build:js({.tmp,app}) scripts/scripts.js -->
+			    <script src="scripts/services/xlsx-populate/browser/xlsx-populate.js"></script>
+          <script src="scripts/services/file-saver/FileSaver.min.js"></script>
+          <script src="scripts/services/js-xlsx-style/dist/xlsx.full.min.js"></script>
+        <script src="scripts/services/pdfmake/build/pdfmake.min.js"></script>
+        <script src="scripts/services/pdfmake/build/vfs_fonts.js"></script>
+        <script src="scripts/angularfire/config.js"></script>
+        <script src="scripts/angularfire/firebase.ref.js"></script>
+        <script src="scripts/angularfire/auth.js"></script>
+        <script src="scripts/angularfire/storage.js"></script>
+        <script src="scripts/app.js"></script>
+        <script src="scripts/constants.js"></script>
+
+
+        <script src="scripts/filters/reverse.js"></script>
+        <script src="scripts/filters/customformat.js"></script>
+        <script src="scripts/filters/moreFilters.js"></script>
+
+        <script src="scripts/services/util.js"></script>
+        <script src="scripts/services/fileUploadService.js"></script>
+        <script src="scripts/services/photoUploadService.js"></script>
+
+        <script src="scripts/directives/ngShowAuth.js"></script>
+        <script src="scripts/directives/ngHideAuth.js"></script>
+        <script src="scripts/directives/mtsheader.js"></script>
+        <script src="scripts/directives/validations.js"></script>
+        <script src="scripts/directives/mtsmanagement.js"></script>
+
+
+        <script src="scripts/controllers/welds.js"></script>
+        <script src="scripts/controllers/login.js"></script>
+        <script src="scripts/controllers/account.js"></script>
+        <script src="scripts/controllers/settings.js"></script>
+        <script src="scripts/controllers/reports.js"></script>
+        <script src="scripts/controllers/mtsheader.js"></script>
+        <script src="scripts/controllers/fileUpload.js"></script>
+        <script src="scripts/controllers/tractdocsuploader.js"></script>
+        <script src="scripts/controllers/photouploader.js"></script>
+        <script src="scripts/controllers/civilphotos.js"></script>
+        <script src="scripts/controllers/civildocs.js"></script>
+        <script src="scripts/controllers/environmentaldocs.js"></script>
+        <script src="scripts/controllers/environmentalphotos.js"></script>
+        <script src="scripts/controllers/utilityphotos.js"></script>
+        <script src="scripts/controllers/utilitydocs.js"></script>
+        <script src="scripts/controllers/graphs.js"></script>
+        <script src="scripts/controllers/mtsmanagement.js"></script>
+
+
+
+
+
+
+        <script src="scripts/controllers/main.js"></script>
+        <script src="scripts/controllers/tools.js"></script>
+        <script src="scripts/routes.js"></script>
+        <script src="scripts/controllers/linelist.js"></script>
+        <script src="scripts/controllers/civil_permits.js"></script>
+        <script src="scripts/controllers/environmental_permits.js"></script>
+        <script src="scripts/controllers/utility_permits.js"></script>
+        <script src="scripts/controllers/personnel.js"></script>
+        <script src="scripts/controllers/forms.js"></script>
+        <script src="scripts/controllers/landowners.js"></script>
+        <script src="scripts/controllers/mapzoom.js"></script>
+        <script src="scripts/controllers/maptest.js"></script>
+
+
+
+        <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
+        <script src="https://openlayers.org/en/v4.6.4/build/ol.js"></script>
+
+
+
+
+        <!-- endbuild -->
+
+        <!-- <script src="scripts/controllers/sleeves.js"></script> -->
+
+
+</body>
+</html>

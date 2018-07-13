@@ -1,0 +1,116 @@
+<section class="content-header">
+  <h1>
+    Property Tracts
+    <small>FieldBook</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active"><i class="fa fa-clone"></i> Property Tracts</li>
+  </ol>
+</section>
+
+<!--- Main content --->
+<section class="content" style="min-height:400px;">
+
+  <div class="box table-responsive">
+    <div class="box-header">
+      <h3 class="box-title"><span class="fa fa-clone"></span>&nbsp;&nbsp; Tracts &nbsp;</h3><span class="badge" style="background-color:#777">{{totaltracts}}</span></h3>
+      <div class="box-tools pull-right">
+        <input style="height:33px;width:200px"type="text" class="" ng-model="searchbox" placeholder="Search"></input>&nbsp;
+        <button style="height:32px;width:110px"type="button" class="btn btn-default btn-sm" ng-click="toggleShowFilters()" ><span class="fa fa-filter"></span> {{!showFilters ? 'Show Filters':'Hide Filters'}}</button>
+        &nbsp;<button style="height:32px;width:110px"type="button" id="addNewTract" class="btn btn-default btn-sm"  ng-click="addNewTract()"><span class="glyphicon glyphicon-plus" style="color:green"></span > Add Tract</button>
+      </div> <!--- div style="float:right;" --->
+    </div> <!--- box-header --->
+
+    <div class="box-body box-comments" ng-show = "showFilters">
+      <div class="box-comment">
+        <BR>
+          <button class="btn btn-{{inactiveFilter ? 'danger':'success'}} btn-sm"  ng-click="toggleInactive()"><span class= "fa fa-{{inactiveFilter ? 'ban':'check'}}"></span>&nbsp;{{inactiveFilter ? 'Hide Inactive':'Show Inactive'}}</button>
+
+      </div>
+    </div>
+
+    <!-- /.box-body -->
+
+    <div class="box-body">
+      <table class="table table-hover " style="overflow-x:scroll; ">
+        <thead>
+          <tr class="panel-heading" >
+
+            <th ng-show="inactiveFilter"><a href="#" ng-click="orderBy('inactive', $event)" style="color:black"><b>INACTIVE</b></a>
+            <span ng-show="orderByField == 'inactive'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+            <th ><a href="#" ng-click="orderBy('sequence', $event)" style="color:black"><b>ORDER</b></a>
+            <span ng-show="orderByField == 'sequence'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+            <th><a href="#" style="color:black" ng-click="orderBy('tract', $event)" ><b>TRACT</b></a>
+            <span ng-show="orderByField == 'tract'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" class="fa fa-sort-desc" style="color:black"></span></small></span></th>
+
+            <th><a href="#" ng-click="orderBy('parcelid', $event)" style="color:black;"><b>PARCEL ID</b></a>
+            <span ng-show="orderByField == 'parcelid'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" class="fa fa-sort-desc" style="color:black"></span></small></span></th>
+
+            <th><a href="#" ng-click="orderBy('owner', $event)" style="color:black;"><b>LAND OWNER</b></a>
+            <span ng-show="orderByField == 'owner'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" style="color:black" class="fa fa-sort-desc"></span></small></span></th>
+
+            <th><a href="#" ng-click="orderBy('titlecomplete', $event)" style="color:black;"><b>TITLE COMPLETE</b></a>
+            <span ng-show="orderByField == 'titlecomplete'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" class="fa fa-sort-desc" style="color:black"></span></small></span></th>
+
+            <th><a href="#" ng-click="orderBy('surveypermission', $event)" style="color:black;"><b>SURVEY PERMISSION</b></a>
+            <span ng-show="orderByField == 'surveypermission'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" class="fa fa-sort-desc" style="color:black"></span></small></span></th>
+
+            <th><a href="#" ng-click="orderBy('acquireddate', $event)" style="color:black;"><b>ACQUIRED</b></a>
+            <span ng-show="orderByField == 'acquireddate'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" class="fa fa-sort-desc" style="color:black"></span></small></span></th>
+
+            <th><a href="#" ng-click="orderBy('county', $event)" style="color:black;"><b>COUNTY</b></a>
+            <span ng-show="orderByField == 'county'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" class="fa fa-sort-desc" style="color:black"></span></small></span></th>
+
+            <th><a href="#" ng-click="orderBy('acres', $event)" style="color:black;"><b>ACRES</b></a>
+            <span ng-show="orderByField == 'acres'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc" style="color:black"></span><span ng-show="reverseSort" class="fa fa-sort-desc" style="color:black"></span></small></span></th>
+
+            <th style="color:white;"><b></b></th>
+
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="tract in tracts| filter: searchbox | orderBy:orderByField:reverseSort | startFrom:currentPage*pageSize | limitTo:pageSize " >
+            <td ng-show="inactiveFilter"><a href="#/tracts/{{tract.$id}}" ><span ng-show="isInactive(tract.inactive)" class="label label-danger" >Inactive</span></a></td>
+            <td><a href="#/tracts/{{tract.$id}}" ><b>{{tract.sequence | number:3}}</b></a></td>
+            <td><a href="#/tracts/{{tract.$id}}" ><b>{{tract.tract}}</b></a></td>
+            <td><a href="#/tracts/{{tract.$id}}" ><b>{{tract.parcelid}}</b></a></td>
+            <td><a href="#/tracts/{{tract.$id}}" ><b>{{tract.owner}}</b></a></td>
+            <td><a href="#/tracts/{{tract.$id}}" ><b>{{tract.titlecomplete | date}}</b></a></td>
+            <td><a href="#/tracts/{{tract.$id}}" ><b>{{tract.surveypermission}}</b></a></td>
+            <td><a href="#/tracts/{{tract.$id}}" ><b>{{tract.acquireddate | date}}</b></a></td>
+            <td><a href="#/tracts/{{tract.$id}}" ><b>{{tract.county}}</b></a></td>
+            <td><a href="#/tracts/{{tract.$id}}" ><b>{{tract.acres}}</b></a></td>
+
+            <td><a href="#/tracts/{{tract.$id}}"><span  class="fa fa-edit"></span></a></td>
+
+
+
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+    <!-- /.box-body -->
+    <div class="box-body">
+
+
+    <div class="box-tools pull-left">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+    <li class="page-item"><button class="btn btn-default btn-sm" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1"><a class="page-link"
+      href=""><span style="color:black" class = "glyphicon glyphicon-backward"></span><span style="color:black"> Previous</span></a></button></li>
+    <li class="page-item">&nbsp;Page {{currentPage+1}} of {{numberOfPages()}}&nbsp;</li>
+    <li class="page-item"><button class="btn btn-default btn-sm" ng-disabled="currentPage >= tracts.length/pageSize - 1" ng-click="currentPage=currentPage+1">
+    <a class="page-link" href=""><span style="color:black">Next&nbsp;&nbsp;</span><span style="color:black" class = "glyphicon glyphicon-forward"></span></a>
+  </button></li>
+  </ul>
+  </nav>
+    </div>
+
+  </div> <!--- box --->
+</div> <!--- box --->
+</section><!--- /.content --->

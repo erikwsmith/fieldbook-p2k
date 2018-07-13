@@ -1,0 +1,103 @@
+    <header class="main-header">
+        <!-- Logo -->
+        <a href="#/" class="logo">
+          <!-- mini logo for sidebar mini 50x50 pixels -->
+          <span class="logo-mini">MTS</span>
+          <!-- logo for regular state and mobile devices -->
+          <span class="logo-lg">MTS FieldBook</span>
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top fixed" role="navigation">
+          <!-- Sidebar toggle button-->
+          <a class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+
+          <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+              <li>
+                <!-- search form -->
+                <!-- <div class="form-group" style="width:150px; padding-top:5px; padding-bottom:0px; padding-right:20px;">
+                  <div class="input-group-sm">
+                    <input type="text" ng-model="global.weldQuery" class="form-control weldQuery" placeholder="Scan barcode here..." ng-keypress="keyPressed($event)" ng-change="searchChanged()">
+                  </div>
+                </div> -->
+                <!-- /.search form -->
+              </li>
+              <li data-toggle="tooltip" data-placement="left" title="{{unreadMessages}}" >
+                <a class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer;">
+                <span class="fa fa-exclamation-triangle" style="color:yellow"></span>
+                <!-- <span class="fa fa-comments" ></span> -->
+
+              </a>
+
+              </li>
+
+              <!-- <li>
+
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                Launch demo modal
+              </button>
+
+              <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      ...
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+</li> -->
+              <li class="dropdown user user-menu">
+                <a class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer;">
+                  <!-- <img src="{{(user.picture)?user.picture:'images/user.png'}}" class="user-image" alt="User Image"> -->
+                  <span class="hidden-xs"> {{user.name}}</span>
+                </a>
+                <ul class="dropdown-menu">
+                  <!-- User image -->
+                  <li class="user-header">
+                    <img src="{{(user.picture)?user.picture:'images/user.png'}}" class="img-circle" alt="User Image">
+                    <p>
+                      {{user.name}}
+                      <small>{{user.title}}</small>
+                    </p>
+                  </li>
+                  <!-- Menu Footer-->
+                  <li class="user-footer">
+                    <div class="pull-left">
+                      <a href="#/account" class="btn btn-default btn-flat">Profile</a>
+                    </div>
+                    <div class="pull-right">
+                      <button role="button" ng-click="logout()" class="btn btn-danger btn-flat">Log Out</button>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+              <!-- Control Sidebar Toggle Button -->
+              <!-- <li>
+                <a href="#/settings"><i class="fa fa-gears"></i></a>
+              </li> -->
+              <li data-toggle="tooltip" data-placement="left" title="Connection status to the main server.">
+                <a href="#"><i class="fa fa-plug"></i>
+                <span ng-show="local.firebaseConnected" class="label label-default">on</span>
+                <span ng-show="!local.firebaseConnected" class="label label-danger">DISCONNECTED</span></a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </header>

@@ -1,0 +1,104 @@
+<section class="content-header">
+  <h1>
+    Easement: &nbsp; <b>{{easementdata.easementid}}</b>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a href="#/tracts/{{tract.$id}}"><i class="fa fa-square-o"></i> Tract {{tract.tract}}</a></li>
+
+    <li class="active">Easement &nbsp;{{easementdata.easementid}}</li>
+  </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="nav-tabs-custom">
+      <div class="box-tools pull-right" style="margin: 5px 10px" >
+        <a href="#/tracts/{{tract.$id}}" class="btn btn-primary btn-md" role="button"><span class="fa fa-arrow-left" ></span >&nbsp; Tract {{tract.tract}} </a>
+      </div> <!--- div style="float:right;" --->
+      <ul class="nav nav-tabs">
+        <li class="active"><a>Details</a></li>
+
+    </ul>
+
+
+      <br>
+      <div class="container-fluid">
+
+      <uib-accordion close-others="oneAtATime" class="uib">
+            <!-- ------------------------- -->
+            <!-- ----  EASEMENT DETAILS   ------- -->
+            <!-- ------------------------- -->
+
+            <uib-accordion-group panel-class="box box-default" is-open="status.isFirstOpen">
+              <uib-accordion-heading class="accordion-heading">
+                  <span class = "accordion-header" ng-click="toggleEasementDetailsAccordion()">EASEMENT DETAILS &nbsp;</span>
+                <div class="btn-group pull-right">
+                  <button class="btn btn-default btn-xs" ng-click="toggleEasementDetailsAccordion()"><i class="fa fa-{{EasementsDetailsExpanded? 'plus':'minus'}}"></i> <span class = "hidden-xs" style="font-size: small">&nbsp;{{EasementDetailsExpanded? 'View':'Hide'}}</span></button>
+                </div>
+              </uib-accordion-heading>
+
+
+            <div class="row">
+              <div class="form-group col-md-2 col-sm-2">
+                <label>EASEMENT ID
+                    <span class="label label-danger" ng-show="local.duplicateweld"><i class="fa fa-exclamation-circle"></i> Duplicate No. </span></label>
+                <input ng-model="easementdata.easementid" type="text" class="form-control"/>
+              </div>
+              <div class="form-group col-md-2 col-sm-2">
+                <label>DATE
+                    <span class="label label-danger" ng-show="local.duplicateweld"><i class="fa fa-exclamation-circle"></i> Duplicate No. </span></label>
+                    <input type="text" model="easementdata.easementdate" ng-datepicker date-options="datepickerOptions" only-date date-valid class="form-control"  />
+              </div>
+              <div class="form-group col-md-2 col-sm-2">
+                <label>GRANTOR
+                    <span class="label label-danger" ng-show="local.duplicateweld"><i class="fa fa-exclamation-circle"></i> Duplicate No. </span></label>
+                <input ng-model="easementdata.easementgrantor" type="text" class="form-control"/>
+              </div>
+              <div class="form-group col-md-2 col-sm-2">
+                <label>GRANTEE
+                    <span class="label label-danger" ng-show="local.duplicateweld"><i class="fa fa-exclamation-circle"></i> Duplicate No. </span></label>
+                <input ng-model="easementdata.easementgrantee" type="text" class="form-control"/>
+              </div>
+              <div class="form-group col-md-2 col-sm-2">
+                <label>INSTRUMENT
+                    <span class="label label-danger" ng-show="local.duplicateweld"><i class="fa fa-exclamation-circle"></i> Duplicate No. </span></label>
+                <input ng-model="easementdata.easementinstrument" type="text" class="form-control"/>
+              </div>
+              <div class="form-group col-md-2 col-sm-2">
+                <label>WIDTH
+                    <span class="label label-danger" ng-show="local.duplicateweld"><i class="fa fa-exclamation-circle"></i> Duplicate No. </span></label>
+                <input ng-model="easementdata.easementwidth" type="text" class="form-control"/>
+              </div>
+              <div class="form-group col-md-2 col-sm-2">
+                <label>EXCLUSIVE
+                  <select class="form-control" ng-model = "easementdata.easementexclusive"  >
+                    <option value="" > </option>
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+
+                  </select>
+                </label>
+              </div>
+              <div class="form-group col-md-12 col-sm-12">
+                <label>COMMENTS
+                    <span class="label label-danger" ng-show="local.duplicateweld"><i class="fa fa-exclamation-circle"></i> Duplicate No. </span></label>
+                <textarea rows = "4" ng-model="easementdata.easementcomments" type="text" class="form-control"/>
+              </div>
+
+
+            </div>
+
+        </uib-accordion-group>
+
+
+
+
+      </uib-accordion>
+      <div class="box-tools pull-right" style="margin:10px 0px 10px 0px">
+          <button type="button" id="InactivateEasement" class="btn btn-{{inactiveFilter ? 'success':'danger'}} btn-md"  ng-click="toggleInactive()"><span class="fa fa-{{inactiveFilter ? 'check':'ban'}}" style="color:white"></span >&nbsp; {{inactiveFilter ? 'Activate':'Inactivate'}}</button>
+      </div> <!--- div style="float:right;" --->
+  </div>
+
+
+</section>

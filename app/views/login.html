@@ -1,0 +1,39 @@
+
+
+
+<div class="login-box">
+  <div class="login-logo">
+    <b>MTS FieldBook</b>
+  </div><!-- /.login-logo -->
+  <div class="login-box-body">
+    <div ng-show="err" class="alert alert-danger alert-dismissable">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+      {{err.code}}
+    </div>
+    <p class="login-box-msg">Please log in.</p>
+    <form role="form">
+     <div class="form-group has-feedback">
+        <input id="loginEmail" required name="email" type="email" class="form-control" placeholder="Email" ng-model="email">
+        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input id="loginPass" required name="pass" type="password" ng-model="pass" class="form-control">
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+      </div>
+      <p class="form-group has-feedback" ng-cloak ng-show="createMode">
+        <label for="loginConfirm">confirm pass</label>
+        <input id="loginConfirm" name="confirm" type="password" ng-model="confirm" class="form-control" />
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+      </p>
+      <div class="row">
+        <div class="col-xs-12">
+        <button  class="btn btn-primary btn-block btn-flat"ng-click="passwordLogin(email, pass)" ng-hide="createMode">Log In</button>
+        <!-- <button  class="btn btn-default btn-block btn-flat" ng-click="createMode = true" ng-hide="createMode">Register</button>
+        <button  class="btn btn-primary btn-block btn-flat" ng-cloak ng-show="createMode" ng-click="createAccount(email, pass, confirm)">Create Account</button> -->
+        <button  class="btn btn-default btn-block btn-flat" ng-cloak ng-show="createMode" ng-click="createMode = false">Cancel</button>
+        </div><!-- /.col -->
+      </div>
+    </form>
+  </div><!-- /.login-box-body -->
+</div><!-- /.login-box -->

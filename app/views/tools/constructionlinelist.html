@@ -1,0 +1,101 @@
+<section class="content-header">
+  <h1>
+Construction Line List
+    <small>FieldBook</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a href="#/reports"><i class="fa fa-file-excel-o"></i> Reports</a></li>
+    <li class="active"><i class="glyphicon glyphicon-wrench"></i> Construction Line List</li>
+  </ol>
+</section>
+
+<!--- Main content --->
+<section class="content" style="min-height:400px;">
+  <div class="modal fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
+      <div class="modal-dialog modal-sm">
+          <div class="modal-content" style="width: 100px;text-align:center">
+              <span class="fa fa-spinner fa-spin fa-3x"></span>
+          </div>
+      </div>
+  </div>
+  <div class="box">
+    <div class="box-header">
+      <h3 class="box-title"><span class="fa fa-clone"></span>&nbsp;&nbsp; Active Tracts &nbsp;</h3><span class="badge">{{tracts.length}}</span></h3>
+      <div class="box-tools pull-right">
+
+        <input style="height:33px;width:200px"type="text" class="" ng-model="searchbox" placeholder="Search"></input>&nbsp;
+        <button style="height:32px;width:130px" type="button" class="btn btn-default" ng-click="exportData()"><span class="fa fa-file-excel-o" style="color:green"></span> &nbsp;<span class="xs-hidden"> To Excel</span></button>&nbsp;&nbsp;
+        <button style="height:32px;width:130px" type="button" class="btn btn-default" ng-click="printPDF()"><span class="fa fa-file-pdf-o" style="color:red"></span> &nbsp;<span class="xs-hidden"> To PDF</span></button>
+
+      </div> <!--- div style="float:right;" --->
+    </div> <!--- box-header --->
+
+
+    <div class="box-body"style="width:100%;height:100%;overflow-x:auto;">
+
+      <table class="table table-hover" style="overflow-x:scroll" >
+        <thead>
+          <tr class="panel-heading">
+            <th style="min-width:85px"><a href="#" ng-click="orderBy('sequence', $event)" style="color:black;"><b>ORDER</b></a>
+              <span ng-show="orderByField == 'sequence'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></small></span></th>
+            <th style="min-width:75px"><a href="#" ng-click="orderBy('tract', $event)" style="color:black;"><b>TRACT</b></a>
+              <span ng-show="orderByField == 'tract'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></small></span></th>
+
+            <th><a href="#" ng-click="orderBy('owner', $event)" style="color:black;"><b>OWNER</b></a>
+              <span ng-show="orderByField == 'owner'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></small></span></th>
+              <th style="min-width:90px"><a href="#" ng-click="orderBy('constructionagent', $event)" style="color:black;"><b>AGENT</b></a>
+                    <span ng-show="orderByField == 'constructionagent'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></small></span></th>
+            <th style="min-width:75px"><a href="#" ng-click="orderBy('county', $event)" style="color:black;"><b>COUNTY</b></a>
+                    <span ng-show="orderByField == 'county'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></small></span></th>
+                  <th style="min-width:110px"><a href="#" ng-click="orderBy('constructioncrops', $event)" style="color:black;"><b>CROPS</b></a>
+                        <span ng-show="orderByField == 'constructioncrops'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></small></span></th>
+                  <th style="min-width:105px"><a href="#" ng-click="orderBy('damagespaid', $event)" style="color:black;"><b>DAMAGES PAID</b></a>
+                  <span ng-show="orderByField == 'damagespaid'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></small></span></th>
+                  <th style="min-width:105px"><a href="#" ng-click="orderBy('releasesigned', $event)" style="color:black;"><b>RELEASE SIGNED</b></a>
+                  <span ng-show="orderByField == 'releasesigned'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></small></span></th>
+                  <th style="min-width:200px"><a href="#" ng-click="orderBy('contractorrequirements', $event)" style="color:black;"><b>CONTRACTOR REQUIREMENTS</b></a>
+                  <span ng-show="orderByField == 'contractorrequirements'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></small></span></th>
+                  <th style="min-width:200px"><a href="#" ng-click="orderBy('companyrequirements', $event)" style="color:black;"><b>COMPANY REQUIREMENTS</b></a>
+                  <span ng-show="orderByField == 'companyrequirements'"><small><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></small></span></th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="tract in tracts| filter:searchbox |orderBy:orderByField:reverseSort | startFrom:currentPage*pageSize | limitTo:pageSize">
+            <td><a href = "#/{{tractcategory(tract.group)}}/{{tract.$id}}"><b>{{tract.sequence}}</b></a></td>
+            <td><a href = "#/{{tractcategory(tract.group)}}/{{tract.$id}}"><b>{{tract.tract}}</b></a></td>
+            <td><a href = "#/{{tractcategory(tract.group)}}/{{tract.$id}}"><b>{{tract.owner}}</b></a></td>
+            <td><a href = "#/{{tractcategory(tract.group)}}/{{tract.$id}}"><b>{{tract.constructionagent}}</b></a></td>
+            <td><a href = "#/{{tractcategory(tract.group)}}/{{tract.$id}}"><b>{{tract.county}}</b></a></td>
+            <td><a href = "#/{{tractcategory(tract.group)}}/{{tract.$id}}"><b>{{tract.constructioncrops}}</b></a></td>
+            <td><a href = "#/{{tractcategory(tract.group)}}/{{tract.$id}}"><b>{{tract.damagespaid}}</b></a></td>
+            <td><a href = "#/{{tractcategory(tract.group)}}/{{tract.$id}}"><b>{{tract.releasesigned}}</b></a></td>
+            <td><a href = "#/{{tractcategory(tract.group)}}/{{tract.$id}}"><b>{{tract.contractorrequirements}}</b></a></td>
+            <td><a href = "#/{{tractcategory(tract.group)}}/{{tract.$id}}"><b>{{tract.companyrequirements}}</b></a></td>
+</tr>
+
+        </tbody>
+      </table>
+    </div>
+    <!-- /.box-body -->
+
+    <div class="box-body">
+
+
+    <div class="box-tools pull-left">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+    <li class="page-item"><button class="btn btn-default btn-sm" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1"><a class="page-link"
+      href=""><span style="color:black" class = "glyphicon glyphicon-backward"></span><span style="color:black"> Previous</span></a></button></li>
+    <li class="page-item">&nbsp;Page {{currentPage+1}} of {{numberOfPages()}}&nbsp;</li>
+    <li class="page-item"><button class="btn btn-default btn-sm" ng-disabled="currentPage >= tracts.length/pageSize - 1" ng-click="currentPage=currentPage+1">
+    <a class="page-link" href=""><span style="color:black">Next&nbsp;&nbsp;</span><span style="color:black" class = "glyphicon glyphicon-forward"></span></a>
+  </button></li>
+  </ul>
+  </nav>
+    </div>
+
+  </div> <!--- box --->
+  </div> <!--- box --->
+</section><!--- /.content --->
